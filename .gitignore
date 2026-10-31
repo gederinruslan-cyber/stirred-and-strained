@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+build/
+.next/
+e2e/playwright-report/
+e2e/test-results/
+e2e/blob-report/
+.turbo/
+coverage/
+*.log
+.DS_Store
+.claude/settings.local.json
+.claude/worktrees/
+*.tsbuildinfo
