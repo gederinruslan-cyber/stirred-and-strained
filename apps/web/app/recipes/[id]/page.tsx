@@ -9,10 +9,13 @@ import { amountText, modelText, strengthText } from "../../../lib/amounts.ts";
 import { api } from "../../../lib/api.ts";
 import { readPrefs } from "../../../lib/prefs.ts";
 import { UNITS } from "../../landing/content.ts";
+import { MarksPanel, markFor } from "../marks-panel.tsx";
 import "../recipe.css";
+import "../search.css";
 import { SubmitOnChange } from "./submit-on-change.tsx";
 
 type Params = { params: Promise<{ id: string }> };
+type Props = Params & { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 async function recipeFor(id: string) {
   const { age } = await readPrefs();
@@ -41,10 +44,10 @@ function jsonLd(r: RecipeDetail) {
   };
 }
 
-export default async function RecipePage({ params }: Params) {
+export default async function RecipePage({ params, searchParams }: Props) {
   const { id } = await params;
   const r = await recipeFor(id);
-  const { unit } = await readPrefs();
+  const [{ unit }, mark, sp] = await Promise.all([readPrefs(), markFor(r.id), searchParams]);
   const variations = r.variations;
   const twist = r.variationOf;
   const source = /^https?:\/\//.test(r.source);
@@ -65,6 +68,9 @@ export default async function RecipePage({ params }: Params) {
           {r.name}
         </h1>
         <p className="recipe__meta">{[r.method, r.glass].filter(Boolean).join(" · ")}</p>
+        <a href="#marks-h" className="recipe__jump">
+          Your take <span aria-hidden="true">↓</span>
+        </a>
         {twist && (
           <p className="recipe__twist">
             A twist on the <Link href={`/recipes/${twist.id}`}>{twist.name}</Link>
@@ -121,6 +127,7 @@ export default async function RecipePage({ params }: Params) {
           {/* eslint-disable-next-line @next/next/no-img-element -- photos are pre-sized copies */}
           <img src={`/photos/recipes/${r.id}.webp`} alt={`${r.name}, the finished drink`} />
         </div>
+        <MarksPanel recipe={r} mark={mark} marked={[sp.marked].flat()[0]} />
         <section aria-labelledby="from-h" className="sticky sticky--white">
           <h2 id="from-h" className="recipe__h2">
             Where it&apos;s from

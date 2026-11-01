@@ -1,6 +1,6 @@
 // House recipes: list and get, with provenance and derived strength. Read-only; a signed-in
 // search also finds the caller's own recipes (M2-06).
-import { createDb, type Pool } from "@stirred/db";
+import { createDb, listMarks, withUser, type Pool } from "@stirred/db";
 import {
   ErrorBody,
   IngredientList,
@@ -40,9 +40,16 @@ export function recipeRoutes(app: FastifyInstance, { pool, lib }: { pool: Pool; 
       const exclude = many(req.query.exclude);
       if ([...include, ...exclude].some((id) => !lib.tax.nodes.has(id)))
         return reply.code(400).send({ error: "unknown_ingredient" });
-      const own = req.headers.authorization
-        ? await liveRecipes(db, await requestUser(db, req))
-        : [];
+      const userId = req.headers.authorization ? await requestUser(db, req) : null;
+      const own = await liveRecipes(db, userId);
+      const marks = userId
+        ? new Map(
+            (await withUser(db, userId, listMarks)).map((m) => [
+              (m.house ?? m.own)!,
+              { favourite: m.favourite, rating: m.rating },
+            ]),
+          )
+        : undefined;
       const { rows, facets } = search(
         lib,
         {
@@ -56,15 +63,21 @@ export function recipeRoutes(app: FastifyInstance, { pool, lib }: { pool: Pool; 
           flavour: many(req.query.flavour),
           ...(abvMin === undefined ? {} : { abvMin }),
           ...(abvMax === undefined ? {} : { abvMax }),
+          ...(marks ? { marks, mark: many(req.query.mark) } : {}),
         },
         own,
       );
       const start = (page - 1) * pageSize;
       return {
-        items: rows.slice(start, start + pageSize).map((e) => ({
-          ...summary(lib, e.r),
-          ...(e.family[0] ? { family: e.family[0] } : {}),
-        })),
+        items: rows.slice(start, start + pageSize).map((e) => {
+          const m = marks?.get(e.r.id);
+          return {
+            ...summary(lib, e.r),
+            ...(e.family[0] ? { family: e.family[0] } : {}),
+            ...(m?.favourite ? { favourite: true as const } : {}),
+            ...(m?.rating ? { rating: m.rating } : {}),
+          };
+        }),
         page,
         pageSize,
         total: rows.length,

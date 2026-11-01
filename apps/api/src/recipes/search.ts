@@ -106,7 +106,12 @@ export type SearchQuery = {
   flavour: string[];
   abvMin?: number;
   abvMax?: number;
+  /** Signed in (M2-07): the user's marks by recipe id, and the wanted ones. */
+  marks?: ReadonlyMap<string, { favourite: boolean; rating: number | null }>;
+  mark?: string[];
 };
+
+const MARK_LABEL: Record<string, string> = { favourite: "Favourites", rated4: "Rated 4+" };
 
 type Facet = { value: string; label: string; count: number }[];
 
@@ -132,6 +137,12 @@ export function search(lib: Library, q: SearchQuery, own: readonly Spec[] = []) 
   const has = (e: Entry, id: string) => e.r.lines.some((l) => isWithin(lib.tax, l.ingredient, id));
   const any = (wanted: string[], values: string[]) =>
     wanted.length === 0 || wanted.some((w) => values.includes(w));
+  const marked = (e: Entry) => {
+    const m = q.marks?.get(e.r.id);
+    return m
+      ? [...(m.favourite ? ["favourite"] : []), ...((m.rating ?? 0) >= 4 ? ["rated4"] : [])]
+      : [];
+  };
   const all =
     own.length === 0
       ? entries(lib)
@@ -147,7 +158,8 @@ export function search(lib: Library, q: SearchQuery, own: readonly Spec[] = []) 
       any(q.family, e.family) &&
       any(q.flavour, e.flavour) &&
       (q.abvMin === undefined || e.abv >= q.abvMin) &&
-      (q.abvMax === undefined || e.abv <= q.abvMax),
+      (q.abvMax === undefined || e.abv <= q.abvMax) &&
+      (!q.marks || any(q.mark ?? [], marked(e))),
   );
   const same = (v: string) => [{ value: v, label: v }];
   return {
@@ -160,6 +172,11 @@ export function search(lib: Library, q: SearchQuery, own: readonly Spec[] = []) 
       ),
       family: facet(rows, (e) => e.family.flatMap(same)),
       flavour: facet(rows, (e) => e.flavour.flatMap(same)),
+      ...(q.marks
+        ? {
+            mark: facet(rows, (e) => marked(e).map((v) => ({ value: v, label: MARK_LABEL[v]! }))),
+          }
+        : {}),
     },
   };
 }

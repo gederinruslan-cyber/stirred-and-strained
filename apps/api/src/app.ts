@@ -14,6 +14,7 @@ import { noMailer, type Mailer } from "./auth/mailer.ts";
 import { landingRoutes } from "./landing.ts";
 import { legalRoutes } from "./legal/routes.ts";
 import type { Library } from "./recipes/library.ts";
+import { markRoutes } from "./recipes/marks.ts";
 import { myRecipeRoutes } from "./recipes/mine.ts";
 import { recipeRoutes } from "./recipes/routes.ts";
 
@@ -93,6 +94,7 @@ export function buildApp({ pool, publicOrigin, library, mailer = noMailer }: App
     authRoutes(routes, { pool, mailer, publicOrigin });
     barRoutes(routes, { pool, lib: library });
     myRecipeRoutes(routes, { pool, lib: library });
+    markRoutes(routes, { pool, lib: library });
   });
 
   return app;

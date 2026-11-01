@@ -8,6 +8,7 @@ import Link from "next/link";
 import { api } from "../../lib/api.ts";
 import { apiHeaders } from "../../lib/session.ts";
 import { FinderScript } from "./finder-script.tsx";
+import { MarkTags } from "./marks-panel.tsx";
 import { RecipeThumb, recipeHref } from "./thumb.tsx";
 import "./search.css";
 
@@ -23,6 +24,8 @@ const FACETS = [
   ["flavour", "Flavour"],
 ] as const;
 type FacetKey = (typeof FACETS)[number][0];
+const MARKS = { favourite: "Favourites", rated4: "Rated 4+" } as const;
+type MarkKey = keyof typeof MARKS;
 
 const many = (v: string | string[] | undefined) =>
   [v ?? []]
@@ -76,6 +79,7 @@ export default async function FindPage({ searchParams }: Props) {
     family: many(sp.family),
     flavour: many(sp.flavour),
   };
+  const mark = many(sp.mark).filter((v): v is MarkKey => v in MARKS);
   const page = Math.max(1, Math.floor(Number(one(sp.page) ?? 1)) || 1);
 
   const { data, response } = await api.GET("/recipes", {
@@ -89,9 +93,10 @@ export default async function FindPage({ searchParams }: Props) {
         ...chosen,
         ...(abvMin === undefined ? {} : { abvMin }),
         ...(abvMax === undefined ? {} : { abvMax }),
+        mark,
       },
     },
-    // Signed in, the search also finds the visitor's own recipes (M2-06).
+    // Signed in, the search also finds the visitor's own recipes (M2-06) and their marks (M2-07).
     headers: await apiHeaders(),
   });
   if (!data) throw new Error(`the api did not answer /recipes (${response.status})`);
@@ -104,6 +109,7 @@ export default async function FindPage({ searchParams }: Props) {
     ...FACETS.flatMap(([key]) => chosen[key].map((v) => [key, v] as [string, string])),
     ...(abvMin === undefined ? [] : [["abvMin", String(abvMin)] as [string, string]]),
     ...(abvMax === undefined ? [] : [["abvMax", String(abvMax)] as [string, string]]),
+    ...(data.facets.mark ? mark.map((v) => ["mark", v] as [string, string]) : []),
   ];
   const href = (keep: (p: [string, string]) => boolean, extra: [string, string][] = []) => {
     const query = new URLSearchParams([...pairs.filter(keep), ...extra]).toString();
@@ -155,6 +161,17 @@ export default async function FindPage({ searchParams }: Props) {
                 <Link href={q ? `/recipes?q=${encodeURIComponent(q)}` : "/recipes"}>Clear all</Link>
               )}
             </div>
+
+            {data.facets.mark && (
+              <Facet
+                name="mark"
+                legend="Yours"
+                values={data.facets.mark}
+                checked={mark}
+                display={(s) => s}
+                always
+              />
+            )}
 
             <fieldset className="facet">
               <legend>Ingredients</legend>
@@ -263,6 +280,10 @@ export default async function FindPage({ searchParams }: Props) {
                   text: `Allow ${byId.get(id)!.name}`,
                   href: href(([k, v]) => !(k === "exclude" && v === id)),
                 })),
+                ...(data.facets.mark ? mark : []).map((v) => ({
+                  text: `Drop ${MARKS[v]}`,
+                  href: href(([k, x]) => !(k === "mark" && x === v)),
+                })),
                 ...include.ids.map((id) => ({
                   text: `Drop ${byId.get(id)!.name}`,
                   href: href(([k, v]) => !(k === "include" && v === id)),
@@ -299,21 +320,24 @@ function Facet({
   values,
   checked,
   display,
+  always = false,
 }: {
   name: string;
   legend: string;
   values: RecipeList["facets"]["base"];
   checked: string[];
   display: (label: string) => string;
+  /** Shown with a single value too ("Yours"). */
+  always?: boolean;
 }) {
   // Checked values stay visible even when the results no longer contain them.
   const shown = [
     ...values,
     ...checked
       .filter((c) => !values.some((v) => v.value === c))
-      .map((c) => ({ value: c, label: c, count: 0 })),
+      .map((c) => ({ value: c, label: name === "mark" ? MARKS[c as MarkKey] : c, count: 0 })),
   ];
-  if (shown.length < 2 && checked.length === 0) return null;
+  if (shown.length < (always ? 1 : 2) && checked.length === 0) return null;
   const chip = (v: (typeof shown)[number]) => (
     <Chip key={v.value} name={name} value={v.value} defaultChecked={checked.includes(v.value)}>
       {display(v.label)}{" "}
@@ -406,6 +430,7 @@ function Results({
                     <Tag kind="yours">yours!</Tag>
                   </>
                 )}
+                <MarkTags favourite={r.favourite} rating={r.rating} />
                 <p className="result__meta">
                   {[r.method, r.glass, r.family?.toLowerCase() === r.glass ? undefined : r.family]
                     .filter(Boolean)

@@ -203,6 +203,14 @@ position only; 0 ms under `prefers-reduced-motion`.
   version are `details` whose 44 px `summary` is "[Event] · `<time>`[d Mon yyyy]`</time>`" and
   whose body is that version read-only (meta, `ul.lines`, `ol.steps` at 15/22); events without
   one (deleted, restored) are plain rows. Never editable in place.
+- **Star rating (M2-07):** a 1–5 rating in a form with its own Save (never submits on change).
+  `fieldset.stars` with a visible legend; native radios `name=rating` 1–5 then "No rating"
+  (value empty, checked when none). Labels "[n]★" with `★` `aria-hidden` and a `.vh` " star(s)";
+  Segmented control look on a `--seg` track, wrapping; checked = `--ink` fill, `--paper` text and
+  an `aria-hidden` "✓ "; focus ring on the label; 32 px ≥900, 44 px below.
+- **Mark tags (M2-07):** the user's own marks beside a name in a list. `span.mark-tags`, DM Sans
+  700 `tabular-nums` `--accent`: `aria-hidden` "♥" / "[n]★", each with a `.vh` phrase (", in your
+  favourites", ", you rated it [n] of 5"). Text, never colour alone; not links; signed in only.
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.

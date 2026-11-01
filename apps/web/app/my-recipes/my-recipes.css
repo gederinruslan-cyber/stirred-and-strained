@@ -327,3 +327,9 @@
     min-height: 44px;
   }
 }
+/* Favourites and rated or noted (M2-07) */
+.my-recipes__marked {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

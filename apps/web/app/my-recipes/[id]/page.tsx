@@ -10,6 +10,7 @@ import { UNITS } from "../../landing/content.ts";
 import "../../recipes/recipe.css";
 import "../../recipes/search.css";
 import { SubmitOnChange } from "../../recipes/[id]/submit-on-change.tsx";
+import { MarksPanel, markFor } from "../../recipes/marks-panel.tsx";
 import { deleteRecipe, restoreRecipe } from "../actions.ts";
 import { myRecipe } from "../load.ts";
 import "../my-recipes.css";
@@ -102,6 +103,7 @@ export default async function MyRecipePage({ params, searchParams }: Params) {
   const { id } = await params;
   const sp = await searchParams;
   const [r, { unit }] = await Promise.all([load(id), readPrefs()]);
+  const mark = r.deletedAt ? null : await markFor(r.id);
   const saved = [sp.saved].flat()[0];
   const status = r.deletedAt
     ? null
@@ -147,6 +149,11 @@ export default async function MyRecipePage({ params, searchParams }: Params) {
           <Tag kind="yours">yours!</Tag>
         </div>
         <p className="recipe__meta">{[r.method, r.glass].filter(Boolean).join(" · ")}</p>
+        {!r.deletedAt && (
+          <a href="#marks-h" className="recipe__jump">
+            Your take <span aria-hidden="true">↓</span>
+          </a>
+        )}
 
         <section aria-labelledby="goes-in-h">
           <div className="jot__head">
@@ -207,6 +214,7 @@ export default async function MyRecipePage({ params, searchParams }: Params) {
             </form>
           </div>
         )}
+        {!r.deletedAt && <MarksPanel recipe={r} own mark={mark} marked={[sp.marked].flat()[0]} />}
         <History r={r} unit={unit} />
       </aside>
     </div>

@@ -272,6 +272,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/my/marks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMyMarks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/my/marks/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMyMark"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateMyMark"];
+        trace?: never;
+    };
+    "/my/marks/{id}/undo-note": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["undoMyNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/my/recipes": {
         parameters: {
             query?: never;
@@ -1270,6 +1318,196 @@ export interface operations {
             };
         };
     };
+    listMyMarks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: {
+                            abv: number;
+                            glass?: string;
+                            id: string;
+                            mark: {
+                                favourite: boolean;
+                                note?: string;
+                                rating?: number;
+                            };
+                            method: string;
+                            name: string;
+                            /** @enum {boolean} */
+                            yours?: true;
+                        }[];
+                    };
+                };
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    getMyMark: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        favourite: boolean;
+                        note?: string;
+                        rating?: number;
+                    };
+                };
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    updateMyMark: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    favourite?: boolean;
+                    note?: string | null;
+                    rating?: number | null;
+                };
+            };
+        };
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        noteChanged: boolean;
+                    };
+                };
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    undoMyNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
     listMyRecipes: {
         parameters: {
             query?: never;
@@ -1672,6 +1910,7 @@ export interface operations {
                 flavour?: string | string[];
                 abvMin?: number;
                 abvMax?: number;
+                mark?: ("favourite" | "rated4") | ("favourite" | "rated4")[];
             };
             header?: never;
             path?: never;
@@ -1707,6 +1946,11 @@ export interface operations {
                                 label: string;
                                 value: string;
                             }[];
+                            mark?: {
+                                count: number;
+                                label: string;
+                                value: string;
+                            }[];
                             method: {
                                 count: number;
                                 label: string;
@@ -1716,10 +1960,13 @@ export interface operations {
                         items: {
                             abv: number;
                             family?: string;
+                            /** @enum {boolean} */
+                            favourite?: true;
                             glass?: string;
                             id: string;
                             method: string;
                             name: string;
+                            rating?: number;
                             /** @enum {boolean} */
                             yours?: true;
                         }[];

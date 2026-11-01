@@ -25,6 +25,8 @@ export {
 export type { TokenPurpose } from "./auth.ts";
 export { addToBar, listBar, removeFromBar } from "./bar.ts";
 export { listRefusals, setSwapAllowed } from "./swaps.ts";
+export { canMark, getMark, listMarks, setMark, undoNote } from "./marks.ts";
+export type { Mark, MarkPatch, MarkRef, MarkRow } from "./marks.ts";
 export type { Swap } from "./swaps.ts";
 export {
   createUserRecipe,

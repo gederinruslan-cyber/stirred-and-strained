@@ -90,10 +90,21 @@ export const RecipeListQuery = z.object({
   flavour: Many,
   abvMin: Percent,
   abvMax: Percent,
+  /** Signed in (M2-07): `favourite` and `rated4` (a rating of 4 or 5), OR like any facet. */
+  mark: z
+    .union([z.enum(["favourite", "rated4"]), z.array(z.enum(["favourite", "rated4"])).max(2)])
+    .optional(),
 });
 const Facet = z.array(z.object({ value: z.string(), label: z.string(), count: z.number().int() }));
 export const RecipeList = z.object({
-  items: z.array(RecipeSummary.extend({ family: z.string().optional() })),
+  items: z.array(
+    RecipeSummary.extend({
+      family: z.string().optional(),
+      /** The signed-in user's mark (M2-07). */
+      favourite: z.literal(true).optional(),
+      rating: z.number().int().min(1).max(5).optional(),
+    }),
+  ),
   page: z.number().int(),
   pageSize: z.number().int(),
   total: z.number().int(),
@@ -103,6 +114,8 @@ export const RecipeList = z.object({
     glass: Facet,
     family: Facet,
     flavour: Facet,
+    /** Signed in only (M2-07). */
+    mark: Facet.optional(),
   }),
 });
 export type RecipeList = z.infer<typeof RecipeList>;
@@ -286,3 +299,29 @@ export type UserRecipeList = z.infer<typeof UserRecipeList>;
 export const GlassList = z.object({
   items: z.array(z.object({ id: z.string(), name: z.string() })),
 });
+
+// Favourites, ratings and notes (M2-07): a signed-in user's own, on any recipe they can open.
+const Rating = z.number().int().min(1).max(5);
+export const Mark = z.object({
+  favourite: z.boolean(),
+  rating: Rating.optional(),
+  /** Private plain text. */
+  note: z.string().optional(),
+});
+export type Mark = z.infer<typeof Mark>;
+/** Only what is given changes; null clears a rating or a note. */
+export const MarkPatch = z.object({
+  favourite: z.boolean().optional(),
+  rating: Rating.nullable().optional(),
+  note: z.string().max(1000).nullable().optional(),
+});
+export type MarkPatch = z.infer<typeof MarkPatch>;
+/** Whether the note changed: the one it replaced can be put back (undo). */
+export const MarkSaved = z.object({ noteChanged: z.boolean() });
+/** A house recipe id or one of the user's own recipe ids. */
+export const MarkParams = z.object({ id: z.string().max(120) });
+export const MarkList = z.object({
+  /** Recipes the user can open now, most recently marked first. */
+  items: z.array(RecipeSummary.extend({ mark: Mark })),
+});
+export type MarkList = z.infer<typeof MarkList>;
