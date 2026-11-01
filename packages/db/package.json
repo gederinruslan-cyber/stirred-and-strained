@@ -15,10 +15,11 @@
     "@types/node": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "@types/pg": "catalog:",
-    "@stirred/engine": "workspace:*"
+    "@types/pg": "catalog:"
   },
   "dependencies": {
+    "@stirred/engine": "workspace:*",
+    "@stirred/units": "workspace:*",
     "drizzle-orm": "catalog:",
     "pg": "catalog:"
   }

@@ -23,6 +23,7 @@
     "db:setup": "node packages/db/src/cli.ts setup",
     "db:migrate": "node packages/db/src/cli.ts migrate",
     "db:rollback": "node packages/db/src/cli.ts rollback",
+    "db:seed": "node packages/db/src/cli.ts seed",
     "contract:generate": "node scripts/contract.ts generate",
     "contract:check": "node scripts/contract.ts check"
   },

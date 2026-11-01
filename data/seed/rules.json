@@ -1,0 +1,1047 @@
+{
+  "_note": "Placement of Bar Assistant ingredients in our taxonomy, recipes left out (with the reason) and IBA corrections. See data/SOURCES.md.",
+  "categories": {
+    "pantry": "Pantry"
+  },
+  "moveUnder": {
+    "creme-de": "liqueurs"
+  },
+  "placements": {
+    "activated-charcoal": "pantry",
+    "apple-cider-vinegar": "pantry",
+    "aquafaba": "pantry",
+    "balsamic-vinegar": "pantry",
+    "beer": "beverages",
+    "celery": "fruits-and-vegetables",
+    "cinnamon": "spices",
+    "cream-of-coconut": "sweeteners",
+    "crushed-ice": "pantry",
+    "fig-jam": "sweeteners",
+    "lavender-syrup": "sweeteners",
+    "marmalade": "sweeteners",
+    "olive-brine": "pantry",
+    "onion-brine": "pantry",
+    "rose-water": "pantry",
+    "saline-solution": "pantry",
+    "salt": "pantry",
+    "soy-sauce": "pantry",
+    "strawberry-soda": "beverages",
+    "tabasco": "pantry",
+    "tea": "beverages",
+    "vanilla-extract": "spices",
+    "white-peach-puree": "fruits-and-vegetables",
+    "worcestershire-sauce": "pantry"
+  },
+  "exclusions": {
+    "amaretto-sour": "no source",
+    "barracuda": "no longer on the IBA list (page gone); spec cannot be checked",
+    "beuser-angus-special": "amount not convertible to ml or a counted unit: part",
+    "bloody-caesar": "no method",
+    "bloody-mary": "amount not convertible to ml or a counted unit: pinch",
+    "brown-derby": "no source",
+    "cameron-park-spritz": "amount not convertible to ml or a counted unit: splash",
+    "campari-spritz": "no source",
+    "canchanchara": "differs from the IBA spec and our taxonomy has no exact ingredient for it (IBA spirit is Cuban aguardiente (no exact id; sugarcane-based-spirits closest; BA uses light-rum). IBA uses raw honey, n)",
+    "cantaritos": "amount not convertible to ml or a counted unit: pinch",
+    "charles-dickens-punch": "amount not convertible to ml or a counted unit: cup",
+    "clover-leaf": "no method",
+    "coffee-enzoni": "amount not convertible to ml or a counted unit: parts",
+    "dark-n-stormy": "differs from the IBA spec and our taxonomy has no exact ingredient for it (IBA has no lime juice; BA has an extra optional 15 ml lime. IBA names Goslings rum (dark-rum closest).)",
+    "dead-mans-handle": "no source",
+    "dirty-martini": "no source",
+    "disgruntled-mai-tai": "amount not convertible to ml or a counted unit: bottle",
+    "eggnog": "amount not convertible to ml or a counted unit: g",
+    "espresso-martini": "amount not convertible to ml or a counted unit: strong",
+    "french-pearl-2": "no source",
+    "gemist": "no source",
+    "gin-fizz": "amount not convertible to ml or a counted unit: splash",
+    "golden-dream": "no longer on the IBA list (page gone); spec cannot be checked",
+    "grog": "no source",
+    "horses-neck": "differs from the IBA spec and our taxonomy has no exact ingredient for it (IBA uses ginger ale (no ginger-ale id; ginger-beer closest). IBA bitters are optional; BA not optional.)",
+    "income-tax": "amount not convertible to ml or a counted unit: part",
+    "japanese-cocktail": "no source",
+    "keoke-coffee": "amount not convertible to ml or a counted unit: float",
+    "kiwito": "amount not convertible to ml or a counted unit: part",
+    "la-dominicana": "amount not convertible to ml or a counted unit: hand-whipped",
+    "lite-treason": "amount not convertible to ml or a counted unit: part",
+    "mai-tai": "differs from the IBA spec and our taxonomy has no exact ingredient for it (Ingredient-only difference: IBA specifies amber Jamaican rum (jamaican-rum); BA dark-rum. IBA second rum is 'Martinique )",
+    "mis-mas": "no source",
+    "misis-negroni-sour": "amount not convertible to ml or a counted unit: part",
+    "mulled-wine": "amount not convertible to ml or a counted unit: g",
+    "navel-duties": "amount not convertible to ml or a counted unit: shot",
+    "paloma": "amount not convertible to ml or a counted unit: pinch",
+    "picante-de-la-casa": "amount not convertible to ml or a counted unit: inch",
+    "pimms-cup": "no source",
+    "pink-lady": "amount not convertible to ml or a counted unit: part",
+    "planters-punch": "differs from the IBA spec and our taxonomy has no exact ingredient for it (IBA sweetener is sugar cane juice (no id; simple-syrup closest). IBA has no bitters; BA adds 3 dashes Angostura. IBA lea)",
+    "porto-flip": "differs from the IBA spec and our taxonomy has no exact ingredient for it (IBA uses red tawny port (tawny-port id exists; BA red-wine). IBA egg yolk is 10 ml (no yolk id; egg closest); BA '1 yolk)",
+    "pousse-cafe": "no source",
+    "reading-nook": "amount not convertible to ml or a counted unit: shot",
+    "reno": "no method",
+    "room-key": "no source",
+    "sangria": "amount not convertible to ml or a counted unit: bottle",
+    "sex-work-is-real-work": "amount not convertible to ml or a counted unit: cup",
+    "shliva-sour": "no source; amount not convertible to ml or a counted unit: part",
+    "spiced-cranberry-orange-punch": "amount not convertible to ml or a counted unit: cup",
+    "spicy-fifty": "differs from the IBA spec and our taxonomy has no exact ingredient for it (IBA uses vanilla vodka (BA vodka). IBA uses elderflower cordial (non-alcoholic; no id, st-germain is the closest but is )",
+    "sunflower-cocktail-recipe": "amount not convertible to ml or a counted unit: rinse",
+    "the-old-man-and-the-sea": "amount not convertible to ml or a counted unit: pinch",
+    "ti-punch-highball": "amount not convertible to ml or a counted unit: part",
+    "vento": "differs from the IBA spec and our taxonomy has no exact ingredient for it (IBA page is 'Ve.N.To'. Amounts agree; IBA adds optional 'few drops' egg white. IBA honey mix is made with chamomile infu)",
+    "willsour": "no source",
+    "wiz-fizz": "amount not convertible to ml or a counted unit: 1",
+    "yellow-bird": "no longer on the IBA list (page gone); spec cannot be checked",
+    "zombie-apocalypse": "amount not convertible to ml or a counted unit: capsule"
+  },
+  "ibaChecked": [
+    "alexander",
+    "americano",
+    "angel-face",
+    "bellini",
+    "between-the-sheets",
+    "bloody-mary",
+    "boulevardier",
+    "bramble",
+    "brandy-crusta",
+    "caipirinha",
+    "champagne-cocktail",
+    "corpse-reviver-2",
+    "cuba-libre",
+    "espresso-martini",
+    "french-75",
+    "french-connection",
+    "french-martini",
+    "gin-fizz",
+    "grasshopper",
+    "hanky-panky",
+    "irish-coffee",
+    "kir",
+    "last-word",
+    "lemon-drop-martini",
+    "martinez",
+    "mary-pickford",
+    "mimosa",
+    "monkey-gland",
+    "naked-and-famous",
+    "negroni",
+    "paper-plane",
+    "paradise",
+    "pina-colada",
+    "rusty-nail",
+    "sea-breeze",
+    "sex-on-the-beach",
+    "sidecar",
+    "singapore-sling",
+    "stinger",
+    "suffering-bastard",
+    "tequila-sunrise",
+    "trinidad-sour",
+    "vesper",
+    "vieux-carre",
+    "whiskey-sour",
+    "zombie"
+  ],
+  "corrections": {
+    "aperol-spritz": {
+      "source": "https://iba-world.com/iba-cocktail/spritz/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "prosecco",
+          "amount": 90,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "aperol",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "club-soda",
+          "amount": 1,
+          "unit": "top"
+        }
+      ],
+      "method": "built"
+    },
+    "aviation": {
+      "source": "https://iba-world.com/iba-cocktail/aviation/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "gin",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "maraschino",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "creme-de-violette",
+          "amount": 1,
+          "unit": "barspoon"
+        }
+      ],
+      "method": "shaken"
+    },
+    "bees-knees": {
+      "source": "https://iba-world.com/iba-cocktail/bees-knees/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "gin",
+          "amount": 52.5,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "honey-syrup",
+          "amount": 2,
+          "unit": "barspoon"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 22.5,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "orange-juice",
+          "amount": 22.5,
+          "unit": "ml"
+        }
+      ],
+      "method": "shaken"
+    },
+    "black-russian": {
+      "source": "https://iba-world.com/iba-cocktail/black-russian/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "vodka",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "coffee-liqueur",
+          "amount": 20,
+          "unit": "ml"
+        }
+      ],
+      "method": "built"
+    },
+    "casino": {
+      "source": "https://iba-world.com/iba-cocktail/casino/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "old-tom-gin",
+          "amount": 40,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "maraschino",
+          "amount": 10,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 10,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "orange-bitters",
+          "amount": 2,
+          "unit": "dash"
+        }
+      ],
+      "method": "shaken"
+    },
+    "clover-club": {
+      "source": "https://iba-world.com/iba-cocktail/clover-club/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "gin",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "raspberry-syrup",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "egg-white",
+          "amount": 2,
+          "unit": "drop"
+        }
+      ],
+      "method": "shaken"
+    },
+    "cosmopolitan": {
+      "source": "https://iba-world.com/iba-cocktail/cosmopolitan/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "vodka-citron",
+          "amount": 40,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "cointreau",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "cranberry-juice",
+          "amount": 30,
+          "unit": "ml"
+        }
+      ],
+      "method": "shaken"
+    },
+    "daiquiri": {
+      "source": "https://iba-world.com/iba-cocktail/daiquiri/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "light-rum",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 20,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "sugar",
+          "amount": 2,
+          "unit": "barspoon"
+        }
+      ],
+      "method": "shaken"
+    },
+    "fernandito": {
+      "source": "https://iba-world.com/iba-cocktail/fernandito/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "fernet-branca",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "cola",
+          "amount": 1,
+          "unit": "top"
+        }
+      ],
+      "method": "built"
+    },
+    "hemingway-special": {
+      "source": "https://iba-world.com/iba-cocktail/hemingway-special/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "rum",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "grapefruit-juice",
+          "amount": 40,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "maraschino",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 15,
+          "unit": "ml"
+        }
+      ],
+      "method": "shaken"
+    },
+    "illegal": {
+      "source": "https://iba-world.com/iba-cocktail/illegal/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "mezcal",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "overproof-rum",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "falernum",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "maraschino",
+          "amount": 1,
+          "unit": "barspoon"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 22.5,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "egg-white",
+          "amount": 2,
+          "unit": "drop",
+          "optional": true
+        }
+      ],
+      "method": "shaken"
+    },
+    "john-collins": {
+      "source": "https://iba-world.com/iba-cocktail/john-collins/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "gin",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "club-soda",
+          "amount": 60,
+          "unit": "ml"
+        }
+      ],
+      "method": "built"
+    },
+    "long-island-ice-tea": {
+      "source": "https://iba-world.com/iba-cocktail/long-island-iced-tea/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "vodka",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "tequila-blanco",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "light-rum",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "gin",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "cointreau",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 25,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "cola",
+          "amount": 1,
+          "unit": "top"
+        }
+      ],
+      "method": "built"
+    },
+    "manhattan": {
+      "source": "https://iba-world.com/iba-cocktail/manhattan/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "rye-whiskey",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "sweet-vermouth",
+          "amount": 20,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "angostura-aromatic-bitters",
+          "amount": 1,
+          "unit": "dash"
+        }
+      ],
+      "method": "stirred"
+    },
+    "margarita": {
+      "source": "https://iba-world.com/iba-cocktail/margarita/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "tequila-blanco",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "triple-sec",
+          "amount": 20,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 15,
+          "unit": "ml"
+        }
+      ],
+      "method": "shaken"
+    },
+    "martini": {
+      "source": "https://iba-world.com/iba-cocktail/dry-martini/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "gin",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "dry-vermouth",
+          "amount": 10,
+          "unit": "ml"
+        }
+      ],
+      "method": "stirred"
+    },
+    "mint-julep": {
+      "source": "https://iba-world.com/iba-cocktail/mint-julep/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "bourbon-whiskey",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "mint",
+          "amount": 4,
+          "unit": "piece"
+        },
+        {
+          "ingredient": "sugar",
+          "amount": 1,
+          "unit": "barspoon"
+        },
+        {
+          "ingredient": "water",
+          "amount": 10,
+          "unit": "ml"
+        }
+      ],
+      "method": "muddled"
+    },
+    "mojito": {
+      "source": "https://iba-world.com/iba-cocktail/mojito/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "light-rum",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 20,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "mint",
+          "amount": 6,
+          "unit": "piece"
+        },
+        {
+          "ingredient": "sugar",
+          "amount": 2,
+          "unit": "barspoon"
+        },
+        {
+          "ingredient": "club-soda",
+          "amount": 1,
+          "unit": "top"
+        }
+      ],
+      "method": "built"
+    },
+    "moscow-mule": {
+      "source": "https://iba-world.com/iba-cocktail/moscow-mule/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "vodka",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "ginger-beer",
+          "amount": 120,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 10,
+          "unit": "ml"
+        }
+      ],
+      "method": "built"
+    },
+    "new-york-sour": {
+      "source": "https://iba-world.com/iba-cocktail/new-york-sour/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "rye-whiskey",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 22.5,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "egg-white",
+          "amount": 2,
+          "unit": "drop"
+        },
+        {
+          "ingredient": "red-wine",
+          "amount": 15,
+          "unit": "ml"
+        }
+      ],
+      "method": "shaken"
+    },
+    "old-cuban": {
+      "source": "https://iba-world.com/iba-cocktail/old-cuban/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "mint",
+          "amount": 6,
+          "unit": "piece"
+        },
+        {
+          "ingredient": "dark-rum",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 22.5,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "angostura-aromatic-bitters",
+          "amount": 2,
+          "unit": "dash"
+        },
+        {
+          "ingredient": "champagne",
+          "amount": 60,
+          "unit": "ml"
+        }
+      ],
+      "method": "shaken"
+    },
+    "old-fashioned": {
+      "source": "https://iba-world.com/iba-cocktail/old-fashioned/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "bourbon-whiskey",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "sugar",
+          "amount": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient": "angostura-aromatic-bitters",
+          "amount": 2,
+          "unit": "dash"
+        },
+        {
+          "ingredient": "water",
+          "amount": 2,
+          "unit": "dash"
+        }
+      ],
+      "method": "muddled"
+    },
+    "penicillin": {
+      "source": "https://iba-world.com/iba-cocktail/penicillin/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "blended-scotch-whisky",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "islay-scotch-whiskey",
+          "amount": 7.5,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 22.5,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "honey-syrup",
+          "amount": 22.5,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "ginger",
+          "amount": 2,
+          "unit": "piece"
+        }
+      ],
+      "method": "shaken"
+    },
+    "pisco-sour": {
+      "source": "https://iba-world.com/iba-cocktail/pisco-sour/",
+      "credit": "IBA official cocktail · Contemporary Classics",
+      "lines": [
+        {
+          "ingredient": "pisco",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 20,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "egg-white",
+          "amount": 1,
+          "unit": "piece"
+        }
+      ],
+      "method": "shaken"
+    },
+    "ramos-fizz": {
+      "source": "https://iba-world.com/iba-cocktail/ramos-fizz/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "gin",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "cream",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "egg-white",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "orange-flower-water",
+          "amount": 3,
+          "unit": "dash"
+        },
+        {
+          "ingredient": "vanilla-extract",
+          "amount": 2,
+          "unit": "drop"
+        },
+        {
+          "ingredient": "club-soda",
+          "amount": 1,
+          "unit": "top"
+        }
+      ],
+      "method": "shaken"
+    },
+    "russian-spring-punch": {
+      "source": "https://iba-world.com/iba-cocktail/russian-spring-punch/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "vodka",
+          "amount": 25,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 25,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "creme-de-cassis",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 10,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "sparkling-wine",
+          "amount": 1,
+          "unit": "top"
+        }
+      ],
+      "method": "shaken"
+    },
+    "sazerac": {
+      "source": "https://iba-world.com/iba-cocktail/sazerac/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "cognac",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "absinthe",
+          "amount": 10,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "sugar",
+          "amount": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient": "peychauds-bitters",
+          "amount": 2,
+          "unit": "dash"
+        }
+      ],
+      "method": "stirred"
+    },
+    "southside": {
+      "source": "https://iba-world.com/iba-cocktail/south-side/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "gin",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "simple-syrup",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "mint",
+          "amount": 5,
+          "unit": "piece"
+        },
+        {
+          "ingredient": "egg-white",
+          "amount": 2,
+          "unit": "drop",
+          "optional": true
+        }
+      ],
+      "method": "shaken"
+    },
+    "tipperary": {
+      "source": "https://iba-world.com/iba-cocktail/tipperary/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "irish-whiskey",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "sweet-vermouth",
+          "amount": 25,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "green-chartreuse",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "angostura-aromatic-bitters",
+          "amount": 2,
+          "unit": "dash"
+        }
+      ],
+      "method": "stirred"
+    },
+    "tommys-margarita": {
+      "source": "https://iba-world.com/iba-cocktail/tommys-margarita/",
+      "credit": "IBA official cocktail · New Era",
+      "lines": [
+        {
+          "ingredient": "tequila-blanco",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lime-juice",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "agave-syrup",
+          "amount": 30,
+          "unit": "ml"
+        }
+      ],
+      "method": "shaken"
+    },
+    "tuxedo": {
+      "source": "https://iba-world.com/iba-cocktail/tuxedo/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "old-tom-gin",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "dry-vermouth",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "maraschino",
+          "amount": 0.5,
+          "unit": "barspoon"
+        },
+        {
+          "ingredient": "absinthe",
+          "amount": 0.25,
+          "unit": "barspoon"
+        },
+        {
+          "ingredient": "orange-bitters",
+          "amount": 3,
+          "unit": "dash"
+        }
+      ],
+      "method": "stirred"
+    },
+    "white-lady": {
+      "source": "https://iba-world.com/iba-cocktail/white-lady/",
+      "credit": "IBA official cocktail · The Unforgettables",
+      "lines": [
+        {
+          "ingredient": "gin",
+          "amount": 40,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "triple-sec",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient": "lemon-juice",
+          "amount": 20,
+          "unit": "ml"
+        }
+      ],
+      "method": "shaken"
+    }
+  }
+}

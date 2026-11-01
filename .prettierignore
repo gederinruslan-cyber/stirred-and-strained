@@ -10,3 +10,4 @@ README.md
 .claude/
 docs/
 specs/
+data/seed/*.json

@@ -9,3 +9,7 @@ export const ML_PER_US_FL_OZ = 29.5735295625;
 
 /** Millilitres in one centilitre (SI prefixes). */
 export const ML_PER_CL = 10;
+
+/** US teaspoon = 1/6 US fl oz and tablespoon = 1/2 US fl oz (NIST Handbook 44, Appendix C). */
+export const ML_PER_US_TSP = ML_PER_US_FL_OZ / 6;
+export const ML_PER_US_TBSP = ML_PER_US_FL_OZ / 2;
