@@ -1,6 +1,6 @@
 // A house recipe (M1-08): lines in the visitor's unit, steps in our words, strength for their
 // country, where the spec comes from and its variations. Design: docs/design/recipe-page.md.
-import { SegmentedControl, ZeroProofTag } from "@stirred/ui";
+import { SegmentedControl } from "@stirred/ui";
 import type { RecipeDetail } from "@stirred/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -15,19 +15,17 @@ import { SubmitOnChange } from "./submit-on-change.tsx";
 type Params = { params: Promise<{ id: string }> };
 
 async function recipeFor(id: string) {
-  const { zero, zeroLocked, age } = await readPrefs();
+  const { age } = await readPrefs();
   const { data, response } = await api.GET("/recipes/{id}", {
     params: { path: { id }, query: age ? { country: age.country } : {} },
   });
   if (response.status === 404) notFound();
   if (!data) throw new Error(`the api did not answer /recipes/${id}`);
-  // Under the drinking age nothing alcoholic is shown (M1-11): the page answers 404.
-  if (zeroLocked && !data.zeroProof) notFound();
-  return { recipe: data, zero };
+  return data;
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const { recipe } = await recipeFor((await params).id);
+  const recipe = await recipeFor((await params).id);
   return { title: `${recipe.name} · Stirred & Strained` };
 }
 
@@ -45,11 +43,10 @@ function jsonLd(r: RecipeDetail) {
 
 export default async function RecipePage({ params }: Params) {
   const { id } = await params;
-  const { recipe: r, zero } = await recipeFor(id);
+  const r = await recipeFor(id);
   const { unit } = await readPrefs();
-  // A zero-proof session links only to zero-proof recipes (never into a locked 404).
-  const variations = zero ? [] : r.variations;
-  const twist = zero ? undefined : r.variationOf;
+  const variations = r.variations;
+  const twist = r.variationOf;
   const source = /^https?:\/\//.test(r.source);
 
   return (
@@ -67,9 +64,7 @@ export default async function RecipePage({ params }: Params) {
         <h1 id="recipe-h" className="recipe__title">
           {r.name}
         </h1>
-        <p className="recipe__meta">
-          {[r.method, r.glass].filter(Boolean).join(" · ")} {r.zeroProof && <ZeroProofTag />}
-        </p>
+        <p className="recipe__meta">{[r.method, r.glass].filter(Boolean).join(" · ")}</p>
         {twist && (
           <p className="recipe__twist">
             A twist on the <Link href={`/recipes/${twist.id}`}>{twist.name}</Link>
@@ -102,13 +97,9 @@ export default async function RecipePage({ params }: Params) {
               </li>
             ))}
           </ul>
-          <div className={r.zeroProof ? "strength strength--zero" : "strength"}>
+          <div className="strength">
             <strong>{strengthText(r)}</strong>
-            {!r.zeroProof && (
-              <span className="strength__model">
-                after the ice, by Arnold&apos;s dilution model
-              </span>
-            )}
+            <span className="strength__model">after the ice, by Arnold&apos;s dilution model</span>
           </div>
         </section>
 

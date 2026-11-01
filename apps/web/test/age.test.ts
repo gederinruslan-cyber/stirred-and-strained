@@ -19,8 +19,8 @@ describe("visitor country from Accept-Language", () => {
 describe("age cookie", () => {
   it("reads only a known answer with a country", () => {
     expect(parseAgeCookie("ok|GB")).toEqual({ answer: "ok", country: "GB" });
-    expect(parseAgeCookie("zero|ZZ")).toEqual({ answer: "zero", country: "ZZ" });
-    for (const bad of [undefined, "", "yes|GB", "ok", "ok|gb", "ok|GBR"])
+    expect(parseAgeCookie("under|ZZ")).toEqual({ answer: "under", country: "ZZ" });
+    for (const bad of [undefined, "", "yes|GB", "zero|GB", "ok", "ok|gb", "ok|GBR"])
       expect(parseAgeCookie(bad)).toBeNull();
   });
 });

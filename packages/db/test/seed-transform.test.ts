@@ -78,10 +78,19 @@ describe("seed transform", () => {
       { ingredient: "angostura", value: 2, unit: "dash", max: 3, optional: false },
     ]);
     const [t] = transform(
-      snapshot([cocktail({ lines: [line("lemon-juice", 0, "topup"), line("salt", 1, "tsp")] })]),
+      snapshot([
+        cocktail({
+          lines: [
+            line("bourbon", 30, "ml"),
+            line("lemon-juice", 0, "topup"),
+            line("salt", 1, "tsp"),
+          ],
+        }),
+      ]),
       rules(),
     ).recipes;
     expect(t!.lines.map((l) => [l.value, l.unit])).toEqual([
+      [30, "ml"],
       [1, "top"],
       [4.929, "ml"],
     ]);
@@ -107,6 +116,7 @@ describe("seed transform", () => {
       /"unicorn-tears" is not in the taxonomy/,
     ],
     ["no method", { method: null }, /"sour" has no known method/],
+    ["no alcohol", { lines: [line("lemon-juice", 30, "ml")] }, /"sour" has no alcohol/],
   ])("fails on a recipe with %s, unless it is excluded with a reason", (_, over, error) => {
     expect(() => transform(snapshot([cocktail(over)]), rules())).toThrow(error);
     const out = transform(snapshot([cocktail(over)]), rules({ exclusions: { sour: "reason" } }));

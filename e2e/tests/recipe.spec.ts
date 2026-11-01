@@ -50,47 +50,6 @@ test("an unknown recipe answers 404 with a way back", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Back to the start" })).toBeVisible();
 });
 
-test.describe("a zero-proof session (age answer No)", () => {
-  test.use({
-    storageState: {
-      cookies: [
-        {
-          name: "age",
-          value: "zero|GB",
-          domain: "127.0.0.1",
-          path: "/",
-          expires: -1,
-          httpOnly: true,
-          secure: false,
-          sameSite: "Lax",
-        },
-        {
-          name: "zero",
-          value: "1",
-          domain: "127.0.0.1",
-          path: "/",
-          expires: -1,
-          httpOnly: false,
-          secure: false,
-          sameSite: "Lax",
-        },
-      ],
-      origins: [],
-    },
-  });
-
-  test("never shows an alcoholic spec, and shows zero-proof ones in full", async ({ page }) => {
-    const res = await page.goto("/recipes/negroni");
-    expect(res?.status()).toBe(404);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "That one's not on the zero-proof side of the bar.",
-    );
-    await expect(page.getByText("Campari")).toHaveCount(0);
-    await page.goto("/recipes/shirley-temple");
-    await expect(page.locator(".strength")).toHaveText("0% ABV · nothing to count");
-  });
-});
-
 for (const scheme of ["light", "dark"] as const) {
   for (const width of [1440, 360]) {
     test(`a recipe page passes axe in ${scheme} at ${width}px`, async ({ page }) => {

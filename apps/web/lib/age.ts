@@ -1,6 +1,6 @@
 // The age-gate answer and the visitor's country. Country comes from the browser's language
 // region (never IP lookup); the api holds the ages and help lines.
-export type AgeAnswer = { answer: "ok" | "zero"; country: string };
+export type AgeAnswer = { answer: "ok" | "under"; country: string };
 
 export const AGE_COOKIE = "age";
 const COUNTRY = /^[A-Z]{2}$/;
@@ -29,7 +29,7 @@ export function countryFromAcceptLanguage(header: string | null): string | undef
 export function parseAgeCookie(value: string | undefined): AgeAnswer | null {
   const [answer, country] = (value ?? "").split("|");
   if (
-    (answer !== "ok" && answer !== "zero") ||
+    (answer !== "ok" && answer !== "under") ||
     !country ||
     !(COUNTRY.test(country) || country === "ZZ")
   )

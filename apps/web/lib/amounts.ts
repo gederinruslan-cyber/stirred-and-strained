@@ -19,7 +19,6 @@ export function amountText(line: Line, unit: DisplayUnit): string {
  * to the whole gram. The api derives both (ADR 0004).
  */
 export function strengthText(recipe: RecipeDetail): string {
-  if (recipe.zeroProof) return "0% ABV · nothing to count";
   const { abv, drinks } = recipe.strength;
   const count = drinks.value.toFixed(1);
   const measure =

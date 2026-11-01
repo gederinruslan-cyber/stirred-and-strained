@@ -3,7 +3,7 @@ import { buyNext, makeNow, oneAway } from "@stirred/engine";
 import { DemoQuery, DemoResult, ErrorBody, LandingQuery, LandingResponse } from "@stirred/schema";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { detail, isZeroProof, nameOf, ref, type Library } from "./recipes/library.ts";
+import { detail, nameOf, ref, type Library } from "./recipes/library.ts";
 
 /** The demo's chips, in display order. */
 const DEMO_BOTTLES = [
@@ -23,8 +23,7 @@ const DEMO_BOTTLES = [
 /** "Plus the usual": lemons, limes, sugar, syrup, soda water. Water is always assumed. */
 const BASICS = ["lemon-juice", "lime-juice", "sugar", "simple-syrup", "club-soda"];
 const ALWAYS = ["water"];
-const FEATURED = ["negroni", "old-fashioned", "margarita", "temperance-grapefruit-collins"];
-const ZERO_BAND = ["shirley-temple", "neruda"];
+const FEATURED = ["negroni", "old-fashioned", "margarita", "john-collins"];
 /** The example bar in the "buy next" table: gin, bourbon, sweet vermouth, Angostura and the usual. */
 const EXAMPLE_BAR = ["gin", "bourbon-whiskey", "sweet-vermouth", "angostura-aromatic-bitters"];
 
@@ -39,10 +38,8 @@ export function landingRoutes(app: FastifyInstance, lib: Library) {
   };
   const featured = FEATURED.map(recipe);
   const daiquiri = recipe("daiquiri");
-  const zeroBand = ZERO_BAND.map(recipe);
-  const zeroRecipes = lib.recipes.filter((r) => isZeroProof(lib, r));
 
-  const bottles = DEMO_BOTTLES.map((id) => ({ ...ref(lib, id), zeroProof: lib.abv.get(id) === 0 }));
+  const bottles = DEMO_BOTTLES.map((id) => ref(lib, id));
   const basics = BASICS.map((id) => ref(lib, id));
   const buyNextTable = {
     bar: EXAMPLE_BAR.map((id) => nameOf(lib, id)),
@@ -73,7 +70,6 @@ export function landingRoutes(app: FastifyInstance, lib: Library) {
         basics,
         featured: featured.map((rc) => detail(lib, rc, country)),
         daiquiri: detail(lib, daiquiri, country),
-        zeroBand: zeroBand.map((rc) => detail(lib, rc, country)),
         buyNext: buyNextTable,
       };
     },
@@ -91,7 +87,6 @@ export function landingRoutes(app: FastifyInstance, lib: Library) {
     id: rc.id,
     name: rc.name,
     method: rc.method,
-    zeroProof: isZeroProof(lib, rc),
   });
 
   r.get(
@@ -108,19 +103,20 @@ export function landingRoutes(app: FastifyInstance, lib: Library) {
       if (chosen.some((b) => !DEMO_BOTTLES.includes(b)))
         return reply.code(400).send({ error: "unknown_bottle" });
       const bar = [...chosen, ...(req.query.basics === "false" ? [] : BASICS), ...ALWAYS];
-      const recipes = req.query.zero === "true" ? zeroRecipes : lib.recipes;
       return {
-        makeNow: classicsFirst(makeNow(lib.tax, bar, recipes)).map(({ recipe: rc, swaps }) => ({
+        makeNow: classicsFirst(makeNow(lib.tax, bar, lib.recipes)).map(({ recipe: rc, swaps }) => ({
           ...demoRecipe(rc),
           swaps: swaps.map((s) => ({
             for: nameOf(lib, s.line.ingredient),
             using: nameOf(lib, s.using),
           })),
         })),
-        oneAway: classicsFirst(oneAway(lib.tax, bar, recipes)).map(({ recipe: rc, missing }) => ({
-          ...demoRecipe(rc),
-          missing: ref(lib, missing.ingredient),
-        })),
+        oneAway: classicsFirst(oneAway(lib.tax, bar, lib.recipes)).map(
+          ({ recipe: rc, missing }) => ({
+            ...demoRecipe(rc),
+            missing: ref(lib, missing.ingredient),
+          }),
+        ),
       };
     },
   );

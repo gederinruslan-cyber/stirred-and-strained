@@ -46,7 +46,7 @@ describe("finishedAbv: the ADR 0004 worked examples", () => {
     expect(standardDrinks(s, "US").value).toBeCloseTo(1.13, 2);
   });
 
-  it("zero-proof sour, shaken: 0% and 0 standard drinks through the same function", () => {
+  it("an all-0% sour, shaken: 0% and 0 standard drinks through the same function", () => {
     const s = finishedAbv([line(60, "ml"), line(30, "ml"), line(20, "ml")], "shaken");
     expect(s.dilution).toBeCloseTo(0.203, 3);
     expect(s.abv).toBe(0);

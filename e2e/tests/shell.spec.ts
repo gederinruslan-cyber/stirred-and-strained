@@ -39,9 +39,7 @@ test("keyboard reaches the skip link first, then the header controls", async ({ 
       ),
     );
   }
-  expect(reached).toEqual(
-    expect.arrayContaining(["Zero-proof", "Dark theme", "Sign in", "Start my bar"]),
-  );
+  expect(reached).toEqual(expect.arrayContaining(["Dark theme", "Sign in", "Start my bar"]));
 });
 
 test("the theme follows the OS, switches at once and is remembered", async ({ page }) => {
@@ -73,8 +71,7 @@ test("preference forms work without JavaScript and only return to local pages", 
     "/\n/evil.example",
     "/\\evil.example",
   ]) {
-    const res = await save({ zero: "on", back });
+    const res = await save({ theme: "light", back });
     expect([res.status(), res.headers()["location"]]).toEqual([303, "/"]);
   }
-  expect((await save({ zero: "on", back: "/" })).headers()["set-cookie"]).toContain("zero=1");
 });

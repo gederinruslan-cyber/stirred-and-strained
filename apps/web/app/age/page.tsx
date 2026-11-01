@@ -42,14 +42,10 @@ export default async function AgePage({ searchParams }: { searchParams: Promise<
           <Button type="submit" name="answer" value="ok">
             Yes, I&apos;m {rule.age} or over
           </Button>
-          <Button type="submit" name="answer" value="zero" variant="secondary">
+          <Button type="submit" name="answer" value="under" variant="secondary">
             No, I&apos;m under {rule.age}
           </Button>
         </form>
-        <p className="muted age-gate__small">
-          Under {rule.age}? You&apos;ll get the zero-proof side of the bar: every zero-proof recipe,
-          with the same detail and the same care.
-        </p>
         <section aria-labelledby="age-country-h" className="age-gate__country">
           <h2 id="age-country-h" className="age-gate__h2">
             Somewhere else?

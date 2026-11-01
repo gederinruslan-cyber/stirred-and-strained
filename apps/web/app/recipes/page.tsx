@@ -1,12 +1,11 @@
 // Find a recipe (M1-09): one GET form, filters beside results; works without JavaScript.
 // Design: docs/design/search-page.md. The api does the matching; the web only maps typed
 // ingredient names to ids and builds links.
-import { Chip, ZeroProofTag } from "@stirred/ui";
+import { Chip } from "@stirred/ui";
 import type { RecipeList } from "@stirred/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { api } from "../../lib/api.ts";
-import { readPrefs } from "../../lib/prefs.ts";
 import { FinderScript } from "./finder-script.tsx";
 import "./search.css";
 
@@ -43,7 +42,6 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
 export default async function FindPage({ searchParams }: Props) {
   const sp = await searchParams;
-  const { zero } = await readPrefs();
   const { data: ingredientList } = await api.GET("/ingredients");
   if (!ingredientList) throw new Error("the api did not answer /ingredients");
   const byId = new Map(ingredientList.items.map((i) => [i.id, i]));
@@ -89,7 +87,6 @@ export default async function FindPage({ searchParams }: Props) {
         ...chosen,
         ...(abvMin === undefined ? {} : { abvMin }),
         ...(abvMax === undefined ? {} : { abvMax }),
-        zero: zero ? "true" : "false",
       },
     },
   });
@@ -123,7 +120,7 @@ export default async function FindPage({ searchParams }: Props) {
         className="finder"
       >
         <div className="finder__bar">
-          <h1 className="h2">{zero ? "Find a zero-proof recipe" : "Find a recipe"}</h1>
+          <h1 className="h2">Find a recipe</h1>
           <div className="finder__search">
             <label className="search finder__q">
               <span className="vh">Recipe name</span>
@@ -254,7 +251,6 @@ export default async function FindPage({ searchParams }: Props) {
             <Results
               data={data}
               q={q}
-              zero={zero}
               page={page}
               pages={pages}
               href={href}
@@ -345,7 +341,6 @@ function Facet({
 function Results({
   data,
   q,
-  zero,
   page,
   pages,
   href,
@@ -353,14 +348,13 @@ function Results({
 }: {
   data: RecipeList;
   q: string | undefined;
-  zero: boolean;
   page: number;
   pages: number;
   href: (keep: (p: [string, string]) => boolean, extra?: [string, string][]) => string;
   loosen: { text: string; href: string }[];
 }) {
   const n = data.total;
-  const noun = `${zero ? "zero-proof " : ""}${n === 1 ? "recipe" : "recipes"}`;
+  const noun = n === 1 ? "recipe" : "recipes";
   const from = (page - 1) * data.pageSize + 1;
   const to = from + data.items.length - 1;
   const sentence = `${n} ${noun}${q ? ` for “${q}”` : ""}`;
@@ -392,9 +386,6 @@ function Results({
               <Link href="/recipes">Clear all filters</Link>
             </li>
           </ul>
-          {zero && (
-            <p className="recipe__small muted">You&apos;re on the zero-proof side of the bar.</p>
-          )}
         </div>
       ) : (
         <ol className="results">
@@ -410,11 +401,7 @@ function Results({
                     .join(" · ")}
                 </p>
               </div>
-              {r.zeroProof ? (
-                <ZeroProofTag />
-              ) : (
-                <span className="result__abv">{r.abv.toFixed(1)}% ABV</span>
-              )}
+              <span className="result__abv">{r.abv.toFixed(1)}% ABV</span>
             </li>
           ))}
         </ol>

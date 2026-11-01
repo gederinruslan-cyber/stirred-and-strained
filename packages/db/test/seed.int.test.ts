@@ -56,15 +56,12 @@ describe("seed import", () => {
     );
   });
 
-  it("derives zero-proof from the ingredients, never from a source tag", async () => {
+  it("holds no recipe without alcohol, and drops the source's Virgin tag", async () => {
     const { rows } = await app.query(`select
       (select count(*)::int from recipe where 'Virgin' = any(tags)) as tagged,
       (select count(*)::int from recipe r where not exists (select 1 from recipe_line l
-        join ingredient_node n on n.id = l.ingredient_id where l.recipe_id = r.id and n.abv > 0)) as zero,
-      (select bool_and(n.abv > 0) from recipe_line l join ingredient_node n on n.id = l.ingredient_id
-        where l.recipe_id = 'tonic-rickey' and n.id = 'angostura-aromatic-bitters') as bitters`);
-    expect(rows[0]).toEqual({ tagged: 0, zero: expect.any(Number), bitters: true });
-    expect(rows[0].zero).toBeGreaterThanOrEqual(9);
+        join ingredient_node n on n.id = l.ingredient_id where l.recipe_id = r.id and n.abv > 0)) as zero`);
+    expect(rows[0]).toEqual({ tagged: 0, zero: 0 });
   });
 
   it("is read-only for the api role", async () => {

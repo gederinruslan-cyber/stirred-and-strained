@@ -15,7 +15,7 @@ Answer two questions with evidence from the code:
 1. **Wrong spec or strength:** a conversion outside `packages/units`, rounding twice or before
    scaling, a stored ABV, a dilution or standard-drink value without its source, matching that
    lets a parent satisfy a child (whiskey for bourbon) or ignores `exact`, a non-deterministic
-   order in "one away" or "buy next", a zero-proof path that skips the engine, house content
+   order in "one away" or "buy next", house content
    without provenance, AI output not labelled.
 2. **Lost or leaked data:** an unscoped query, a raw pool outside `packages/db`, a user id
    trusted from the client, a path that answers 403 or data instead of 404, a hard delete or

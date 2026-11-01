@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
   const answer = form.get("answer");
   const country = validCountry(form.get("country"));
   const back = safeBack(form.get("back"));
-  if ((answer !== "ok" && answer !== "zero") || !country) {
+  if ((answer !== "ok" && answer !== "under") || !country) {
     return new NextResponse(null, {
       status: 303,
       headers: { location: `/age?back=${encodeURIComponent(back)}` },
@@ -17,6 +17,5 @@ export async function POST(request: NextRequest) {
   const response = new NextResponse(null, { status: 303, headers: { location: back } });
   const cookie = { path: "/", maxAge: PREF_MAX_AGE, sameSite: "lax" as const, httpOnly: true };
   response.cookies.set(AGE_COOKIE, `${answer}|${country}`, cookie);
-  if (answer === "zero") response.cookies.set("zero", "1", { ...cookie, httpOnly: false });
   return response;
 }

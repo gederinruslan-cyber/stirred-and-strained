@@ -23,6 +23,6 @@ paths:
   explicit substitution edge. A recipe line marked `exact` accepts only its own node.
 - "One away" and "buy next" are deterministic: same inputs, same order; ties break by a stated
   key, never by insertion order.
-- A strength or units test is a property test (fast-check) and covers zero-proof (0% ABV), a
+- A strength or units test is a property test (fast-check) and covers 0% ingredients, a
   counted unit, a very small and a very large volume, and every display unit.
 - An engine test uses the fixture taxonomy in `packages/engine/test/fixtures`, never seed data.

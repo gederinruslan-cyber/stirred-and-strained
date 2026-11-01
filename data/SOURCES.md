@@ -31,7 +31,7 @@ credit, all text ours.
 | We do not take     | `description`, `instructions` (largely third-party text the maintainer cannot license), images, the computed cocktail `abv` (strength is derived by us, never imported)          |
 | Licence notice     | The MIT notice is shipped in `data/LICENSES/bar-assistant-data.txt` and shown on the attribution page (M3-02)                                                                    |
 | Credit on a recipe | `Spec via <original source> (<author, if any>) · data: Bar Assistant (MIT)` with a link to the original `source` URL. A recipe with no `source` (15 of 663) is **not imported**. |
-| Zero-proof         | The 12 cocktails tagged "Virgin" are the first zero-proof library; no house zero-proof recipes for now (decision 2026-11-01).                                                    |
+| No-alcohol recipes | Dropped (decision 2026-11-01): recipes with no alcohol at all are not imported.                                                                                                  |
 
 ## 2. IBA official cocktails (reference for the classics)
 

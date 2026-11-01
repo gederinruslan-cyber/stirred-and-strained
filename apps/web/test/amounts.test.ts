@@ -2,18 +2,13 @@ import { describe, expect, it } from "vitest";
 import type { RecipeDetail } from "@stirred/schema";
 import { amountText, strengthText } from "../lib/amounts.ts";
 
-const recipe = (
-  drinks: RecipeDetail["strength"]["drinks"],
-  zeroProof = false,
-  abv = 19.80281,
-): RecipeDetail => ({
+const recipe = (drinks: RecipeDetail["strength"]["drinks"], abv = 19.80281): RecipeDetail => ({
   id: "negroni",
   name: "Negroni",
   method: "built",
   glass: "rocks glass",
   steps: ["Fill a rocks glass with ice.", "Pour in everything and give it a gentle stir."],
   variations: [],
-  zeroProof,
   source: "https://iba-world.com/negroni/",
   credit: "Spec via iba-world.com",
   licence: "Bar Assistant open data, MIT",
@@ -29,12 +24,6 @@ describe("strengthText rounds once, at display", () => {
     [{ measure: "grams", value: 19.652, source: "" }, "19.8% ABV · 20 g of alcohol"],
   ] as const)("%o → %s", (drinks, text) => {
     expect(strengthText(recipe(drinks))).toBe(text);
-  });
-
-  it("says a zero-proof drink has nothing to count", () => {
-    expect(
-      strengthText(recipe({ measure: "standard drinks", value: 0, source: "" }, true, 0)),
-    ).toBe("0% ABV · nothing to count");
   });
 });
 

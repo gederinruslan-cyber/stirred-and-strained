@@ -20,23 +20,17 @@ test.describe("in the United Kingdom", () => {
     await expect(page).not.toHaveURL(/\/age/);
   });
 
-  test("'No' gives the zero-proof side of the bar, locked", async ({ page }) => {
-    await page.goto("/");
+  test("'No' shows 'come back when you're 18' in place of every page", async ({ page }) => {
+    await page.goto("/recipes/negroni");
     await page.getByRole("button", { name: "No, I'm under 18" }).click();
-    await expect(page.getByText("Zero-proof: on")).toBeVisible();
-    await expect(page.getByRole("switch")).toHaveCount(0);
-    await expect(page.getByText("You're seeing the zero-proof side of the bar.")).toBeVisible();
-    await expect(page.getByRole("article", { name: "Negroni" })).toHaveCount(0);
-    await expect(page.getByRole("checkbox", { name: "Bourbon Whiskey", exact: true })).toHaveCount(
-      0,
-    );
-    const res = await page.request.post("/prefs", {
-      form: { zero: "off", back: "/" },
-      maxRedirects: 0,
-    });
-    expect(res.status()).toBe(303);
-    await page.goto("/");
-    await expect(page.getByText("Zero-proof: on")).toBeVisible();
+    for (const path of ["/", "/recipes/negroni", "/recipes?q=negroni", "/age"]) {
+      await page.goto(path);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Come back when you're 18.");
+      await expect(page.getByText("Campari")).toHaveCount(0);
+      await expect(page.getByRole("banner").getByRole("link")).toHaveCount(0);
+      await expect(page.getByRole("searchbox")).toHaveCount(0);
+    }
+    await expect(page.locator("footer")).toContainText("0300 123 1110");
   });
 });
 
@@ -59,10 +53,18 @@ test("asks 21 in the United States and switches country without JavaScript", asy
 
 for (const scheme of ["light", "dark"] as const) {
   for (const width of [1440, 360]) {
-    test(`the gate passes axe in ${scheme} at ${width}px`, async ({ page }) => {
+    test(`the gate and the under-age page pass axe in ${scheme} at ${width}px`, async ({
+      page,
+    }) => {
       await page.emulateMedia({ colorScheme: scheme });
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/age");
+      const gate = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+        .analyze();
+      expect(gate.violations.map((v) => v.id)).toEqual([]);
+      await page.getByRole("button", { name: /^No, I'm under/ }).click();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(/^Come back when/);
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
         .analyze();

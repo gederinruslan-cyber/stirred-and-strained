@@ -30,11 +30,11 @@ export const PICKS: Record<
     },
     tilt: -0.6,
   },
-  "temperance-grapefruit-collins": {
-    blurb: "bright, bitter, no proof",
+  "john-collins": {
+    blurb: "tall, sour, fizzy",
     photo: {
       src: "/photos/zero-proof-highball.jpg",
-      alt: "A tall, pale golden zero-proof highball over ice with a dried citrus wheel",
+      alt: "A tall, pale golden highball over ice with a dried citrus wheel",
       focus: "50% 62%",
     },
     tilt: 1.1,

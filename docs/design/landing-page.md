@@ -8,13 +8,13 @@ Reference mockup: `mockups/landing.dc.html`; photos in `mockups/photos/`. Anythi
 - **Goal:** one experience of the engine within 30 seconds: tick bottles, see what you can make,
   see the one bottle you're missing.
 - **Audience:** home bartenders with 5 to 30 bottles who hit a paywall or a stale app elsewhere;
-  careful drinkers and non-drinkers who want zero-proof done properly.
+  adults only (zero-proof dropped 2026-11-01).
 - **Primary action:** **Start my bar** (bar builder; usable before sign-up). Secondary: the inline
-  demo, **Just browse** (library), **Try zero-proof** (site-wide mode), **Sign in**.
+  demo, **Just browse** (library), **Sign in**.
 
 ## Sections, top to bottom (desktop 1440; content max 1200)
 1. **Header:** wordmark "Stirred & Strained" (Caveat "&" in accent) · Recipes · My Bar ·
-   Zero-proof switch · search "Find a drink…" · theme button (sun/moon) · Sign in · **Start my
+   Search "Find a drink…" · theme button (sun/moon) · Sign in · **Start my
    bar**.
 2. **Hero** (copy left, napkin demo right):
    - Caveat aside: "your home bar, sorted".
@@ -25,15 +25,15 @@ Reference mockup: `mockups/landing.dc.html`; photos in `mockups/photos/`. Anythi
      yours".
    - Demo napkin "What's on your shelf?": 12 bottle chips (London dry gin, Bourbon, Rye whiskey,
      White rum, Blanco tequila, Sweet vermouth, Dry vermouth, Bitter aperitivo, Orange liqueur,
-     Angostura, Zero-proof gin, Ginger beer), checkbox "Plus the usual: lemons, limes, sugar, soda
+     Angostura, Ginger beer, Grenadine), checkbox "Plus the usual: lemons, limes, sugar, soda
      water" (on). Results: "you can make N!" (up to 5: name · method) and "one bottle away…" (up
      to 3: name + missing bottle). Footer: "Nothing's saved yet. Start my bar to keep it." Aside
-     with arrow: "tick a few, it updates live". In zero-proof mode only zero-proof recipes show.
+     with arrow: "tick a few, it updates live".
 3. **Why it's different** — three sticky notes: "Recipes with receipts." · "We know bourbon is
    whiskey." · "How strong is it, really?" (copy in the mockup).
 4. **A few to get you going** — Caveat "start here", sub "Four favourites, written up properly.
    Pick your units and every amount follows.", an ml/cl/oz control, four recipe cards with photos:
-   Negroni, Old Fashioned, Margarita, Temperance Grapefruit Collins (zero-proof; blurbs,
+   Negroni, Old Fashioned, Margarita, John Collins (blurbs,
    ingredients, method, strength line, credit). Cards come from the house library (featured flag); amounts follow the unit.
 5. **Which bottle should you buy next?** — copy left with "How we work it out →" and aside "(this
    is the bit other apps charge for)"; right a ruled table for the example bar "gin, bourbon,
@@ -41,8 +41,6 @@ Reference mockup: `mockups/landing.dc.html`; photos in `mockups/photos/`. Anythi
 6. **Every recipe, the way a bartender would jot it down** — Daiquiri card (unit control, rows,
    strength strip, IBA credit) with four handwritten callouts: who made it ·
    ml, cl or oz · how strong, after the ice · swaps that actually work.
-7. **Not drinking? Same great drinks.** — green band; **Try zero-proof** / **Show everything**
-   toggles the site mode; two sourced zero-proof cards side by side (Shirley Temple, Neruda).
 8. **Your recipes live right next to ours.** — search-results card (Daiquiri house, My Daiquiri #2
    "yours!", Hemingway Daiquiri one away) and copy; aside "private unless you say otherwise".
 9. **Straight talk** — dashed box: "It's free. All of it." (no paid plan, no ads) ·
@@ -69,8 +67,8 @@ Reference mockup: `mockups/landing.dc.html`; photos in `mockups/photos/`. Anythi
 
 ## Age gate
 - First visit: the age gate is its own page, `/age` (single-question page in
-  `docs/design/patterns.md`, M1-11), not a dialog over this one; "No" gives the zero-proof
-  side of the bar (featured zero-proof cards, no buy-next table or Daiquiri card).
+  `docs/design/patterns.md`, M1-11), not a dialog over this one; "No" shows "Come back
+  when you're [age]." in place of every page but the small print.
 
 ## SEO
 - `<title>` "Stirred & Strained: what can you make tonight?"; meta description from the hero sub;

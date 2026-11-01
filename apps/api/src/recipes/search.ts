@@ -3,7 +3,7 @@
 // own labels). Values within a facet are OR, facets are AND; counts are over the results.
 import { isWithin } from "@stirred/engine";
 import type { HouseRecipe } from "@stirred/db";
-import { isZeroProof, summary, words, type Library } from "./library.ts";
+import { summary, words, type Library } from "./library.ts";
 import { glassName } from "./steps.ts";
 
 const FAMILY: Record<string, string> = {
@@ -56,7 +56,6 @@ type Entry = {
   family: string[];
   flavour: string[];
   abv: number;
-  zero: boolean;
 };
 
 /** The type directly under spirits for the largest-volume spirit line (ties by id). */
@@ -88,7 +87,6 @@ function entries(lib: Library): Entry[] {
       family: unique(r.tags.flatMap((t) => (FAMILY[t] ? [FAMILY[t]] : []))),
       flavour: unique(r.tags.flatMap((t) => (FLAVOUR[t] ? [FLAVOUR[t]] : []))),
       abv: summary(lib, r).abv,
-      zero: isZeroProof(lib, r),
     }));
     cache.set(lib, all);
   }
@@ -106,7 +104,6 @@ export type SearchQuery = {
   flavour: string[];
   abvMin?: number;
   abvMax?: number;
-  zero: boolean;
 };
 
 type Facet = { value: string; label: string; count: number }[];
@@ -132,7 +129,6 @@ export function search(lib: Library, q: SearchQuery) {
     wanted.length === 0 || wanted.some((w) => values.includes(w));
   const rows = entries(lib).filter(
     (e) =>
-      (!q.zero || e.zero) &&
       (!key || e.key.includes(` ${key}`)) &&
       q.include.every((id) => has(e, id)) &&
       !q.exclude.some((id) => has(e, id)) &&

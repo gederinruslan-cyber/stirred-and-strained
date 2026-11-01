@@ -217,72 +217,9 @@ img {
 .chip:has(input:checked) .chip__tick {
   display: inline;
 }
-.chip--zero {
-  border-color: var(--zero);
-}
-.chip--zero:has(input:checked) {
-  background: var(--zero);
-  color: var(--card);
-}
 .chip:focus-within {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-}
-
-/* Switch */
-.switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  color: var(--ink);
-  font: inherit;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 6px 0;
-}
-.switch__track {
-  width: 38px;
-  height: 22px;
-  border-radius: 999px;
-  border: 1.5px solid var(--ink);
-  background: var(--card);
-  position: relative;
-  transition: background 150ms;
-}
-.switch__knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: var(--ink);
-  transition: left 150ms;
-}
-.switch[aria-checked="true"] .switch__track {
-  background: var(--zero);
-  border-color: var(--zero);
-}
-.switch[aria-checked="true"] .switch__knob {
-  left: 18px;
-  background: var(--card);
-}
-
-/* Locked switch: zero-proof set by the age answer (a state, not a control). */
-.switch--locked {
-  cursor: default;
-  margin: 0;
-}
-.switch--locked .switch__track {
-  background: var(--zero);
-  border-color: var(--zero);
-}
-.switch--locked .switch__knob {
-  left: 18px;
-  background: var(--card);
 }
 
 /* Select: native, labelled, styled like the search pill; never submits on change. */
@@ -532,10 +469,6 @@ img {
   line-height: 22px;
   font-weight: 700;
   background: var(--card);
-}
-.tag--zero {
-  border: 1.5px solid var(--zero);
-  color: var(--zero);
 }
 .tag--house {
   border: 1.5px solid var(--dash);

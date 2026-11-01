@@ -18,7 +18,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 | Milestone | Exit criteria | State |
 |---|---|---|
 | **M0 · Foundation** | Monorepo, gates and CI green; local stack; db with user scoping; API contract and client; units package; engine matching on fixtures; Bar Napkin tokens, components and app shell in both themes; landing page live locally | done (demo accepted 2026-11-01) |
-| **M1 · Library and engine** | Seeded, attributed house library browsable and searchable without an account; strength shown on every recipe; landing switched to the house library; zero-proof mode; age gate | |
+| **M1 · Library and engine** | Seeded, attributed house library browsable and searchable without an account; strength shown on every recipe; landing switched to the house library; age gate (zero-proof dropped 2026-11-01) | |
 | **M2 · My Bar** | Sign up/in; My Bar with hierarchy typeahead; make now, one away, buy next; substitutions; custom recipes that match inventory; favourites, ratings, notes; export and erase; isolation proven | |
 | **M3 · Public beta** | Accessibility audit, legal and privacy pages, deploy, backups, observability, onboarding to a first "make now" in under 2 minutes | |
 | **v1+** | Variations, batching, party menus, import, cost per drink, shared bars, natural-language search, bar mode | |
@@ -48,7 +48,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 | M1-07 | recipes-api | done `084f073` | M0-04, M1-06, M1-02 | | List and get house recipes with lines, provenance, computed ABV and standard drinks; pagination; unknown id 404; the landing demo, buy-next table and featured cards switch from the sample library to the house library; the featured zero-proof card and the zero-proof band use sourced zero-proof recipes, and the two house placeholders (Zero-proof Gin Buck, Gin Sour) are removed |
 | M1-08 | recipe-page | done `64790bc` | M0-06, M1-07 | | Server-rendered recipe page with schema.org/Recipe, stable slug URL, ml/cl/oz toggle (remembered), finished ABV and standard drinks, attribution, variation link |
 | M1-09 | search-and-facets | done `005a7f9` | M1-07, M1-08 | | Search by name; include/exclude ingredients (hierarchy-aware); facets: base spirit, ABV range, method, glass, family, flavour tags; results beside filters on desktop; keyboard shortcuts |
-| M1-10 | zero-proof-mode | blocked (NH-6) | M1-09 | 🧪 | A site-wide zero-proof mode that shows NA recipes and NA swaps through the same engine; NA recipes look first-class; strength shows 0% and no standard drinks |
+| M1-10 | drop-zero-proof | in-progress | M1-09, M1-11 | ⚖️ | *(replaces zero-proof-mode; human decision 2026-11-01, NH-6)* No zero-proof mode, switch, tag, band or filter; recipes with no alcohol are not imported (reason recorded); answering "No" at the age gate shows "come back when you're [age]" on every page instead of a zero-proof session; the strength maths still handles 0% ingredients |
 | M1-11 | age-gate-and-responsible-footer | done `82941c3` | M0-06 | ⚖️ | Locale-aware age gate (legal drinking age table with sources), responsible-drinking footer with local help links; answering "No" gives a zero-proof-only session (no alcoholic recipes or ingredients), not a dead end; needs-human sign-off on copy, table and that behaviour (legal check) |
 
 ## M2 · My Bar

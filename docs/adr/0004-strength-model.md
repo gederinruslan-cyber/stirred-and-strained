@@ -7,7 +7,7 @@
 ## Context
 Every alcoholic recipe shows its finished ABV and standard drinks for the visitor's country,
 derived by one function in `packages/units` with a stated, cited model (CLAUDE.md invariants).
-Zero-proof drinks go through the same function. Inputs are canonical: ml and counted units,
+Inputs are canonical: ml and counted units,
 ingredient ABV from the taxonomy, and the recipe's method.
 
 ## Model
@@ -60,7 +60,7 @@ ingredient ABV from the taxonomy, and the recipe's method.
   16% → `d = 0.391`, **ABV ≈ 19.2%**, 18.9 g → US 1.35, UK 2.40 units, AU 1.89.
 - **Gin and tonic, built** (derived): 50 ml gin 40% + top (90 ml tonic, 0%) → `abv0 = 0.143`,
   `d = 0.298`, **ABV ≈ 11.0%**, 15.8 g → US 1.13.
-- **Zero-proof sour, shaken** (derived): all lines 0% → `d = 0.203`, **ABV 0%, 0 standard
+- **All-0% sour, shaken** (derived; zero-proof dropped 2026-11-01, the maths still holds): all lines 0% → `d = 0.203`, **ABV 0%, 0 standard
   drinks**, same code path.
 
 ## Options considered

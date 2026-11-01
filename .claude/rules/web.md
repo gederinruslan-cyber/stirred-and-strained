@@ -14,8 +14,7 @@ paths:
   scroll.
 - Recipe pages render on the server with schema.org/Recipe markup and a stable, readable URL.
 - Every alcoholic recipe shows finished ABV and standard drinks; every house recipe shows its
-  attribution; anything AI touched shows its label. Zero-proof drinks are never visually
-  second-class.
+  attribution; anything AI touched shows its label.
 - Forms work without JavaScript where practical (server actions); never keep a password across
   a failed submit.
 - Accessibility: WCAG 2.2 AA; real buttons, links and labels; 4.5:1 contrast; 24 px minimum

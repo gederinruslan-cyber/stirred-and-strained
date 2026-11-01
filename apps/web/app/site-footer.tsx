@@ -61,9 +61,6 @@ export function SiteFooter({
               <li>
                 <Link href="/#demo">My Bar</Link>
               </li>
-              <li>
-                <Link href="/#zero-h">Zero-proof</Link>
-              </li>
             </ul>
           </nav>
           <nav aria-label="Behind the bar">

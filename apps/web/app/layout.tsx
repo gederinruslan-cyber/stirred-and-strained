@@ -20,10 +20,11 @@ const hand = Caveat({ subsets: ["latin"], weight: ["500", "700"], variable: "--f
 export const metadata = { title: "Stirred & Strained: what can you make tonight?" };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const { theme, zero, zeroLocked, age } = await readPrefs();
+  const { theme, age } = await readPrefs();
   const head = await headers();
   const back = safeBack(head.get("x-pathname"));
-  const onGate = back === "/age" || back.startsWith("/age?");
+  // The gate, and every page for a visitor under the drinking age, has nothing that leads on.
+  const onGate = back === "/age" || back.startsWith("/age?") || age?.answer === "under";
   // The gate's country picker wins on the gate; elsewhere the answered country, then the browser.
   const country =
     (onGate ? new URLSearchParams(back.split("?")[1]).get("country") : null) ??
@@ -40,13 +41,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <SiteHeader
-          theme={theme}
-          zero={zero}
-          zeroLocked={zeroLocked}
-          back={back}
-          minimal={onGate}
-        />
+        <SiteHeader theme={theme} back={back} minimal={onGate} />
         <main id="main">{children}</main>
         <SiteFooter theme={theme} back={back} help={data?.rule} />
       </body>

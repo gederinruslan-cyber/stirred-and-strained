@@ -16,7 +16,7 @@ code or specs. Your bar is "agrees with reality", not "tests pass".
    flow → steps → observed → PASS/FAIL.
 4. **Specs and strength:** for every screen or endpoint that shows a quantity, ABV or standard
    drinks, recompute by hand from the seeded data and the ADR's model; check every display
-   unit and one zero-proof recipe.
+   unit.
 5. **Matching:** with a known bar, recompute "make now", "one away" and "buy next" by hand,
    including a parent/child ingredient, a substitution and an `exact` line.
 6. **Isolation:** with two users, try to read and change the other's bars, recipes, notes and

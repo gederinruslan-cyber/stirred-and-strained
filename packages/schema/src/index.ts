@@ -43,7 +43,6 @@ export const RecipeSummary = z.object({
   method: z.string(),
   /** The glass as a phrase ("rocks glass", "coupe"); absent when the source names none. */
   glass: z.string().optional(),
-  zeroProof: z.boolean(),
   abv: z.number().nonnegative(),
 });
 
@@ -86,7 +85,6 @@ export const RecipeListQuery = z.object({
   flavour: Many,
   abvMin: Percent,
   abvMax: Percent,
-  zero: z.enum(["true", "false"]).optional(),
 });
 const Facet = z.array(z.object({ value: z.string(), label: z.string(), count: z.number().int() }));
 export const RecipeList = z.object({
@@ -109,7 +107,6 @@ export const IngredientList = z.object({ items: z.array(IngredientRef) });
 export const DemoQuery = z.object({
   bottle: z.union([z.string(), z.array(z.string())]).optional(),
   basics: z.enum(["true", "false"]).optional(),
-  zero: z.enum(["true", "false"]).optional(),
 });
 const DemoRecipe = RecipeSummary.omit({ abv: true, glass: true });
 export const DemoResult = z.object({
@@ -122,11 +119,10 @@ export type DemoResult = z.infer<typeof DemoResult>;
 
 export const LandingQuery = RecipeQuery;
 export const LandingResponse = z.object({
-  bottles: z.array(IngredientRef.extend({ zeroProof: z.boolean() })),
+  bottles: z.array(IngredientRef),
   basics: z.array(IngredientRef),
   featured: z.array(RecipeDetail),
   daiquiri: RecipeDetail,
-  zeroBand: z.array(RecipeDetail),
   buyNext: z.object({
     bar: z.array(z.string()),
     rows: z.array(

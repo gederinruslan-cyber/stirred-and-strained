@@ -9,7 +9,6 @@ import {
   StickyNote,
   TableCard,
   Tag,
-  ZeroProofTag,
 } from "@stirred/ui";
 import Link from "next/link";
 import { amountText, strengthText } from "../../lib/amounts.ts";
@@ -50,12 +49,10 @@ export function Hero({
   landing,
   demo,
   state,
-  zero,
 }: {
   landing: LandingResponse;
   demo: DemoResult;
   state: LandingState;
-  zero: boolean;
 }) {
   const make = demo.makeNow.slice(0, 5);
   const away = demo.oneAway.slice(0, 3);
@@ -90,9 +87,7 @@ export function Hero({
         <div className="napkin tilt demo" style={{ "--tilt": "1deg" } as React.CSSProperties}>
           <div className="tape" aria-hidden="true" />
           <h2 className="demo__title">What&apos;s on your shelf?</h2>
-          <p className="muted demo__hint">
-            {zero ? "Zero-proof is on: only zero-proof recipes show." : "Tick what you've got."}
-          </p>
+          <p className="muted demo__hint">Tick what you&apos;ve got.</p>
           <AutoSubmitForm label="Your shelf">
             <Carry state={state} omit="shelf" />
             <fieldset className="demo__shelf">
@@ -104,7 +99,6 @@ export function Hero({
                     name="b"
                     value={b.id}
                     defaultChecked={state.bottles.includes(b.id)}
-                    zero={b.zeroProof}
                   >
                     {b.name}
                   </Chip>
@@ -139,7 +133,6 @@ export function Hero({
                   {make.map((r) => (
                     <li key={r.id}>
                       <strong>{r.name}</strong> <span className="muted">· {r.method}</span>
-                      {r.zeroProof && <ZeroProofTag />}
                     </li>
                   ))}
                 </ul>
@@ -230,7 +223,6 @@ export function Picks({ recipes, state }: { recipes: RecipeDetail[]; state: Land
               strength={<strong>{strengthText(r)}</strong>}
               credit={r.credit}
               href="#card"
-              zeroProof={r.zeroProof}
             />
           );
         })}
@@ -335,77 +327,6 @@ export function JotItDown({ recipe, state }: { recipe: RecipeDetail; state: Land
             </li>
           ))}
         </ul>
-      </div>
-    </section>
-  );
-}
-
-export function ZeroBand({
-  recipes,
-  zero,
-  locked,
-  unit,
-}: {
-  recipes: RecipeDetail[];
-  zero: boolean;
-  locked: boolean;
-  unit: LandingState["unit"];
-}) {
-  return (
-    <section aria-labelledby="zero-h" className="zero-band">
-      <div className="container split">
-        <div className="split__copy">
-          <h2 id="zero-h" className="h2">
-            Not drinking? Same great drinks.
-          </h2>
-          <p className="zero-band__text">
-            Flip on zero-proof and the whole site follows: lists, matches, swaps, everything. Same
-            care, same detail. 0% ABV, nothing to count.
-          </p>
-          {locked ? (
-            <p className="zero-band__text">
-              <strong>You&apos;re seeing the zero-proof side of the bar.</strong>
-            </p>
-          ) : (
-            <form method="post" action="/prefs">
-              <input type="hidden" name="back" value="/#zero-h" />
-              <button
-                type="submit"
-                name="zero"
-                value={zero ? "off" : "on"}
-                className="btn btn--secondary"
-              >
-                {zero ? "Show everything" : "Try zero-proof"}
-              </button>
-            </form>
-          )}
-        </div>
-        <div className="split__aside grid-2">
-          {recipes.map((r, i) => (
-            <article
-              key={r.id}
-              aria-labelledby={`zb-${r.id}`}
-              className="napkin tilt zero-card"
-              style={{ "--tilt": `${i ? 1 : -1}deg` } as React.CSSProperties}
-            >
-              <h3 id={`zb-${r.id}`} className="zero-card__title">
-                {r.name}
-              </h3>
-              <p className="muted">
-                {[r.glass, r.method, strengthText(r)].filter(Boolean).join(" · ")}{" "}
-                {r.zeroProof && <ZeroProofTag />}
-              </p>
-              <ul className="lines">
-                {r.lines.map((l) => (
-                  <li key={l.ingredient.id}>
-                    <span>{l.ingredient.name}</span>
-                    <span className="amount">{amountText(l, unit)}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
       </div>
     </section>
   );

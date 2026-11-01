@@ -39,7 +39,7 @@ afterAll(async () => {
 });
 
 describe("ingredient taxonomy tables", () => {
-  it("load in the engine's shape, zero-proof nodes included, and the engine accepts them", async () => {
+  it("load in the engine's shape, 0% nodes included, and the engine accepts them", async () => {
     const { nodes, substitutions } = await loadTaxonomy(createDb(app));
     const ours = nodes.filter((n) => n.id.startsWith("t-"));
     expect(ours).toContainEqual({

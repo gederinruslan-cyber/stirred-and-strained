@@ -18,7 +18,6 @@ napkin after closing time": warm charcoal paper, cream ink, coral accent.
 - **Desktop-first.** Filters beside results, My Bar beside "what can I make", side-by-side
   compare. Usable at 360 px without horizontal scroll.
 - **Trust is visible.** Recipe credit, finished ABV and standard drinks, AI labels.
-- **Zero-proof is never second-class.** Same cards, same detail, its own green tag.
 - **Say "recipes", not "drinks"** when counting what a bottle unlocks; never imply drinking more.
 - Illustrative numbers on marketing surfaces come from the engine, never typed in.
 
@@ -44,9 +43,9 @@ Scale: display `clamp(48px, 6vw, 80px)`/0.98 · h2 `clamp(32px, 3.4vw, 44px)`/1.
 | `--dots` | `#F1E8D6` | `#2F2821` | napkin dot texture |
 | `--dash` | `#D9CCB4` | `#4A3F33` | dashed row dividers (decorative) |
 | `--sticky-y` | `#FFF3C4` | `#382F1C` | yellow sticky note, strength line |
-| `--sticky-g` | `#E4F0E6` | `#1E2A22` | green sticky note, zero-proof band |
-| `--zero` | `#2E6B4F` | `#8FD1AE` | zero-proof tag, "make now" ticks |
-| `--zero-text` | `#3E4A40` | `#C5D6C8` | body text on the zero-proof band |
+| `--sticky-g` | `#E4F0E6` | `#1E2A22` | green sticky note |
+| `--zero` | `#2E6B4F` | `#8FD1AE` | "make now" ticks |
+| `--zero-text` | `#3E4A40` | `#C5D6C8` | unused since zero-proof was dropped (2026-11-01) |
 | `--seg` | `#F4ECDD` | `#332B23` | segmented-control track, ruled lines |
 | `--rowhl` | `#FFFAE6` | `#30281A` | highlighted row ("yours!") |
 | `--shadow` | `rgba(42,33,26,.12)` | `rgba(0,0,0,.40)` | card shadow |
@@ -75,16 +74,6 @@ position only; 0 ms under `prefers-reduced-motion`.
   outline pill that fills with `--ink` on hover. Min height 44 px on touch layouts.
 - **Chips (bottle picker, filters):** real checkbox inside a label; pill with 1.5 px `--ink`
   border; selected = `--ink` fill, `--paper` text plus a tick (state never by colour alone).
-  Zero-proof chips use `--zero` instead of `--ink`.
-- **Switch (zero-proof):** `role="switch"` pill track with knob, visible label.
-- **Locked switch (M1-11, under-age session):** not a control. A plain `<p class="switch
-  switch--locked">` with the track drawn in its on state (`--zero` fill, knob right,
-  `aria-hidden`), the visible text "Zero-proof: on", and a 12 px padlock icon (`aria-hidden`,
-  `currentColor`) after the text. No `role="switch"`, no button, no tab stop, default cursor, no
-  hover. Full contrast (never dimmed: it is a state, not a disabled control). Accessible text
-  adds a `.vh` "(set by your age answer)". Any other "show everything" control on the screen
-  (the landing zero-proof band) is removed, not disabled; the band reads "You're seeing the
-  zero-proof side of the bar."
 - **Select (country picker, M1-11):** native `<select>` with a visible `<label>` above it,
   styled like the search input: 1.5 px `--ink` border, 999 radius, `--card` fill, `--ink` text,
   44 px tall, 16 px text, a chevron drawn in CSS from `currentColor`; focus ring as everywhere.
@@ -101,9 +90,8 @@ position only; 0 ms under `prefers-reduced-motion`.
 - **Sticky note:** `--sticky-y`, `--card` or `--sticky-g`, 4 px radius, small tilt, Caveat
   numeral, Fraunces heading, `--note` body.
 - **Strength line:** on a `--sticky-y` strip: "**[x.x]% ABV** once shaken · **[x.x]** standard
-  drinks ([locale])". Zero-proof: "0% ABV · nothing to count".
-- **Tags:** zero-proof = `--zero` outline pill with glass-and-slash icon and the word
-  "zero-proof"; "house" = `--dash` outline pill; "yours!" = Caveat in `--accent`.
+  drinks ([locale])".
+- **Tags:** "house" = `--dash` outline pill; "yours!" = Caveat in `--accent`.
 - **Highlighter:** an SVG stroke in `--hl` behind one key word of a display heading, once per
   screen at most.
 - **Handwritten asides (Caveat):** short (under ~8 words), decorative or repeating information
@@ -128,7 +116,7 @@ position only; 0 ms under `prefers-reduced-motion`.
   header and footer; `main` with one centred napkin card (max 560 px, tape, tilt -0.8° on
   desktop, none below 900 px). `h1` says what is missing in plain words, one short body line,
   one primary `ButtonLink` to somewhere useful. Never shows any part of the thing refused, never
-  blames the visitor; a zero-proof session's refusal points to "the zero-proof side of the bar".
+  blames the visitor.
 - **Text field (M1-09):** `label.field` with visible text (15/22, 500) above a text, search or
   number input styled like the Select: 1.5 px `--ink` border, 999 radius, `--card` fill, `--ink`
   text, 44 px tall, 16 px text, placeholder `--muted`; focus ring as everywhere. Optional
@@ -146,7 +134,7 @@ position only; 0 ms under `prefers-reduced-motion`.
 - **Result list (M1-09):** `ol` on a `--card` panel (6 px radius, card shadow, no tape or tilt),
   rows 16 24 padding divided by `--dash` dashed lines, 64 px min height. Row: Fraunces 600 22/28
   name link (the only link), a `--muted` 15/22 meta line "[method] · [glass] · [Family]", strength
-  right-aligned (DM Sans 700 `tabular-nums` "[x.x]% ABV", or the zero-proof tag); below 600 px the
+  right-aligned (DM Sans 700 `tabular-nums` "[x.x]% ABV"); below 600 px the
   strength wraps under the meta. Count heading "[n] recipes" above; paging is "← Previous · Page
   [p] of [P] · Next →" links, absent (not disabled) at the ends. Empty state: a white sticky note
   "Nothing matches all of that." with one link per active filter that drops just that filter,
@@ -159,14 +147,13 @@ position only; 0 ms under `prefers-reduced-motion`.
 ## Voice and copy
 - Second person, contractions, short sentences: "What can you make tonight?", "Not drinking?
   Same great drinks.", "Recipes with receipts."
-- Buttons say what happens: "Start my bar", "Just browse", "Try zero-proof", "Full recipe →".
+- Buttons say what happens: "Start my bar", "Just browse", "Full recipe →".
 - Facts stay facts: never round, joke about or handwrite-only a quantity, ABV or credit.
 - Responsible line: "Drink well, not a lot. Every recipe shows how strong it is so you can choose.
   Only for people of legal drinking age."
 - Missing facts are `[PLACEHOLDER]`s in designs, never invented.
 - Age and help copy is plain, never playful about age or alcohol, never a reward ("unlock",
-  "grab a drink") and never a punishment for "No": a no-alcohol session is "the zero-proof side
-  of the bar", with the same recipes and detail.
+  "grab a drink") and never a punishment for "No": "Come back when you're [age]." with the help line.
 
 ## Photos
 - Real drink photos in photo frames on recipe and featured cards. We serve our own copies; no

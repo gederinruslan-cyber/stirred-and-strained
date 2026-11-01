@@ -44,7 +44,6 @@ export function recipeRoutes(app: FastifyInstance, lib: Library) {
         flavour: many(req.query.flavour),
         ...(abvMin === undefined ? {} : { abvMin }),
         ...(abvMax === undefined ? {} : { abvMax }),
-        zero: req.query.zero === "true",
       });
       const start = (page - 1) * pageSize;
       return {

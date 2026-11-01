@@ -1,5 +1,5 @@
 // Finished strength and standard drinks, by the model in ADR 0004. Pure; rounding is the
-// display's job. Zero-proof drinks go through the same functions.
+// display's job.
 import { ETHANOL_G_PER_ML, STRENGTH_ML } from "./constants.ts";
 import type { Quantity } from "./quantity.ts";
 

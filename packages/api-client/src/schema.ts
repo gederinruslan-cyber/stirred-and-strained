@@ -166,7 +166,6 @@ export interface operations {
             query?: {
                 bottle?: string | string[];
                 basics?: "true" | "false";
-                zero?: "true" | "false";
             };
             header?: never;
             path?: never;
@@ -189,7 +188,6 @@ export interface operations {
                                 for: string;
                                 using: string;
                             }[];
-                            zeroProof: boolean;
                         }[];
                         oneAway: {
                             id: string;
@@ -199,7 +197,6 @@ export interface operations {
                                 name: string;
                             };
                             name: string;
-                            zeroProof: boolean;
                         }[];
                     };
                 };
@@ -317,7 +314,6 @@ export interface operations {
                         bottles: {
                             id: string;
                             name: string;
-                            zeroProof: boolean;
                         }[];
                         buyNext: {
                             bar: string[];
@@ -370,7 +366,6 @@ export interface operations {
                                 id: string;
                                 name: string;
                             }[];
-                            zeroProof: boolean;
                         };
                         featured: {
                             credit: string;
@@ -412,49 +407,6 @@ export interface operations {
                                 id: string;
                                 name: string;
                             }[];
-                            zeroProof: boolean;
-                        }[];
-                        zeroBand: {
-                            credit: string;
-                            glass?: string;
-                            id: string;
-                            licence: string;
-                            lines: {
-                                amount?: {
-                                    /** @enum {string} */
-                                    unit: "ml" | "dash" | "barspoon" | "drop" | "piece" | "top";
-                                    value: number;
-                                };
-                                ingredient: {
-                                    id: string;
-                                    name: string;
-                                };
-                                max?: number;
-                                optional: boolean;
-                            }[];
-                            method: string;
-                            name: string;
-                            source: string;
-                            steps: string[];
-                            strength: {
-                                abv: number;
-                                drinks: {
-                                    /** @enum {string} */
-                                    measure: "standard drinks" | "units" | "grams";
-                                    source: string;
-                                    value: number;
-                                };
-                                volumeMl: number;
-                            };
-                            variationOf?: {
-                                id: string;
-                                name: string;
-                            };
-                            variations: {
-                                id: string;
-                                name: string;
-                            }[];
-                            zeroProof: boolean;
                         }[];
                     };
                 };
@@ -476,7 +428,6 @@ export interface operations {
                 flavour?: string | string[];
                 abvMin?: number;
                 abvMax?: number;
-                zero?: "true" | "false";
             };
             header?: never;
             path?: never;
@@ -525,7 +476,6 @@ export interface operations {
                             id: string;
                             method: string;
                             name: string;
-                            zeroProof: boolean;
                         }[];
                         page: number;
                         pageSize: number;
@@ -605,7 +555,6 @@ export interface operations {
                             id: string;
                             name: string;
                         }[];
-                        zeroProof: boolean;
                     };
                 };
             };

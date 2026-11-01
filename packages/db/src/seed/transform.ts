@@ -165,14 +165,16 @@ export function transform(snapshot: Snapshot, rules: Rules) {
       if (alcoholic && abvOf.get(l.ingredient) === 0)
         throw new Error(`${where}: "${l.ingredient}" is under ${alcoholic} but 0% ABV`);
     }
+    // The app is for adults: a drink with no alcohol at all is not a house recipe.
+    if (lines.every((l) => abvOf.get(l.ingredient) === 0))
+      throw new Error(`${where} has no alcohol`);
     const source = fix?.source ?? c.source!;
     recipes.push({
       id: c.id,
       name: c.name,
       method,
       glass: c.glass,
-      // Zero-proof is derived from the ingredients, never taken from a tag (three upstream
-      // "Virgin" recipes carry dashes of 44.7% bitters).
+      // "Virgin" is a source tag for drinks we no longer import; three carry dashes of bitters.
       tags: c.tags.filter((t) => t !== "Virgin"),
       source,
       credit: fix?.credit ?? credit(source, c.author),

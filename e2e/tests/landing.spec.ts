@@ -50,20 +50,9 @@ test("the unit control changes every amount on the cards", async ({ page }) => {
   ).toContainText("2 oz");
 });
 
-test("zero-proof mode lists only zero-proof recipes and can be turned off", async ({ page }) => {
+test("there is no zero-proof mode: no switch, no band, no tag", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Try zero-proof" }).click();
-  await expect(page.getByRole("switch", { name: "Zero-proof" })).toHaveAttribute(
-    "aria-checked",
-    "true",
-  );
-  await page.getByRole("checkbox", { name: "Ginger beer", exact: true }).check();
-  await page.getByRole("checkbox", { name: "Grenadine Syrup", exact: true }).check();
-  await expect(makeList(page)).toContainText("Shirley Temple");
-  await expect(makeList(page)).not.toContainText("Negroni");
-  await page.getByRole("button", { name: "Show everything" }).click();
-  await expect(page.getByRole("switch", { name: "Zero-proof" })).toHaveAttribute(
-    "aria-checked",
-    "false",
-  );
+  await expect(page.getByRole("switch")).toHaveCount(0);
+  await expect(page.getByText(/zero-proof/i)).toHaveCount(0);
+  await expect(page.getByRole("article", { name: "John Collins" })).toContainText("% ABV");
 });

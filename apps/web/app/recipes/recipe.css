@@ -60,10 +60,6 @@
   color: var(--muted);
   align-self: center;
 }
-.strength--zero {
-  background: var(--sticky-g);
-  color: var(--zero-text);
-}
 .steps {
   margin: 0;
   padding-left: 28px;

@@ -13,7 +13,7 @@ Filter column, Text field, Result list. [BRACKETS] come from the api, never type
   `open` below 900 px when no filter is active (re-adds on widen). No JS: open, nothing lost.
 
 ## Bar
-1. `h1` "Find a recipe" (zero-proof session: "Find a zero-proof recipe").
+1. `h1` "Find a recipe".
 2. Search row: `SearchInput name="q" label="Recipe name"` placeholder "Negroni, daiquiri…",
    `id="q"`, value kept, `max-width: 560px` here, 44 px, `aria-keyshortcuts="/"`; then primary
    submit "Search" (first submit in the DOM, so Enter anywhere submits).
@@ -46,11 +46,11 @@ Filter column, Text field, Result list. [BRACKETS] come from the api, never type
 
 ## Results (`section.finder__results`)
 - `h2#results-h.finder__count` (Fraunces 24/32): "[n] recipes" ("1 recipe"); with q "[n] recipes
-  for “[q]”"; zero-proof "[n] zero-proof recipes"; paged, `span.muted` " · [from]–[to] shown". JS
+  for “[q]”"; paged, `span.muted` " · [from]–[to] shown". JS
   writes the same sentence to `p.vh[role=status]`.
 - `ol.results` (Result list): `li.result` — `a.result__name` [name] → `/recipes/<id>`;
   `p.result__meta` "[method] · [glass]" lower-case (no glass: "[method]"), then " · [Family]" if any; right:
-  `span.result__abv` "[abv]% ABV" (one decimal, `abvText`) or `ZeroProofTag`. Order name then id.
+  `span.result__abv` "[abv]% ABV" (one decimal, `abvText`). Order name then id.
 - **Paging**: Previous/Next (name order, so "Newer/Older" means nothing), 24 per page, `page`
   param. `nav.pager[aria-label="Pages"]`: "← Previous" · "Page [p] of [P]" · "Next →"; links keep
   every other param; an edge link is absent, never disabled; no pager when P = 1; Apply resets to 1.
@@ -59,7 +59,6 @@ Filter column, Text field, Result list. [BRACKETS] come from the api, never type
   filter, in order exclude, include, facet values, strength, q: "Allow [Campari]", "Drop
   [Bourbon]", "Drop [Shaken]", "Any strength", "All names, not just “[q]”"; last "Clear all
   filters" → `/recipes`.
-  Zero-proof session adds `p.small.muted` "You're on the zero-proof side of the bar."
 
 ## Classes, accessibility, SEO
 - New (page CSS, tokens only): `.finder` `__bar` `__body` `__hint` `__results` `__count` `__empty`,

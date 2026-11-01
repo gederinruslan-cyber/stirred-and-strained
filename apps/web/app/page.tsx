@@ -15,7 +15,6 @@ import {
   StraightTalk,
   WhyDifferent,
   YourRecipes,
-  ZeroBand,
 } from "./landing/sections.tsx";
 
 const DESCRIPTION =
@@ -33,21 +32,12 @@ type Search = Record<string, string | string[] | undefined>;
 
 export default async function Home({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
-  const { zero, zeroLocked, age, unit } = await readPrefs();
+  const { age, unit } = await readPrefs();
 
-  const { data: served } = await api.GET("/landing", {
+  const { data: landing } = await api.GET("/landing", {
     params: { query: age ? { country: age.country } : {} },
   });
-  if (!served) throw new Error("the api did not answer /landing");
-  // Under the drinking age: nothing alcoholic on the page (M1-11).
-  const landing: LandingResponse = zeroLocked
-    ? {
-        ...served,
-        bottles: served.bottles.filter((b) => b.zeroProof),
-        featured: served.featured.filter((r) => r.zeroProof),
-        zeroBand: served.zeroBand.filter((r) => r.zeroProof),
-      }
-    : served;
+  if (!landing) throw new Error("the api did not answer /landing");
 
   const known = new Set(landing.bottles.map((b) => b.id));
   const submitted = sp.set === "1";
@@ -65,7 +55,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
       query: {
         bottle: state.bottles,
         basics: state.basics ? "true" : "false",
-        zero: zero ? "true" : "false",
       },
     },
   });
@@ -86,7 +75,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
   };
 
   return (
-    <LandingPage landing={landing} demo={demo} state={state} zero={zero} locked={zeroLocked}>
+    <LandingPage landing={landing} demo={demo} state={state}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -99,26 +88,21 @@ function LandingPage({
   landing,
   demo,
   state,
-  zero,
-  locked,
   children,
 }: {
   landing: LandingResponse;
   demo: DemoResult;
   state: LandingState;
-  zero: boolean;
-  locked: boolean;
   children: React.ReactNode;
 }) {
   return (
     <>
       {children}
-      <Hero landing={landing} demo={demo} state={state} zero={zero} />
+      <Hero landing={landing} demo={demo} state={state} />
       <WhyDifferent />
       <Picks recipes={landing.featured} state={state} />
-      {!locked && <BuyNext buyNext={landing.buyNext} />}
-      {!locked && <JotItDown recipe={landing.daiquiri} state={state} />}
-      <ZeroBand recipes={landing.zeroBand} zero={zero} locked={locked} unit={state.unit} />
+      <BuyNext buyNext={landing.buyNext} />
+      <JotItDown recipe={landing.daiquiri} state={state} />
       <YourRecipes />
       <StraightTalk />
       <Closing />

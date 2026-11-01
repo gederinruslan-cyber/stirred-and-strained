@@ -1,6 +1,6 @@
 // The house library the api serves: taxonomy and recipes, loaded once at start (house data
 // changes only by import and restart). Strength is derived here by packages/units (ADR 0004),
-// never stored; zero-proof is derived from the ingredients, never from a tag.
+// never stored.
 import {
   createDb,
   loadRecipes,
@@ -80,9 +80,6 @@ export const ref = (lib: Library, id: string) => ({ id, name: nameOf(lib, id) })
 const topName = (lib: Library, id: string) =>
   lib.tax.nodes.get(id)?.kind === "brand" ? nameOf(lib, id) : nameOf(lib, id).toLowerCase();
 
-export const isZeroProof = (lib: Library, r: HouseRecipe) =>
-  r.lines.every((l) => lib.abv.get(l.ingredient) === 0);
-
 function finished(lib: Library, r: HouseRecipe) {
   const lines = r.lines.flatMap((l) =>
     l.value === null || l.unit === null
@@ -97,7 +94,6 @@ export const summary = (lib: Library, r: HouseRecipe) => ({
   name: r.name,
   method: r.method,
   ...(r.glass ? { glass: glassName(r.glass) } : {}),
-  zeroProof: isZeroProof(lib, r),
   abv: finished(lib, r).abv,
 });
 
@@ -108,7 +104,6 @@ export function detail(lib: Library, r: HouseRecipe, country = "ZZ"): RecipeDeta
     id: r.id,
     name: r.name,
     method: r.method,
-    zeroProof: isZeroProof(lib, r),
     ...(r.glass ? { glass: glassName(r.glass) } : {}),
     steps: r.steps
       ? r.steps.split("\n")

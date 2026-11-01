@@ -2,7 +2,8 @@
 
 Desktop-first web app for home bartenders: a curated, attributed cocktail library on top of an
 inventory-aware engine ("what can I make", "one bottle away", "what to buy next"), with
-substitutions a bartender would accept, first-class custom recipes and zero-proof parity.
+substitutions a bartender would accept and first-class custom recipes. A cocktail app for
+adults: no zero-proof mode or no-alcohol library (dropped 2026-11-01).
 Promise: **"Good drinks from what you've got."** Every house recipe is credited; we never claim a spec is tested. ("Stirred & Strained" is a working name.)
 
 Read `docs/features.md` for what to build next. Product background and evidence:
@@ -27,8 +28,6 @@ data, web and dependencies load from `.claude/rules/` when you touch those files
   available. Custom recipes are searchable and match inventory like house recipes.
 - **User isolation below HTTP.** Every user-owned query is scoped in the data layer; another
   user's id answers 404. Never rely on the UI or an id being secret.
-- **Zero-proof parity.** No-alcohol drinks and ingredients go through the same engine and the
-  same strength maths, never a separate code path.
 - **AI is labelled and never authoritative.** It never invents a spec shown as tested, goes only
   through `packages/ai-providers` with a fallback, and the app works with AI off.
 - **One design system.** Every screen uses Bar Napkin (`docs/design/patterns.md`) in light and

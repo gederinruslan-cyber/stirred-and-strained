@@ -88,13 +88,12 @@ describe("GET /recipes", () => {
 });
 
 describe("every house recipe", () => {
-  it("has a derived strength, and a zero-proof one is 0% and 0 drinks", () => {
+  it("has a derived strength above 0%", () => {
     for (const r of house.recipes) {
       const d = detail(house, r, "US");
-      expect(Number.isFinite(d.strength.abv), r.id).toBe(true);
-      if (d.zeroProof) expect([d.strength.abv, d.strength.drinks.value], r.id).toEqual([0, 0]);
+      expect(d.strength.abv, r.id).toBeGreaterThan(0);
     }
-    expect(detail(house, house.byId.get("shirley-temple")!).zeroProof).toBe(true);
+    expect(house.byId.has("shirley-temple")).toBe(false);
   });
 });
 

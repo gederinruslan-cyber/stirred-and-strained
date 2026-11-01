@@ -38,64 +38,21 @@ export function Chip({
   name,
   value,
   defaultChecked,
-  zero,
   children,
 }: {
   name: string;
   value: string;
   defaultChecked?: boolean;
-  zero?: boolean;
   children: ReactNode;
 }) {
   return (
-    <label className={zero ? "chip chip--zero" : "chip"}>
+    <label className="chip">
       <input type="checkbox" name={name} value={value} defaultChecked={defaultChecked} />
       <span className="chip__tick" aria-hidden="true">
         ✓
       </span>
       {children}
     </label>
-  );
-}
-
-/** A submit button acting as a switch: works as a form control without JavaScript. */
-export function Switch({
-  checked,
-  label,
-  ...rest
-}: { checked: boolean; label: string } & Omit<ComponentProps<"button">, "role">) {
-  return (
-    <button role="switch" aria-checked={checked} className="switch" {...rest}>
-      <span className="switch__track" aria-hidden="true">
-        <span className="switch__knob" />
-      </span>
-      {label}
-    </button>
-  );
-}
-
-/** Zero-proof set by the age answer: a state, not a control (docs/design/patterns.md). */
-export function LockedSwitch({ label, reason }: { label: string; reason: string }) {
-  return (
-    <p className="switch switch--locked">
-      <span className="switch__track" aria-hidden="true">
-        <span className="switch__knob" />
-      </span>
-      {label}: on <span className="vh">({reason})</span>
-      <svg
-        aria-hidden="true"
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      >
-        <rect x="5" y="11" width="14" height="10" rx="2" />
-        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-      </svg>
-    </p>
   );
 }
 
@@ -193,7 +150,6 @@ export function RecipeCard({
   strength,
   credit,
   href,
-  zeroProof,
   tilt,
 }: Tilt & {
   id: string;
@@ -205,7 +161,6 @@ export function RecipeCard({
   strength: ReactNode;
   credit: string;
   href: string;
-  zeroProof?: boolean;
 }) {
   return (
     <article aria-labelledby={id} className="recipe-card tilt" style={tiltStyle(tilt)}>
@@ -213,7 +168,6 @@ export function RecipeCard({
       {photo && (
         <div className="photo-frame">
           <img src={photo.src} alt={photo.alt} style={{ objectPosition: photo.focus }} />
-          {zeroProof && <ZeroProofTag />}
         </div>
       )}
       <div className="recipe-card__body">
@@ -221,7 +175,6 @@ export function RecipeCard({
           {name}
         </h3>
         {blurb && <p className="hand recipe-card__blurb">{blurb}</p>}
-        {!photo && zeroProof && <ZeroProofTag />}
         <ul className="lines">
           {lines.map((l) => (
             <li key={l.name}>
@@ -259,27 +212,6 @@ export function StickyNote({
       <h3>{title}</h3>
       <p>{children}</p>
     </div>
-  );
-}
-
-export function ZeroProofTag() {
-  return (
-    <span className="tag tag--zero">
-      <svg
-        aria-hidden="true"
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      >
-        <path d="M6 3h12l-2 17H8L6 3z" />
-        <path d="M4 21L20 3" />
-      </svg>
-      zero-proof
-    </span>
   );
 }
 
