@@ -14,13 +14,19 @@ describe("GET /health", () => {
   });
 
   it("answers 200 with db up when Postgres is reachable", async () => {
-    const res = await buildApp({ pool: up }).inject({ method: "GET", url: "/health" });
+    const res = await buildApp({ pool: up, publicOrigin: "http://127.0.0.1:3300" }).inject({
+      method: "GET",
+      url: "/health",
+    });
     expect(res.statusCode).toBe(200);
     expect(res.json()).toEqual({ status: "ok", db: "up" });
   });
 
   it("answers 503 with db down, and no connection details, when Postgres is unreachable", async () => {
-    const res = await buildApp({ pool: down }).inject({ method: "GET", url: "/health" });
+    const res = await buildApp({ pool: down, publicOrigin: "http://127.0.0.1:3300" }).inject({
+      method: "GET",
+      url: "/health",
+    });
     expect(res.statusCode).toBe(503);
     expect(res.json()).toEqual({ status: "degraded", db: "down" });
   });

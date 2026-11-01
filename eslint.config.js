@@ -12,6 +12,13 @@ const WEB_BANNED = ["@stirred/engine", "@stirred/db", "@stirred/api"].map((name)
   message: `apps/web holds no business logic: it reaches the API through @stirred/api-client, never ${name} (boundary rule).`,
 }));
 
+/** The one web module that may reach the api (server-only). */
+const WEB_API_MODULE = "apps/web/lib/api.ts";
+const WEB_CLIENT_BANNED = {
+  group: ["@stirred/api-client"],
+  message: `The web reaches the api only through ${WEB_API_MODULE} (server code).`,
+};
+
 const PURE_BANNED = [
   {
     group: ["@stirred/*"],
@@ -32,7 +39,20 @@ export default defineConfig([
     extends: [nextCoreWebVitals],
     settings: { next: { rootDir: "apps/web" } },
     languageOptions: { globals: { ...globals.browser } },
-    rules: { "no-restricted-imports": ["error", { patterns: WEB_BANNED }] },
+    rules: {
+      "no-restricted-imports": ["error", { patterns: [...WEB_BANNED, WEB_CLIENT_BANNED] }],
+      "no-restricted-globals": [
+        "error",
+        { name: "fetch", message: `The web reaches the api only through ${WEB_API_MODULE}.` },
+      ],
+    },
+  },
+  {
+    files: [WEB_API_MODULE],
+    rules: {
+      "no-restricted-imports": ["error", { patterns: WEB_BANNED }],
+      "no-restricted-globals": "off",
+    },
   },
   {
     files: ["packages/engine/**/*.ts", "packages/units/**/*.ts"],

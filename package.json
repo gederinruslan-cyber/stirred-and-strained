@@ -14,7 +14,7 @@
     "test:unit": "turbo run test:unit",
     "build": "turbo run build",
     "check": "export NEXT_TELEMETRY_DISABLED=1 TURBO_TELEMETRY_DISABLED=1 && pnpm lint && pnpm typecheck && pnpm test:unit",
-    "verify": "export NEXT_TELEMETRY_DISABLED=1 TURBO_TELEMETRY_DISABLED=1 && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:unit && pnpm build",
+    "verify": "export NEXT_TELEMETRY_DISABLED=1 TURBO_TELEMETRY_DISABLED=1 && pnpm lint && pnpm format:check && pnpm contract:check && pnpm typecheck && pnpm test:unit && pnpm build",
     "verify:quick": "bash scripts/verify-quick.sh",
     "ship": "bash scripts/ship.sh",
     "test:integration": "vitest run --config vitest.integration.config.ts",
@@ -22,19 +22,22 @@
     "dev": "turbo run dev --parallel",
     "db:setup": "node packages/db/src/cli.ts setup",
     "db:migrate": "node packages/db/src/cli.ts migrate",
-    "db:rollback": "node packages/db/src/cli.ts rollback"
+    "db:rollback": "node packages/db/src/cli.ts rollback",
+    "contract:generate": "node scripts/contract.ts generate",
+    "contract:check": "node scripts/contract.ts check"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/node": "catalog:",
     "eslint": "^10.13.0",
     "eslint-config-next": "^16.4.2",
     "globals": "^17.13.0",
     "next": "catalog:",
+    "openapi-typescript": "catalog:",
     "prettier": "catalog:",
     "turbo": "^2.11.9",
     "typescript": "catalog:",
     "typescript-eslint": "^8.71.2",
-    "vitest": "catalog:",
-    "@types/node": "catalog:"
+    "vitest": "catalog:"
   }
 }
