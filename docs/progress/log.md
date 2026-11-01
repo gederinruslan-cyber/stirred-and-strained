@@ -28,3 +28,4 @@
 - 2026-11-01 · M1-03 `taxonomy-schema` merged (9a72887); local verify:quick.
 - 2026-11-01 · M1-03 report: merged db32e88; verify:quick green (12 new integration tests); review PASS; tests ~70 lines vs ~45 production (SQL + loader, constraint cases parameterised); open: none.
 - 2026-11-01 · M1-05 `seed-sources` merged (a70fd23); local verify:quick.
+- 2026-11-01 · M1-05 report: merged a7bb195; verify:quick green; review not needed (docs only); no tests (docs); open: NH-3 final look before M1-06 ships; EU database right to confirm with counsel (M3-02).
