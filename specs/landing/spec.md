@@ -8,6 +8,8 @@
   Whiskey. One live summary announces the counts.
 - **Scenario: ticking a bottle.** Ticking Bourbon Whiskey updates the lists without a reload or a
   scroll jump, and Boulevardier moves to "you can make".
+- **Scenario: opening a result.** Every recipe name in both lists links to its recipe page;
+  Boulevardier opens /recipes/boulevardier.
 - **Scenario: empty shelf.** With nothing ticked and the usual off: "Tick a bottle or two and
   we'll show you."
 - **Scenario: without JavaScript.** The shelf is a form; submitting it renders the results for the
