@@ -37,3 +37,27 @@
   the new session; tokens are stored only as their SHA-256; nothing about auth is logged.
 - **Scenario: isolation.** One user can never read, change or end another user's account or
   sessions.
+
+## Requirement: The account screens (M2-02)
+- **Scenario: sign up.** /sign-up with an email and a 10-to-128-character password shows "Check
+  your email" naming the address, the link's rules (one use, 24 hours, the same password); an
+  address that already has an account sees the identical page. A short password shows "Use 10
+  to 128 characters." with the email kept and the password field empty, and nothing is sent.
+- **Scenario: confirm.** The mailed /confirm link plus that password signs in and lands on `/`;
+  the session lives only in an http-only, SameSite=Lax cookie that expires with it. A wrong
+  password, a used or expired link, or no usable token shows "That link didn't work" with "Sign
+  up again". The link passes through the age gate and back.
+- **Scenario: sign in.** /sign-in (the header's "Sign in", which carries `?back=`) signs in with
+  the email in any letter case and returns to `back` (local paths only). A wrong password, an
+  unknown email and an unconfirmed sign-up all say "That email and password don't match." in one
+  alert; the email stays, the password is empty and focused. The api's 429 says "Too many
+  tries. Wait a few minutes and try again."
+- **Scenario: signed in.** The header shows a "Sign out" button in place of "Sign in" (never the
+  email); /sign-in and /sign-up send a signed-in visitor to `/`. "Sign out" ends that session
+  in the api, drops the cookie and returns to the same page.
+- **Scenario: forgot and reset.** /forgot shows the same "Check your email" for any address. The
+  mailed /reset link takes a new password (10 to 128), signs in and lands on `/`; the old
+  password then fails. A used or expired link shows "That link didn't work" with "Ask for a
+  new link". Confirm and reset pages send no referrer to other sites.
+- **Scenario: without JavaScript.** Every form posts to a server action and renders its result
+  or error on the server, the same as with JavaScript.
