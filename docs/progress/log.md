@@ -19,3 +19,4 @@
 - 2026-11-01 · M0-06 `design-tokens-and-app-shell` merged (f5bc25d); local verify:quick.
 - 2026-11-01 · M0-06 report: merged f5bc25d; verify:full green (6 e2e incl. axe light/dark × desktop/360); review not needed; tests ~150 lines vs ~900 production (CSS + components); design pass = approved Bar Napkin, no new pattern; axe caught footer tagline contrast, fixed; open: none.
 - 2026-11-01 · M0-08 `landing-page` merged (780be90); local verify:quick.
+- 2026-11-01 · M0-08 report: merged 780be90; verify:full on main green (10 e2e incl. axe on the full landing, light/dark × desktop/360, no-JS demo); review not needed (read-only, no user data; engine already reviewed); tests ~110 lines vs ~900 production; open: strength placeholders until M1-02, house zero-proof recipes to write, IBA specs to check.
