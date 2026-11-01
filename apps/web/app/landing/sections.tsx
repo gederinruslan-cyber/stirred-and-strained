@@ -451,10 +451,10 @@ export function StraightTalk() {
           straight talk
         </h2>
         <div>
-          <h3 className="straight__h">The good stuff is free.</h3>
+          <h3 className="straight__h">It&apos;s free. All of it.</h3>
           <p className="muted">
-            What can I make, one bottle away and what to buy next don&apos;t cost a thing.
-            [PLACEHOLDER: paid plan, if any, and its one price.]
+            What can I make, one bottle away and what to buy next don&apos;t cost a thing. Neither
+            does anything else, and there are no ads.
           </p>
         </div>
         <div>

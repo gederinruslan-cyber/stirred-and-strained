@@ -45,7 +45,7 @@ Reference mockup: `mockups/landing.dc.html`; photos in `mockups/photos/`. Anythi
    toggles the site mode; Gin Buck and Zero-proof Gin Buck cards side by side.
 8. **Your recipes live right next to ours.** — search-results card (Daiquiri house, My Daiquiri #2
    "yours!", Hemingway Daiquiri one away) and copy; aside "private unless you say otherwise".
-9. **Straight talk** — dashed box: "The good stuff is free." ([PLACEHOLDER: paid plan, if any]) ·
+9. **Straight talk** — dashed box: "It's free. All of it." (no paid plan, no ads) ·
    "No robots wrote these recipes."
 10. **Closing** — "So… what's on your shelf?", "Tick a few bottles and see what tonight could look
     like.", **Start my bar**, aside "takes a couple of minutes".
