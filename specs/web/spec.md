@@ -42,3 +42,28 @@
 - **Scenario: help line.** The footer names the visitor's country help line (United Kingdom:
   Drinkline, 0300 123 1110) from a government service, with a general helpline finder for
   anywhere else; no footer copy encourages drinking more.
+
+## Requirement: Every house recipe has its own page
+- **Scenario: page.** `/recipes/negroni` for a US visitor shows "Negroni", "built · rocks glass",
+  gin, Campari and sweet vermouth at 30 ml each, "19.8% ABV · 1.4 standard drinks" with "after
+  the ice, by Arnold's dilution model", the steps, and "Spec via iba-world.com" linking to the
+  source with the licence. The id in the URL is the recipe's stable slug.
+- **Scenario: units remembered.** Choosing oz shows "1 oz" on every measured line, and the choice
+  holds on the next recipe and on the landing, also without JavaScript. Counted units stay
+  counted, a range keeps one unit ("2–3 dashes"), a top reads "top up".
+- **Scenario: steps in our words.** Steps come from the method and glass, never the source's
+  prose: shaken into a coupe → "Shake everything hard with ice." "Strain into a chilled coupe.";
+  into a glass served on ice → "Strain into a rocks glass over fresh ice."; a top line adds
+  "Top up with club soda."
+- **Scenario: variations.** A recipe lists the house recipes whose name contains its name as whole
+  words (Negroni → Coffee Negroni, Negroni Sbagliato…), and a variation says "A twist on the
+  Negroni", linking back to the closest original.
+- **Scenario: zero-proof.** Shirley Temple shows the zero-proof tag and "0% ABV · nothing to
+  count". In a locked zero-proof session an alcoholic recipe answers 404 "That one's not on the
+  zero-proof side of the bar." without any part of its spec, and only zero-proof variations are
+  linked.
+- **Scenario: unknown.** An unknown recipe answers 404 "We can't find that recipe." with a way
+  back to the start.
+- **Scenario: machine-readable.** The page carries schema.org/Recipe JSON-LD with the name,
+  ingredients in ml ("30 ml Gin"), the steps and the source.
+- **Scenario: accessible.** The page passes WCAG 2.2 AA in light and dark at 1440 and 360 px.
