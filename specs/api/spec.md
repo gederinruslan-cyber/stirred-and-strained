@@ -27,7 +27,8 @@
 - **Scenario: list.** `GET /recipes` pages through every house recipe ordered by name then id
   (24 per page by default, at most 100); a page below 1 or a page size above 100 answers 400.
 - **Scenario: every recipe has a strength.** Every house recipe has a derived ABV and drink
-  count above 0%; there are no no-alcohol recipes.
+  count above 0%; there are no no-alcohol recipes. A ranged line counts alcohol at its maximum
+  and a 0% line at its minimum (Boothby's 1–2 oz sparkling wine counts as 2 oz).
 - **Scenario: start-up.** The api refuses to start on a database without the house library and
   says to run the seed.
 

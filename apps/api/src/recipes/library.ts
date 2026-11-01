@@ -80,12 +80,14 @@ export const ref = (lib: Library, id: string) => ({ id, name: nameOf(lib, id) })
 const topName = (lib: Library, id: string) =>
   lib.tax.nodes.get(id)?.kind === "brand" ? nameOf(lib, id) : nameOf(lib, id).toLowerCase();
 
+/** A range counts at its stronger end (ADR 0004): alcohol at the maximum, 0% lines at the minimum. */
 function finished(lib: Library, r: HouseRecipe) {
-  const lines = r.lines.flatMap((l) =>
-    l.value === null || l.unit === null
-      ? []
-      : [{ quantity: quantity(l.value, l.unit), abv: lib.abv.get(l.ingredient) ?? 0 }],
-  );
+  const lines = r.lines.flatMap((l) => {
+    if (l.value === null || l.unit === null) return [];
+    const abv = lib.abv.get(l.ingredient) ?? 0;
+    const value = abv > 0 && l.max !== null ? l.max : l.value;
+    return [{ quantity: quantity(value, l.unit), abv }];
+  });
   return finishedAbv(lines, r.method as Method);
 }
 

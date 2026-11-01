@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { RecipeDetail } from "@stirred/schema";
-import { amountText, strengthText } from "../lib/amounts.ts";
+import { amountText, modelText, strengthText } from "../lib/amounts.ts";
 
 const recipe = (drinks: RecipeDetail["strength"]["drinks"], abv = 19.80281): RecipeDetail => ({
   id: "negroni",
@@ -41,5 +41,16 @@ describe("amountText", () => {
     [line(1, "top"), "cl", "top up"],
   ] as const)("%o in %s → %s", (l, unit, text) => {
     expect(amountText(l, unit)).toBe(text);
+  });
+});
+
+describe("modelText names the dilution model honestly", () => {
+  it.each([
+    ["stirred", "after the ice, by Arnold's dilution model"],
+    ["built", "after the ice, counted like a stirred drink (our assumption)"],
+    ["blended", "after the ice, counted like a shaken drink (our assumption)"],
+    ["layered", "no ice, so no dilution"],
+  ])("%s → %s", (method, text) => {
+    expect(modelText(method)).toBe(text);
   });
 });

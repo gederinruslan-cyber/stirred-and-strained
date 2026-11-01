@@ -177,8 +177,8 @@ export function WhyDifferent() {
           own words.
         </StickyNote>
         <StickyNote colour="white" number="2." title="We know bourbon is whiskey." tilt={0.8}>
-          Got bourbon? It counts as whiskey. Rye can stand in for bourbon. But a Last Word still
-          needs its Chartreuse, no fudging.
+          Got bourbon? It counts as whiskey. But a recipe that asks for bourbon wants bourbon, and a
+          Last Word still needs its Chartreuse, no fudging.
         </StickyNote>
         <StickyNote colour="green" number="3." title="How strong is it, really?" tilt={-0.6}>
           Every drink shows how strong it ends up once it&apos;s shaken or stirred, plus standard

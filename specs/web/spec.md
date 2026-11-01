@@ -35,7 +35,8 @@
 - **Scenario: no.** After "No" every page except cookies, privacy and terms shows "Come back when
   you're [age]." (UK: 18) with a header of the wordmark only, no search, no recipe, bottle or
   strength, and the footer help line; the answer is kept for a year.
-- **Scenario: always reachable.** The cookie, privacy and terms pages open without the gate.
+- **Scenario: always reachable.** The cookie, privacy and terms paths are never gated (the pages
+  themselves arrive with M3-02).
 - **Scenario: accessible.** The gate passes WCAG 2.2 AA in light and dark at 1440 and 360 px,
   and the keyboard reaches both answers and the country picker.
 
@@ -47,7 +48,8 @@
 ## Requirement: Every house recipe has its own page
 - **Scenario: page.** `/recipes/negroni` for a US visitor shows "Negroni", "built · rocks glass",
   gin, Campari and sweet vermouth at 30 ml each, "19.8% ABV · 1.4 standard drinks" with "after
-  the ice, by Arnold's dilution model", the steps, and "Spec via iba-world.com" linking to the
+  the ice, counted like a stirred drink (our assumption)" (shaken and stirred drinks name Arnold's
+  model, blended ones "like a shaken drink", layered ones "no ice, so no dilution"), the steps, and "Spec via iba-world.com" linking to the
   source with the licence. The id in the URL is the recipe's stable slug.
 - **Scenario: units remembered.** Choosing oz shows "1 oz" on every measured line, and the choice
   holds on the next recipe and on the landing, also without JavaScript. Counted units stay

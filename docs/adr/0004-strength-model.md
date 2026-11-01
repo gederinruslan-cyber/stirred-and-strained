@@ -35,6 +35,10 @@ ingredient ABV from the taxonomy, and the recipe's method.
    | drop | 0.05 | Metric drop, 20 per ml (aqueous; saline) |
    | top | 90 | **Assumption** — a typical highball top-up of a 0% mixer |
    | piece | excluded | Solids and garnish (sugar cube, mint leaf, citrus wheel): no alcohol, negligible volume |
+
+   A ranged amount ("1–2 oz", "2–3 dashes") counts at its stronger end: an alcoholic line at its
+   maximum, a 0% line at its minimum (amendment 2026-11-01, M1 verification). More alcohol can
+   lower the ABV slightly (12% wine in a 20% drink) but always raises the drink count.
 5. **Standard drinks** = `g / grams-per-drink(country)`, each value stated as the government
    states it:
 

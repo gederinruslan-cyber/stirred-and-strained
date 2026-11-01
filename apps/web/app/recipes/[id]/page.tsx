@@ -5,7 +5,7 @@ import type { RecipeDetail } from "@stirred/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { amountText, strengthText } from "../../../lib/amounts.ts";
+import { amountText, modelText, strengthText } from "../../../lib/amounts.ts";
 import { api } from "../../../lib/api.ts";
 import { readPrefs } from "../../../lib/prefs.ts";
 import { UNITS } from "../../landing/content.ts";
@@ -99,7 +99,7 @@ export default async function RecipePage({ params }: Params) {
           </ul>
           <div className="strength">
             <strong>{strengthText(r)}</strong>
-            <span className="strength__model">after the ice, by Arnold&apos;s dilution model</span>
+            <span className="strength__model">{modelText(r.method)}</span>
           </div>
         </section>
 

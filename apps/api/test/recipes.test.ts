@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Pool } from "@stirred/db";
+import type { HouseRecipe, Pool } from "@stirred/db";
 import { buildApp } from "../src/app.ts";
 import { detail, loadLibrary } from "../src/recipes/library.ts";
 import { house } from "./house.ts";
@@ -94,6 +94,23 @@ describe("every house recipe", () => {
       expect(d.strength.abv, r.id).toBeGreaterThan(0);
     }
     expect(house.byId.has("shirley-temple")).toBe(false);
+  });
+
+  it("takes a range at its stronger end: alcohol at the maximum, 0% lines at the minimum", () => {
+    const abv = (r: HouseRecipe) => detail(house, r).strength.abv;
+    const drinks = (r: HouseRecipe) => detail(house, r, "US").strength.drinks.value;
+    // Boothby's sparkling wine is 1–2 oz: at 2 oz the drink holds more alcohol (its ABV dips,
+    // as 12% wine thins a 20% drink, but the drink count is the number that matters).
+    const boothby = house.byId.get("boothby")!;
+    const atMin = { ...boothby, lines: boothby.lines.map((l) => ({ ...l, max: null })) };
+    expect(drinks(boothby)).toBeGreaterThan(drinks(atMin));
+    // A 0% line given a range (lime 20–30 ml) leaves the Daiquiri as strong as at 20 ml.
+    const daiquiri = house.byId.get("daiquiri")!;
+    const ranged = {
+      ...daiquiri,
+      lines: daiquiri.lines.map((l) => (l.ingredient === "lime-juice" ? { ...l, max: 30 } : l)),
+    };
+    expect(abv(ranged)).toBe(abv(daiquiri));
   });
 });
 

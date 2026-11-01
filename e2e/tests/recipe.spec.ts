@@ -12,7 +12,7 @@ test("a recipe page shows the spec, its strength for the country and where it is
   // ADR 0004 for a US visitor (the e2e cookie): 30 ml each at 40%, 25% and 18%, built.
   await expect(page.locator(".strength")).toContainText("19.8% ABV · 1.4 standard drinks");
   await expect(page.locator(".strength")).toContainText(
-    "after the ice, by Arnold's dilution model",
+    "after the ice, counted like a stirred drink (our assumption)",
   );
   await expect(page.getByRole("link", { name: "Spec via iba-world.com" })).toHaveAttribute(
     "href",

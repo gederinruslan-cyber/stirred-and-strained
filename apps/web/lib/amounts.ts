@@ -14,6 +14,15 @@ export function amountText(line: Line, unit: DisplayUnit): string {
   return `${text.split(" ")[0]}–${top}`;
 }
 
+/** How the dilution was worked out, per method (ADR 0004: two measured, the rest assumed). */
+export function modelText(method: string): string {
+  if (method === "layered") return "no ice, so no dilution";
+  if (method === "shaken" || method === "stirred")
+    return "after the ice, by Arnold's dilution model";
+  const like = method === "blended" ? "shaken" : "stirred";
+  return `after the ice, counted like a ${like} drink (our assumption)`;
+}
+
 /**
  * Finished ABV and the country's drink count, rounded once here: ABV and drinks to 0.1, grams
  * to the whole gram. The api derives both (ADR 0004).
