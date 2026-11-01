@@ -28,3 +28,13 @@ Template:
   (≈100) until counsel confirms the EU database-right point / C: changes.
 - **Why a human:** legal/licensing. Note: the EU database right (Directive 96/9/EC) can protect
   a compilation even when each entry is a fact; to confirm with counsel before launch (M3-02).
+
+## NH-4 · Strength model sign-off · open
+- **Feature:** M1-01 (blocks M1-02, and through it M1-07 onwards)
+- **Question:** Accept ADR 0004 (`docs/adr/0004-strength-model.md`)? Measured parts: Arnold's
+  shaken and stirred dilution. Choices with no published measurement, each erring toward showing
+  a stronger drink: built = stirred, blended = shaken, muddled = built, a "top up" = 90 ml of 0%
+  mixer; a dash = 0.8 ml; Germany and Switzerland at 10 g (their governments say 10–12 g);
+  Japan and unlisted countries show grams of alcohol instead of standard drinks.
+- **Options:** A: accept as written (recommended) / B: change any of the values above.
+- **Why a human:** legal (responsible-drinking figures shown to the public)

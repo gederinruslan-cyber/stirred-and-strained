@@ -40,7 +40,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 
 | ID | Feature | Status | Depends | Marks | Acceptance |
 |---|---|---|---|---|---|
-| M1-01 | strength-model-adr | todo | M0-05 | 🧪 ⚖️ | ADR with the dilution model per method and standard-drink grams per country, each from cited primary sources; worked examples for a stirred, a shaken, a built and a zero-proof drink |
+| M1-01 | strength-model-adr | blocked (NH-4) | M0-05 | 🧪 ⚖️ | ADR with the dilution model per method and standard-drink grams per country, each from cited primary sources; worked examples for a stirred, a shaken, a built and a zero-proof drink |
 | M1-02 | strength-in-units | todo | M1-01 | 🧪 | `finishedAbv` and `standardDrinks` implement the ADR; property tests (0% ABV, counted units, scaling invariance); the ADR's worked examples pass as tests |
 | M1-03 | taxonomy-schema | done `9a72887` | M0-03 | 🧪 | Tables for ingredient nodes (category > type > brand, ABV) and substitution edges, in the shape the engine reads (M0-07 fixtures) |
 | M1-05 | seed-sources-and-licences | done `a70fd23` | — | ⚖️ | `data/SOURCES.md` lists each source (IBA list, Bar Assistant data, others) with licence, what we take (facts only) and attribution text. Decided 2026-11-01: use IBA and Bar Assistant, facts with credit, all text ours; SOURCES.md still gets a final look before M1-06 ships |
