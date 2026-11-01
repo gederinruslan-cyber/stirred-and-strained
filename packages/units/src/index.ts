@@ -4,3 +4,5 @@ export { COUNTED_UNITS, quantity, scaleQuantity } from "./quantity.ts";
 export type { CountedUnit, Quantity, Unit } from "./quantity.ts";
 export { DISPLAY_UNITS, formatQuantity } from "./format.ts";
 export type { DisplayUnit } from "./format.ts";
+export { METHODS, finishedAbv, standardDrinks } from "./strength.ts";
+export type { DrinkCount, Method, Strength, StrengthLine } from "./strength.ts";

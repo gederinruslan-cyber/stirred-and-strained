@@ -55,7 +55,7 @@ ingredient ABV from the taxonomy, and the recipe's method.
 ## Worked examples (become tests in M1-02)
 - **Thai Basil Daiquiri, shaken** (Arnold 2014, published: 160 ml at 15% ABV): 60 ml rum at 40%,
   22.5 ml lime, 22.5 ml syrup, 2 drops saline → `V0 = 105.1`, `E = 24`, `d = 0.519`,
-  **V ≈ 159.6 ml, ABV ≈ 15.0%**. Pins the shaken coefficients (the printed `+1.567` gives 11.6%).
+  **V ≈ 159.7 ml, ABV ≈ 15.0%**. Pins the shaken coefficients (the printed `+1.567` gives 11.6%).
 - **Negroni, stirred** (derived): 30 ml gin 40%, 30 ml bitter aperitivo 24%, 30 ml sweet vermouth
   16% → `d = 0.391`, **ABV ≈ 19.2%**, 18.9 g → US 1.35, UK 2.40 units, AU 1.89.
 - **Gin and tonic, built** (derived): 50 ml gin 40% + top (90 ml tonic, 0%) → `abv0 = 0.143`,
