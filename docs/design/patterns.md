@@ -77,6 +77,18 @@ position only; 0 ms under `prefers-reduced-motion`.
   border; selected = `--ink` fill, `--paper` text plus a tick (state never by colour alone).
   Zero-proof chips use `--zero` instead of `--ink`.
 - **Switch (zero-proof):** `role="switch"` pill track with knob, visible label.
+- **Locked switch (M1-11, under-age session):** not a control. A plain `<p class="switch
+  switch--locked">` with the track drawn in its on state (`--zero` fill, knob right,
+  `aria-hidden`), the visible text "Zero-proof: on", and a 12 px padlock icon (`aria-hidden`,
+  `currentColor`) after the text. No `role="switch"`, no button, no tab stop, default cursor, no
+  hover. Full contrast (never dimmed: it is a state, not a disabled control). Accessible text
+  adds a `.vh` "(set by your age answer)". Any other "show everything" control on the screen
+  (the landing zero-proof band) is removed, not disabled; the band reads "You're seeing the
+  zero-proof side of the bar."
+- **Select (country picker, M1-11):** native `<select>` with a visible `<label>` above it,
+  styled like the search input: 1.5 px `--ink` border, 999 radius, `--card` fill, `--ink` text,
+  44 px tall, 16 px text, a chevron drawn in CSS from `currentColor`; focus ring as everywhere.
+  Never submits on change (WCAG 3.2.2): it sits in a GET form with its own secondary button.
 - **Segmented control (ml / cl / oz):** radio group on a `--seg` pill track; selected = `--ink`
   pill.
 - **Napkin card:** `--card` with the dot texture, 6 px radius, card shadow, a strip of tape on
@@ -100,6 +112,18 @@ position only; 0 ms under `prefers-reduced-motion`.
   headers small caps 700 `--muted`.
 - **Footer:** `--ft-bg` band, four columns (brand, The app, Behind the bar, The small print),
   dashed divider, responsible-drinking line first.
+- **Footer help line (M1-11):** directly under the responsible line in `.site-footer__small`,
+  `--ft-ink` (one step brighter than the `--ft-muted` small print), 15/22. Pattern: "Worried
+  about drinking, yours or someone else's? Talk to [name] ([country short]): [number]". The
+  number is a `tel:` link, `tabular-nums`, `white-space: nowrap`; when the service also has a
+  URL, the name links to it. URL only: "… ? [name] can help: [domain]" with the domain as the
+  link text. No service for the country: "… ? Find a helpline near you at findahelpline.com".
+  Never adds claims (free, 24/7, confidential) the source table does not carry.
+- **Single-question page (M1-11, the age gate):** a page that asks one thing before anything
+  else. Minimal header (wordmark only, not a link to content), `main` with one centred napkin
+  card (max 560 px, tilt -0.8° on desktop, none below 900 px), the normal footer. The question
+  is the `h1`; answers are two full submit buttons in one POST form; secondary choices (country)
+  follow under an `h2`. No dialog, no overlay, no content behind it; works without JavaScript.
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.
@@ -113,6 +137,9 @@ position only; 0 ms under `prefers-reduced-motion`.
 - Responsible line: "Drink well, not a lot. Every recipe shows how strong it is so you can choose.
   Only for people of legal drinking age."
 - Missing facts are `[PLACEHOLDER]`s in designs, never invented.
+- Age and help copy is plain, never playful about age or alcohol, never a reward ("unlock",
+  "grab a drink") and never a punishment for "No": a no-alcohol session is "the zero-proof side
+  of the bar", with the same recipes and detail.
 
 ## Photos
 - Real drink photos in photo frames on recipe and featured cards. We serve our own copies; no

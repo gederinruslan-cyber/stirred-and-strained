@@ -69,9 +69,9 @@ Reference mockup: `mockups/landing.dc.html`; photos in `mockups/photos/`. Anythi
   server.
 
 ## Age gate
-- First visit: dialog "Before you pour" over the server-rendered page in the napkin style; "Yes,
-  I'm [legal age]+" (primary) · "No" (continues zero-proof only, pending legal sign-off, M1-11) ·
-  "Change country". Stores only the answer and country.
+- First visit: the age gate is its own page, `/age` (single-question page in
+  `docs/design/patterns.md`, M1-11), not a dialog over this one; "No" gives the zero-proof
+  side of the bar (featured zero-proof cards, no buy-next table or Daiquiri card).
 
 ## SEO
 - `<title>` "Stirred & Strained: what can you make tonight?"; meta description from the hero sub;

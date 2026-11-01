@@ -72,3 +72,17 @@ export const LandingResponse = z.object({
   }),
 });
 export type LandingResponse = z.infer<typeof LandingResponse>;
+
+// Age gate (M1-11).
+export const AgeRulesQuery = z.object({ country: z.string().max(8).optional() });
+export const AgeRule = z.object({
+  country: z.string(),
+  name: z.string(),
+  age: z.number().int(),
+  help: z.object({ name: z.string(), phone: z.string().optional(), url: z.string() }),
+});
+export const AgeRulesResponse = z.object({
+  rule: AgeRule,
+  countries: z.array(z.object({ country: z.string(), name: z.string() })),
+});
+export type AgeRulesResponse = z.infer<typeof AgeRulesResponse>;

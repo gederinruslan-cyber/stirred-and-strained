@@ -33,15 +33,26 @@ type Search = Record<string, string | string[] | undefined>;
 
 export default async function Home({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
-  const { zero } = await readPrefs();
+  const { zero, zeroLocked } = await readPrefs();
 
-  const { data: landing } = await api.GET("/landing");
-  if (!landing) throw new Error("the api did not answer /landing");
+  const { data: served } = await api.GET("/landing");
+  if (!served) throw new Error("the api did not answer /landing");
+  // Under the drinking age: nothing alcoholic on the page (M1-11).
+  const landing: LandingResponse = zeroLocked
+    ? {
+        ...served,
+        bottles: served.bottles.filter((b) => b.zeroProof),
+        featured: served.featured.filter((r) => r.zeroProof),
+        ginBucks: served.ginBucks.filter((r) => r.zeroProof),
+      }
+    : served;
 
   const known = new Set(landing.bottles.map((b) => b.id));
   const submitted = sp.set === "1";
   const state: LandingState = {
-    bottles: submitted ? [sp.b ?? []].flat().filter((b) => known.has(b)) : DEFAULT_BOTTLES,
+    bottles: submitted
+      ? [sp.b ?? []].flat().filter((b) => known.has(b))
+      : DEFAULT_BOTTLES.filter((b) => known.has(b)),
     basics: submitted ? sp.basics === "1" : true,
     unit: parseUnit(sp.unit),
   };
@@ -72,7 +83,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
   };
 
   return (
-    <LandingPage landing={landing} demo={demo} state={state} zero={zero}>
+    <LandingPage landing={landing} demo={demo} state={state} zero={zero} locked={zeroLocked}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -86,12 +97,14 @@ function LandingPage({
   demo,
   state,
   zero,
+  locked,
   children,
 }: {
   landing: LandingResponse;
   demo: DemoResult;
   state: LandingState;
   zero: boolean;
+  locked: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -100,9 +113,9 @@ function LandingPage({
       <Hero landing={landing} demo={demo} state={state} zero={zero} />
       <WhyDifferent />
       <Picks recipes={landing.featured} state={state} />
-      <BuyNext buyNext={landing.buyNext} />
-      <JotItDown recipe={landing.daiquiri} state={state} />
-      <ZeroBand recipes={landing.ginBucks} zero={zero} unit={state.unit} />
+      {!locked && <BuyNext buyNext={landing.buyNext} />}
+      {!locked && <JotItDown recipe={landing.daiquiri} state={state} />}
+      <ZeroBand recipes={landing.ginBucks} zero={zero} locked={locked} unit={state.unit} />
       <YourRecipes />
       <StraightTalk />
       <Closing />

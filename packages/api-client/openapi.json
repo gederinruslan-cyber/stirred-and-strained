@@ -8,6 +8,102 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/age-rules": {
+      "get": {
+        "operationId": "getAgeRules",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "country",
+            "required": false,
+            "schema": {
+              "maxLength": 8,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "countries": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "country": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "country",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "rule": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "age": {
+                          "maximum": 9007199254740991,
+                          "minimum": -9007199254740991,
+                          "type": "integer"
+                        },
+                        "country": {
+                          "type": "string"
+                        },
+                        "help": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "url": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "url"
+                          ],
+                          "type": "object"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "country",
+                        "name",
+                        "age",
+                        "help"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "rule",
+                    "countries"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
     "/demo": {
       "get": {
         "operationId": "getDemo",

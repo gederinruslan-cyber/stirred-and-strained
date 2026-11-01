@@ -343,10 +343,12 @@ export function JotItDown({ recipe, state }: { recipe: RecipeDetail; state: Land
 export function ZeroBand({
   recipes,
   zero,
+  locked,
   unit,
 }: {
   recipes: RecipeDetail[];
   zero: boolean;
+  locked: boolean;
   unit: LandingState["unit"];
 }) {
   return (
@@ -360,17 +362,23 @@ export function ZeroBand({
             Flip on zero-proof and the whole site follows: lists, matches, swaps, everything. Same
             care, same detail. 0% ABV, nothing to count.
           </p>
-          <form method="post" action="/prefs">
-            <input type="hidden" name="back" value="/#zero-h" />
-            <button
-              type="submit"
-              name="zero"
-              value={zero ? "off" : "on"}
-              className="btn btn--secondary"
-            >
-              {zero ? "Show everything" : "Try zero-proof"}
-            </button>
-          </form>
+          {locked ? (
+            <p className="zero-band__text">
+              <strong>You&apos;re seeing the zero-proof side of the bar.</strong>
+            </p>
+          ) : (
+            <form method="post" action="/prefs">
+              <input type="hidden" name="back" value="/#zero-h" />
+              <button
+                type="submit"
+                name="zero"
+                value={zero ? "off" : "on"}
+                className="btn btn--secondary"
+              >
+                {zero ? "Show everything" : "Try zero-proof"}
+              </button>
+            </form>
+          )}
         </div>
         <div className="split__aside grid-2">
           {recipes.map((r, i) => (

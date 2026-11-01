@@ -74,6 +74,58 @@ export function Switch({
   );
 }
 
+/** Zero-proof set by the age answer: a state, not a control (docs/design/patterns.md). */
+export function LockedSwitch({ label, reason }: { label: string; reason: string }) {
+  return (
+    <p className="switch switch--locked">
+      <span className="switch__track" aria-hidden="true">
+        <span className="switch__knob" />
+      </span>
+      {label}: on <span className="vh">({reason})</span>
+      <svg
+        aria-hidden="true"
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      >
+        <rect x="5" y="11" width="14" height="10" rx="2" />
+        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+      </svg>
+    </p>
+  );
+}
+
+export function Select({
+  id,
+  name,
+  label,
+  options,
+  value,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  options: readonly { value: string; label: string }[];
+  value: string;
+}) {
+  return (
+    <span className="select">
+      <label htmlFor={id}>{label}</label>
+      <select id={id} name={name} defaultValue={value}>
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </span>
+  );
+}
+
 export function SegmentedControl({
   name,
   legend,

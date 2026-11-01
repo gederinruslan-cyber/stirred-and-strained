@@ -9,6 +9,7 @@ import {
 import type { Pool } from "@stirred/db";
 import { ErrorBody, HealthResponse } from "@stirred/schema";
 import { landingRoutes } from "./landing.ts";
+import { legalRoutes } from "./legal/routes.ts";
 
 const MUTATING = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
@@ -73,6 +74,7 @@ export function buildApp({ pool, publicOrigin }: AppOptions) {
       },
     );
     landingRoutes(routes);
+    legalRoutes(routes);
   });
 
   return app;
