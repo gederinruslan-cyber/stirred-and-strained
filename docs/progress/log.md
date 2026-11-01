@@ -6,3 +6,4 @@
 - 2026-11-01 · Design approved: Bar Napkin system (light + dark), landing spec and mockup in docs/design; landing page (M0-08) and engine matching (M0-07, moved from M1-04) added to M0; photo licence rule removed.
 - 2026-11-01 · M0-01 `bootstrap-monorepo` merged (9466194); local verify:quick.
 - 2026-11-01 · M0-01 report: merged 9466194; verify:quick (= verify) green; fresh clone check+verify green; review not needed; tests 0 lines (tooling; boundary rule proven by hand); open: none.
+- 2026-11-01 · M0-02 `local-stack-and-gates` merged (ea6b72b); local verify:quick.
