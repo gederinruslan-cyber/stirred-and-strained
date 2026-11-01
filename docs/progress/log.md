@@ -10,3 +10,4 @@
 - 2026-11-01 · M0-02 report: merged ea6b72b; verify:quick green; verify:full on main green (51s); review not needed; tests 46 lines vs ~150 production (incl. scripts); open: none.
 - 2026-11-01 · M0-05 `units-package` merged (46c2856); local verify:quick.
 - 2026-11-01 · M0-05 report: merged 46c2856; verify:quick green; review APPROVE; tests 118 lines vs 92 production (over the ceiling by 26: property tests the engine-and-units rule requires); open: none.
+- 2026-11-01 · M0-07 `engine-matching` merged (c1346e3); local verify:quick.
