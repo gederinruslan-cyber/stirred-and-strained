@@ -365,6 +365,48 @@ img {
   object-fit: cover;
   display: block;
 }
+/* Photo placeholder (M2-06): no photo exists; a line-drawn glass on the dotted --seg fill. */
+.photo-none {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  color: var(--muted);
+  background:
+    radial-gradient(var(--dots) 1.2px, transparent 1.4px) 0 0 / 14px 14px,
+    var(--seg);
+  border-radius: 3px;
+}
+.photo-none svg {
+  width: 36%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.photo-none svg * {
+  vector-effect: non-scaling-stroke;
+}
+.photo-none__hand {
+  font-family: var(--font-hand), cursive;
+  font-size: 28px;
+  line-height: 32px;
+  color: var(--accent);
+}
+.photo-none--thumb {
+  flex: none;
+  width: 56px;
+  height: 70px;
+}
+.photo-none--thumb svg {
+  width: 60%;
+}
+@media (max-width: 899px) {
+  .photo-none__hand {
+    display: none;
+  }
+}
 .photo-frame .tag {
   position: absolute;
   top: 12px;

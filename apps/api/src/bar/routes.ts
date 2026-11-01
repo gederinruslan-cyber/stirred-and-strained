@@ -29,36 +29,49 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { requestUser } from "../auth/routes.ts";
 import { entry } from "../ingredients.ts";
-import { nameOf, ref, summary, type Library } from "../recipes/library.ts";
+import { nameOf, ref, summary, type Library, type Spec } from "../recipes/library.ts";
+import { liveRecipes } from "../recipes/mine.ts";
 
 /** Water is always assumed, as in the landing demo. */
 const ALWAYS = ["water"];
 const BUY_NEXT = 10;
 
-function matches(lib: Library, ids: string[], tax: Taxonomy = lib.tax): BarMatches {
+/** The engine over a bar; `own` adds a signed-in user's recipes (M2-06) to the house ones. */
+function matches(
+  lib: Library,
+  ids: string[],
+  tax: Taxonomy = lib.tax,
+  own: readonly Spec[] = [],
+): BarMatches {
   if (ids.length === 0) return { makeNow: [], oneAway: [], buyNext: [] };
   const bar = [...ids, ...ALWAYS];
+  const recipes: readonly Spec[] = own.length === 0 ? lib.recipes : [...lib.recipes, ...own];
   const used = (swaps: { line: { ingredient: string }; using: string }[]) =>
     swaps.map((s) => ({ for: nameOf(lib, s.line.ingredient), using: nameOf(lib, s.using) }));
   return {
-    makeNow: makeNow(tax, bar, lib.recipes).map(({ recipe, swaps }) => ({
+    makeNow: makeNow(tax, bar, recipes).map(({ recipe, swaps }) => ({
       ...summary(lib, recipe),
       swaps: used(swaps),
     })),
-    oneAway: oneAway(tax, bar, lib.recipes).map(({ recipe, missing, swaps }) => ({
+    oneAway: oneAway(tax, bar, recipes).map(({ recipe, missing, swaps }) => ({
       id: recipe.id,
       name: recipe.name,
       method: recipe.method,
       ...(recipe.glass ? { glass: summary(lib, recipe).glass } : {}),
+      ...(recipe.yours ? { yours: true as const } : {}),
       missing: ref(lib, missing.ingredient),
       swaps: used(swaps),
     })),
-    buyNext: buyNext(tax, bar, lib.recipes)
+    buyNext: buyNext(tax, bar, recipes)
       .slice(0, BUY_NEXT)
       .map((b) => ({
         ingredient: ref(lib, b.ingredient.id),
         count: b.unlocks.length,
-        recipes: b.unlocks.map((r) => ({ id: r.id, name: r.name })),
+        recipes: b.unlocks.map((r) => ({
+          id: r.id,
+          name: r.name,
+          ...(r.yours ? { yours: true as const } : {}),
+        })),
       })),
   };
 }
@@ -102,6 +115,7 @@ export function barRoutes(app: FastifyInstance, { pool, lib }: { pool: Pool; lib
         lib,
         ids.filter((id) => lib.tax.nodes.has(id)),
         refuse(lib.tax, refused),
+        await liveRecipes(db, userId),
       );
     },
   );

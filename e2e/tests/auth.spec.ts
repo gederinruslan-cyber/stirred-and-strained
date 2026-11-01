@@ -90,6 +90,7 @@ test("sign up, confirm, sign out, sign in, forget and reset the password", async
   await expect(page).toHaveURL("/");
   await signedIn(page);
   await header(page).getByRole("button", { name: "Sign out" }).click();
+  await expect(header(page).getByRole("link", { name: "Sign in" })).toBeVisible();
 
   // The old password stops working; the new one signs in.
   await page.goto("/sign-in");

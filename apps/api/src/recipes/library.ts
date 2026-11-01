@@ -80,26 +80,43 @@ export const nameOf = (lib: Library, id: string) => lib.tax.nodes.get(id)?.name 
 export const ref = (lib: Library, id: string) => ({ id, name: nameOf(lib, id) });
 
 /** A type reads lower case in a sentence ("club soda"); a brand keeps its name. */
-const topName = (lib: Library, id: string) =>
+export const topName = (lib: Library, id: string) =>
   lib.tax.nodes.get(id)?.kind === "brand" ? nameOf(lib, id) : nameOf(lib, id).toLowerCase();
 
+/**
+ * What strength, summaries and matching read from a recipe: a house recipe or a user's own
+ * (M2-06), which is flagged `yours`.
+ */
+export type Spec = Pick<HouseRecipe, "id" | "name" | "method" | "glass"> & {
+  lines: readonly {
+    ingredient: string;
+    value: number | null;
+    unit: HouseRecipe["lines"][number]["unit"];
+    max?: number | null;
+    optional: boolean;
+    exact?: boolean;
+  }[];
+  yours?: true;
+};
+
 /** A range counts at its stronger end (ADR 0004): alcohol at the maximum, 0% lines at the minimum. */
-function finished(lib: Library, r: HouseRecipe) {
+export function finished(lib: Library, r: Pick<Spec, "method" | "lines">) {
   const lines = r.lines.flatMap((l) => {
     if (l.value === null || l.unit === null) return [];
     const abv = lib.abv.get(l.ingredient) ?? 0;
-    const value = abv > 0 && l.max !== null ? l.max : l.value;
+    const value = abv > 0 && l.max != null ? l.max : l.value;
     return [{ quantity: quantity(value, l.unit), abv }];
   });
   return finishedAbv(lines, r.method as Method);
 }
 
-export const summary = (lib: Library, r: HouseRecipe) => ({
+export const summary = (lib: Library, r: Spec) => ({
   id: r.id,
   name: r.name,
   method: r.method,
   ...(r.glass ? { glass: glassName(r.glass) } : {}),
   abv: finished(lib, r).abv,
+  ...(r.yours ? { yours: true as const } : {}),
 });
 
 /** A recipe with its provenance and its strength for `country` (grams where none is known). */

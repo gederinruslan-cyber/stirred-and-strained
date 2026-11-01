@@ -208,6 +208,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/glasses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listGlasses"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health": {
         parameters: {
             query?: never;
@@ -250,6 +266,54 @@ export interface paths {
         get: operations["getLanding"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/my/recipes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMyRecipes"];
+        put?: never;
+        post: operations["createMyRecipe"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/my/recipes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMyRecipe"];
+        put: operations["updateMyRecipe"];
+        post?: never;
+        delete: operations["deleteMyRecipe"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/my/recipes/{id}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["restoreMyRecipe"];
         delete?: never;
         options?: never;
         head?: never;
@@ -863,6 +927,8 @@ export interface operations {
                             recipes: {
                                 id: string;
                                 name: string;
+                                /** @enum {boolean} */
+                                yours?: true;
                             }[];
                         }[];
                         makeNow: {
@@ -875,6 +941,8 @@ export interface operations {
                                 for: string;
                                 using: string;
                             }[];
+                            /** @enum {boolean} */
+                            yours?: true;
                         }[];
                         oneAway: {
                             glass?: string;
@@ -889,6 +957,8 @@ export interface operations {
                                 for: string;
                                 using: string;
                             }[];
+                            /** @enum {boolean} */
+                            yours?: true;
                         }[];
                     };
                 };
@@ -933,6 +1003,8 @@ export interface operations {
                                 for: string;
                                 using: string;
                             }[];
+                            /** @enum {boolean} */
+                            yours?: true;
                         }[];
                         oneAway: {
                             id: string;
@@ -942,6 +1014,8 @@ export interface operations {
                                 name: string;
                             };
                             name: string;
+                            /** @enum {boolean} */
+                            yours?: true;
                         }[];
                     };
                 };
@@ -954,6 +1028,31 @@ export interface operations {
                 content: {
                     "application/json": {
                         error: string;
+                    };
+                };
+            };
+        };
+    };
+    listGlasses: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: {
+                            id: string;
+                            name: string;
+                        }[];
                     };
                 };
             };
@@ -1118,6 +1217,8 @@ export interface operations {
                                 id: string;
                                 name: string;
                             }[];
+                            /** @enum {boolean} */
+                            yours?: true;
                         };
                         featured: {
                             credit: string;
@@ -1161,7 +1262,396 @@ export interface operations {
                                 id: string;
                                 name: string;
                             }[];
+                            /** @enum {boolean} */
+                            yours?: true;
                         }[];
+                    };
+                };
+            };
+        };
+    };
+    listMyRecipes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        deleted: {
+                            /** Format: date-time */
+                            deletedAt: string;
+                            id: string;
+                            name: string;
+                        }[];
+                        items: {
+                            abv: number;
+                            glass?: string;
+                            id: string;
+                            method: string;
+                            name: string;
+                            /** @enum {boolean} */
+                            yours?: true;
+                        }[];
+                    };
+                };
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    createMyRecipe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    glass?: string;
+                    lines: {
+                        amount?: {
+                            /** @enum {string} */
+                            unit: "ml" | "cl" | "oz" | "dash" | "barspoon" | "drop" | "piece" | "top";
+                            value: number;
+                        };
+                        ingredient: string;
+                        /** @default false */
+                        optional?: boolean;
+                    }[];
+                    /** @enum {string} */
+                    method: "shaken" | "stirred" | "built" | "blended" | "muddled" | "layered";
+                    name: string;
+                    steps?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Default Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    getMyRecipe: {
+        parameters: {
+            query?: {
+                country?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: date-time */
+                        createdAt: string;
+                        /** Format: date-time */
+                        deletedAt?: string;
+                        glass?: string;
+                        glassId?: string;
+                        history: {
+                            /** Format: date-time */
+                            at: string;
+                            /** @enum {string} */
+                            kind: "created" | "edited" | "deleted" | "restored";
+                            spec?: {
+                                glass?: string;
+                                lines: {
+                                    amount?: {
+                                        /** @enum {string} */
+                                        unit: "ml" | "dash" | "barspoon" | "drop" | "piece" | "top";
+                                        value: number;
+                                    };
+                                    /** @enum {boolean} */
+                                    exact?: true;
+                                    ingredient: {
+                                        id: string;
+                                        name: string;
+                                    };
+                                    max?: number;
+                                    optional: boolean;
+                                }[];
+                                method: string;
+                                name: string;
+                                steps: string[];
+                            };
+                        }[];
+                        id: string;
+                        lines: {
+                            amount?: {
+                                /** @enum {string} */
+                                unit: "ml" | "dash" | "barspoon" | "drop" | "piece" | "top";
+                                value: number;
+                            };
+                            entered?: {
+                                /** @enum {string} */
+                                unit: "ml" | "cl" | "oz" | "dash" | "barspoon" | "drop" | "piece" | "top";
+                                value: number;
+                            };
+                            /** @enum {boolean} */
+                            exact?: true;
+                            ingredient: {
+                                id: string;
+                                name: string;
+                            };
+                            max?: number;
+                            optional: boolean;
+                        }[];
+                        method: string;
+                        name: string;
+                        ownSteps?: string;
+                        steps: string[];
+                        strength: {
+                            abv: number;
+                            drinks: {
+                                /** @enum {string} */
+                                measure: "standard drinks" | "units" | "grams";
+                                source: string;
+                                value: number;
+                            };
+                            volumeMl: number;
+                        };
+                        /** Format: date-time */
+                        updatedAt: string;
+                        /** @enum {boolean} */
+                        yours: true;
+                    };
+                };
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    updateMyRecipe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    glass?: string;
+                    lines: {
+                        amount?: {
+                            /** @enum {string} */
+                            unit: "ml" | "cl" | "oz" | "dash" | "barspoon" | "drop" | "piece" | "top";
+                            value: number;
+                        };
+                        ingredient: string;
+                        /** @default false */
+                        optional?: boolean;
+                    }[];
+                    /** @enum {string} */
+                    method: "shaken" | "stirred" | "built" | "blended" | "muddled" | "layered";
+                    name: string;
+                    steps?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Default Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Default Response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    deleteMyRecipe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    restoreMyRecipe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
                     };
                 };
             };
@@ -1230,6 +1720,8 @@ export interface operations {
                             id: string;
                             method: string;
                             name: string;
+                            /** @enum {boolean} */
+                            yours?: true;
                         }[];
                         page: number;
                         pageSize: number;
@@ -1311,6 +1803,8 @@ export interface operations {
                             id: string;
                             name: string;
                         }[];
+                        /** @enum {boolean} */
+                        yours?: true;
                     };
                 };
             };
@@ -1354,6 +1848,8 @@ export interface operations {
                             recipes: {
                                 id: string;
                                 name: string;
+                                /** @enum {boolean} */
+                                yours?: true;
                             }[];
                         }[];
                         makeNow: {
@@ -1366,6 +1862,8 @@ export interface operations {
                                 for: string;
                                 using: string;
                             }[];
+                            /** @enum {boolean} */
+                            yours?: true;
                         }[];
                         oneAway: {
                             glass?: string;
@@ -1380,6 +1878,8 @@ export interface operations {
                                 for: string;
                                 using: string;
                             }[];
+                            /** @enum {boolean} */
+                            yours?: true;
                         }[];
                     };
                 };

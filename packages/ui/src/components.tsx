@@ -301,3 +301,23 @@ export function MoonIcon() {
     </svg>
   );
 }
+
+/** Photo placeholder (M2-06): where no photo exists, a line-drawn glass; decorative only. */
+export function PhotoNone({ thumb, className }: { thumb?: boolean; className?: string }) {
+  return (
+    <span
+      className={["photo-none", thumb ? "photo-none--thumb" : "", className ?? ""]
+        .filter(Boolean)
+        .join(" ")}
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 64 80" focusable="false">
+        <path d="M12 22H52" />
+        <path d="M12 22 16 70q0 4 4 4h24q4 0 4-4l4-48" />
+        <path d="M14.5 40h35" strokeDasharray="3 4" />
+        <rect x="22" y="44" width="14" height="14" rx="2" transform="rotate(-8 29 51)" />
+      </svg>
+      {!thumb && <span className="photo-none__hand">yours!</span>}
+    </span>
+  );
+}

@@ -1,4 +1,6 @@
-// House recipes: list and get, with provenance and derived strength. Read-only, no user data.
+// House recipes: list and get, with provenance and derived strength. Read-only; a signed-in
+// search also finds the caller's own recipes (M2-06).
+import { createDb, type Pool } from "@stirred/db";
 import {
   ErrorBody,
   IngredientList,
@@ -11,13 +13,16 @@ import {
 } from "@stirred/schema";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { requestUser } from "../auth/routes.ts";
 import { entry, suggest } from "../ingredients.ts";
 import { detail, summary, type Library } from "./library.ts";
+import { liveRecipes } from "./mine.ts";
 import { search } from "./search.ts";
 
 const many = (v: string | string[] | undefined) => [v ?? []].flat();
 
-export function recipeRoutes(app: FastifyInstance, lib: Library) {
+export function recipeRoutes(app: FastifyInstance, { pool, lib }: { pool: Pool; lib: Library }) {
+  const db = createDb(pool);
   const r = app.withTypeProvider<ZodTypeProvider>();
 
   r.get(
@@ -35,18 +40,25 @@ export function recipeRoutes(app: FastifyInstance, lib: Library) {
       const exclude = many(req.query.exclude);
       if ([...include, ...exclude].some((id) => !lib.tax.nodes.has(id)))
         return reply.code(400).send({ error: "unknown_ingredient" });
-      const { rows, facets } = search(lib, {
-        ...(q ? { q } : {}),
-        include,
-        exclude,
-        base: many(req.query.base),
-        method: many(req.query.method),
-        glass: many(req.query.glass),
-        family: many(req.query.family),
-        flavour: many(req.query.flavour),
-        ...(abvMin === undefined ? {} : { abvMin }),
-        ...(abvMax === undefined ? {} : { abvMax }),
-      });
+      const own = req.headers.authorization
+        ? await liveRecipes(db, await requestUser(db, req))
+        : [];
+      const { rows, facets } = search(
+        lib,
+        {
+          ...(q ? { q } : {}),
+          include,
+          exclude,
+          base: many(req.query.base),
+          method: many(req.query.method),
+          glass: many(req.query.glass),
+          family: many(req.query.family),
+          flavour: many(req.query.flavour),
+          ...(abvMin === undefined ? {} : { abvMin }),
+          ...(abvMax === undefined ? {} : { abvMax }),
+        },
+        own,
+      );
       const start = (page - 1) * pageSize;
       return {
         items: rows.slice(start, start + pageSize).map((e) => ({

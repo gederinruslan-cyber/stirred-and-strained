@@ -1,12 +1,14 @@
 // Find a recipe (M1-09): one GET form, filters beside results; works without JavaScript.
 // Design: docs/design/search-page.md. The api does the matching; the web only maps typed
 // ingredient names to ids and builds links.
-import { Chip } from "@stirred/ui";
+import { Chip, Tag } from "@stirred/ui";
 import type { RecipeList } from "@stirred/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { api } from "../../lib/api.ts";
+import { apiHeaders } from "../../lib/session.ts";
 import { FinderScript } from "./finder-script.tsx";
+import { RecipeThumb, recipeHref } from "./thumb.tsx";
 import "./search.css";
 
 type Search = Record<string, string | string[] | undefined>;
@@ -89,6 +91,8 @@ export default async function FindPage({ searchParams }: Props) {
         ...(abvMax === undefined ? {} : { abvMax }),
       },
     },
+    // Signed in, the search also finds the visitor's own recipes (M2-06).
+    headers: await apiHeaders(),
   });
   if (!data) throw new Error(`the api did not answer /recipes (${response.status})`);
 
@@ -391,19 +395,17 @@ function Results({
         <ol className="results">
           {data.items.map((r) => (
             <li key={r.id} className="result">
-              {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized thumbnails */}
-              <img
-                className="result__photo"
-                src={`/photos/recipes/thumbs/${r.id}.jpg`}
-                alt=""
-                width={56}
-                height={70}
-                loading="lazy"
-              />
+              <RecipeThumb r={r} />
               <div className="result__text">
-                <Link href={`/recipes/${r.id}`} className="result__name">
+                <Link href={recipeHref(r)} className="result__name">
                   {r.name}
                 </Link>
+                {r.yours && (
+                  <>
+                    {" "}
+                    <Tag kind="yours">yours!</Tag>
+                  </>
+                )}
                 <p className="result__meta">
                   {[r.method, r.glass, r.family?.toLowerCase() === r.glass ? undefined : r.family]
                     .filter(Boolean)

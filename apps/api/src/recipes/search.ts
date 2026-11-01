@@ -2,8 +2,7 @@
 // load (base spirit from the taxonomy, family and flavour from the source's tags through our
 // own labels). Values within a facet are OR, facets are AND; counts are over the results.
 import { isWithin } from "@stirred/engine";
-import type { HouseRecipe } from "@stirred/db";
-import { summary, words, type Library } from "./library.ts";
+import { summary, words, type Library, type Spec } from "./library.ts";
 import { glassName } from "./steps.ts";
 
 const FAMILY: Record<string, string> = {
@@ -50,7 +49,7 @@ const SPIRITS = "spirits";
 const NO_SPIRIT = { id: "none", name: "No spirit" };
 
 type Entry = {
-  r: HouseRecipe;
+  r: Spec & { tags: readonly string[] };
   key: string;
   base: { id: string; name: string };
   family: string[];
@@ -59,7 +58,7 @@ type Entry = {
 };
 
 /** The type directly under spirits for the largest-volume spirit line (ties by id). */
-function baseSpirit(lib: Library, r: HouseRecipe) {
+function baseSpirit(lib: Library, r: Spec) {
   const top = (id: string) => {
     let at = id;
     while (lib.tax.nodes.get(at)?.parentId && lib.tax.nodes.get(at)!.parentId !== SPIRITS)
@@ -76,22 +75,25 @@ function baseSpirit(lib: Library, r: HouseRecipe) {
 }
 
 const unique = (xs: string[]) => [...new Set(xs)];
+const entry = (lib: Library, r: Entry["r"]): Entry => ({
+  r,
+  key: words(r.name),
+  base: baseSpirit(lib, r),
+  family: unique(r.tags.flatMap((t) => (FAMILY[t] ? [FAMILY[t]] : []))),
+  flavour: unique(r.tags.flatMap((t) => (FLAVOUR[t] ? [FLAVOUR[t]] : []))),
+  abv: summary(lib, r).abv,
+});
 const cache = new WeakMap<Library, Entry[]>();
 function entries(lib: Library): Entry[] {
   let all = cache.get(lib);
   if (!all) {
-    all = lib.recipes.map((r) => ({
-      r,
-      key: words(r.name),
-      base: baseSpirit(lib, r),
-      family: unique(r.tags.flatMap((t) => (FAMILY[t] ? [FAMILY[t]] : []))),
-      flavour: unique(r.tags.flatMap((t) => (FLAVOUR[t] ? [FLAVOUR[t]] : []))),
-      abv: summary(lib, r).abv,
-    }));
+    all = lib.recipes.map((r) => entry(lib, r));
     cache.set(lib, all);
   }
   return all;
 }
+const byName = (a: Entry, b: Entry) =>
+  a.r.name < b.r.name ? -1 : a.r.name > b.r.name ? 1 : a.r.id < b.r.id ? -1 : 1;
 
 export type SearchQuery = {
   q?: string;
@@ -121,13 +123,20 @@ function facet(rows: Entry[], pick: (e: Entry) => { value: string; label: string
   );
 }
 
-/** Matching recipes in the library's order (name, then id) and the facet counts over them. */
-export function search(lib: Library, q: SearchQuery) {
+/**
+ * Matching recipes in the library's order (name, then id) and the facet counts over them;
+ * `own` adds a signed-in user's recipes (M2-06), which carry no tags.
+ */
+export function search(lib: Library, q: SearchQuery, own: readonly Spec[] = []) {
   const key = q.q ? words(q.q).trim() : "";
   const has = (e: Entry, id: string) => e.r.lines.some((l) => isWithin(lib.tax, l.ingredient, id));
   const any = (wanted: string[], values: string[]) =>
     wanted.length === 0 || wanted.some((w) => values.includes(w));
-  const rows = entries(lib).filter(
+  const all =
+    own.length === 0
+      ? entries(lib)
+      : [...entries(lib), ...own.map((r) => entry(lib, { ...r, tags: [] }))].sort(byName);
+  const rows = all.filter(
     (e) =>
       (!key || e.key.includes(` ${key}`)) &&
       q.include.every((id) => has(e, id)) &&

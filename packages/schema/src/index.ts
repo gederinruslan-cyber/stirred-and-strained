@@ -46,9 +46,12 @@ export const RecipeSummary = z.object({
   /** The glass as a phrase ("rocks glass", "coupe"); absent when the source names none. */
   glass: z.string().optional(),
   abv: z.number().nonnegative(),
+  /** A signed-in user's own recipe (M2-06): its page is /my-recipes/<id>. */
+  yours: z.literal(true).optional(),
 });
 
 const RecipeRef = z.object({ id: z.string(), name: z.string() });
+const MatchRef = RecipeRef.extend({ yours: z.literal(true).optional() });
 
 export const RecipeDetail = RecipeSummary.omit({ abv: true }).extend({
   /** How to make it, in our own words. */
@@ -196,7 +199,7 @@ export const BarMatches = z.object({
   ),
   /** At most 10, most drinks completed first. */
   buyNext: z.array(
-    z.object({ ingredient: IngredientRef, count: z.number().int(), recipes: z.array(RecipeRef) }),
+    z.object({ ingredient: IngredientRef, count: z.number().int(), recipes: z.array(MatchRef) }),
   ),
 });
 export type BarMatches = z.infer<typeof BarMatches>;
@@ -217,3 +220,69 @@ export const SwapParams = z.object({
   replaces: z.string().max(120),
 });
 export const SwapBody = z.object({ allowed: z.boolean() });
+
+// Custom recipes (M2-06): a signed-in user's own, private, never lost. Amounts may be typed in
+// oz or cl; the api stores them canonical (ml or a counted unit).
+export const EnteredUnit = z.enum(["ml", "cl", "oz", "dash", "barspoon", "drop", "piece", "top"]);
+export const UserRecipeInput = z.object({
+  name: z.string().trim().min(1).max(80),
+  method: z.enum(["shaken", "stirred", "built", "blended", "muddled", "layered"]),
+  /** A glass id from `GET /glasses`. */
+  glass: z.string().max(40).optional(),
+  /** One step per line; empty: written from the method and glass. */
+  steps: z.string().max(4000).optional(),
+  lines: z
+    .array(
+      z.object({
+        ingredient: z.string().max(120),
+        amount: z.object({ value: z.number().positive().max(10000), unit: EnteredUnit }).optional(),
+        optional: z.boolean().default(false),
+      }),
+    )
+    .min(1)
+    .max(30),
+});
+export type UserRecipeInput = z.infer<typeof UserRecipeInput>;
+export const UserRecipeParams = z.object({ id: z.string().max(60) });
+export const UserRecipeCreated = z.object({ id: z.string() });
+const UserLine = RecipeLine.extend({
+  /** As the user typed it, for editing. */
+  entered: z.object({ value: z.number().positive(), unit: EnteredUnit }).optional(),
+});
+const SavedSpec = z.object({
+  name: z.string(),
+  method: z.string(),
+  glass: z.string().optional(),
+  steps: z.array(z.string()).min(1),
+  lines: z.array(RecipeLine),
+});
+export const UserRecipeDetail = SavedSpec.extend({
+  id: z.string(),
+  yours: z.literal(true),
+  /** The glass id, for editing. */
+  glassId: z.string().optional(),
+  /** The user's own steps as typed; absent when written from the method. */
+  ownSteps: z.string().optional(),
+  lines: z.array(UserLine),
+  strength: Strength,
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
+  deletedAt: z.iso.datetime().optional(),
+  /** Oldest first; created and edited carry the spec as saved then. */
+  history: z.array(
+    z.object({
+      kind: z.enum(["created", "edited", "deleted", "restored"]),
+      at: z.iso.datetime(),
+      spec: SavedSpec.optional(),
+    }),
+  ),
+});
+export type UserRecipeDetail = z.infer<typeof UserRecipeDetail>;
+export const UserRecipeList = z.object({
+  items: z.array(RecipeSummary),
+  deleted: z.array(z.object({ id: z.string(), name: z.string(), deletedAt: z.iso.datetime() })),
+});
+export type UserRecipeList = z.infer<typeof UserRecipeList>;
+export const GlassList = z.object({
+  items: z.array(z.object({ id: z.string(), name: z.string() })),
+});

@@ -2,12 +2,19 @@
 // and buy next for this bar, beside it. Every list is whole; long ones fold the rest into a
 // native details. "Add [bottle]" posts to My Bar's add action, so it works without JavaScript.
 import type { BarMatches } from "@stirred/schema";
-import { TableCard } from "@stirred/ui";
+import { TableCard, Tag } from "@stirred/ui";
 import Link from "next/link";
 import { Fragment, type ReactNode } from "react";
+import { RecipeThumb, recipeHref } from "../recipes/thumb.tsx";
 import { addByName } from "./actions.ts";
 
-type Row = { id: string; name: string; method: string; glass?: string | undefined };
+type Row = {
+  id: string;
+  name: string;
+  method: string;
+  glass?: string | undefined;
+  yours?: true | undefined;
+};
 const FOLD_OVER = 15;
 const SHOWN = 12;
 const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
@@ -23,19 +30,17 @@ function Rows<T extends Row>({
 }) {
   const item = (r: T) => (
     <li key={r.id} className="result">
-      {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized thumbnails */}
-      <img
-        className="result__photo"
-        src={`/photos/recipes/thumbs/${r.id}.jpg`}
-        alt=""
-        width={56}
-        height={70}
-        loading="lazy"
-      />
+      <RecipeThumb r={r} />
       <div className="result__text">
-        <Link href={`/recipes/${r.id}`} className="result__name">
+        <Link href={recipeHref(r)} className="result__name">
           {r.name}
         </Link>
+        {r.yours && (
+          <>
+            {" "}
+            <Tag kind="yours">yours!</Tag>
+          </>
+        )}
         {extra(r)}
       </div>
       {right(r)}
@@ -192,7 +197,7 @@ export function Matches({ matches }: { matches: BarMatches | "down" }) {
                         {b.recipes.map((r, i) => (
                           <Fragment key={r.id}>
                             {i > 0 && ", "}
-                            <Link href={`/recipes/${r.id}`}>{r.name}</Link>
+                            <Link href={recipeHref(r)}>{r.name}</Link>
                           </Fragment>
                         ))}
                         <br />

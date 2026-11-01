@@ -27,7 +27,7 @@ export function modelText(method: string): string {
  * Finished ABV and the country's drink count, rounded once here: ABV and drinks to 0.1, grams
  * to the whole gram. The api derives both (ADR 0004).
  */
-export function strengthText(recipe: RecipeDetail): string {
+export function strengthText(recipe: Pick<RecipeDetail, "strength">): string {
   const { abv, drinks } = recipe.strength;
   const count = drinks.value.toFixed(1);
   const measure =

@@ -34,6 +34,7 @@ export function SiteHeader({
       <nav aria-label="Main" className="site-nav">
         <Link href="/#picks">Recipes</Link>
         <Link href="/bar">My Bar</Link>
+        <Link href="/my-recipes">My recipes</Link>
       </nav>
       <form role="search" method="get" action="/recipes" className="site-header__search">
         <SearchInput name="q" label="Find a drink" placeholder="Find a drink…" />

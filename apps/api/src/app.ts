@@ -14,6 +14,7 @@ import { noMailer, type Mailer } from "./auth/mailer.ts";
 import { landingRoutes } from "./landing.ts";
 import { legalRoutes } from "./legal/routes.ts";
 import type { Library } from "./recipes/library.ts";
+import { myRecipeRoutes } from "./recipes/mine.ts";
 import { recipeRoutes } from "./recipes/routes.ts";
 
 const MUTATING = new Set(["POST", "PUT", "PATCH", "DELETE"]);
@@ -87,10 +88,11 @@ export function buildApp({ pool, publicOrigin, library, mailer = noMailer }: App
       },
     );
     landingRoutes(routes, library);
-    recipeRoutes(routes, library);
+    recipeRoutes(routes, { pool, lib: library });
     legalRoutes(routes);
     authRoutes(routes, { pool, mailer, publicOrigin });
     barRoutes(routes, { pool, lib: library });
+    myRecipeRoutes(routes, { pool, lib: library });
   });
 
   return app;

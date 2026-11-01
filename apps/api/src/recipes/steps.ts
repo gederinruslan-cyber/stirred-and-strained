@@ -34,6 +34,9 @@ const ON_ICE = new Set([
 
 export const glassName = (glass: string | null) => (glass && GLASS[glass]) || "glass";
 
+/** Every glass a recipe can name, by id, with its phrase. */
+export const GLASSES = Object.entries(GLASS).map(([id, name]) => ({ id, name }));
+
 /** Steps from the method; `tops` names what goes on last ("club soda"). */
 export function stepsFor(method: string, glass: string | null, tops: string[]): string[] {
   const g = glassName(glass);

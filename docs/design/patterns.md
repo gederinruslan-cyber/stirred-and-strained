@@ -186,6 +186,23 @@ position only; 0 ms under `prefers-reduced-motion`.
   touches the user's bar: `--rowhl` plus words. Never colour alone; never submit-on-change.
 - **Jump link (M2-04):** below 900 px only, a plain in-page link "[what] ↓" under the page lead
   to a section that stacking pushed far down; hidden when that section has nothing to show.
+- **Line rows (M2-06):** a no-JS form for a variable list of rows (recipe lines). `fieldset`
+  with a heading legend and help; `ol` of `li` rows: the existing values plus 4 blank (at least
+  8), blank rows ignored. ≥900 a grid row (`minmax(0,1fr) 96px 112px auto`) under one
+  `aria-hidden` small-caps column head, field labels `.vh` but numbered ("Ingredient 3"); below
+  900 each row a stacked block with an `aria-hidden` "Line [n]", visible labels, amount + unit
+  side by side. Errors per row in `p.field__error` spanning the row. Never a `<table>` of inputs.
+- **Error summary (M2-06):** a Form-level error for a long form with several field errors.
+  `div.form-error.error-summary[role=alert][tabIndex=-1]`, focused on the re-render: "Fix [n]
+  things before saving:" + `ul` of in-page links to each invalid field, link text = the error.
+- **Photo placeholder (M2-06):** where no photo exists (custom recipes). `.photo-none`: `--seg`
+  fill with the `--dots` texture, an inline line-drawn rocks glass (`currentColor` = `--muted`,
+  1.5 px non-scaling stroke), `aria-hidden`, no alt. In a Photo frame (4:5) it adds a Caveat
+  "yours!" in `--accent` (≥900 only); `.photo-none--thumb` is the 56 × 70 thumbnail, glass only.
+- **History list (M2-06):** `ol.history`, newest first, `--dash` dividers. Entries with a saved
+  version are `details` whose 44 px `summary` is "[Event] · `<time>`[d Mon yyyy]`</time>`" and
+  whose body is that version read-only (meta, `ul.lines`, `ol.steps` at 15/22); events without
+  one (deleted, restored) are plain rows. Never editable in place.
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.

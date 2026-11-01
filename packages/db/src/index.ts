@@ -26,3 +26,18 @@ export type { TokenPurpose } from "./auth.ts";
 export { addToBar, listBar, removeFromBar } from "./bar.ts";
 export { listRefusals, setSwapAllowed } from "./swaps.ts";
 export type { Swap } from "./swaps.ts";
+export {
+  createUserRecipe,
+  deleteUserRecipe,
+  getUserRecipe,
+  listUserRecipes,
+  restoreUserRecipe,
+  updateUserRecipe,
+} from "./user-recipes.ts";
+export type {
+  EnteredUnit,
+  UserLine,
+  UserRecipe,
+  UserRecipeEvent,
+  UserSpec,
+} from "./user-recipes.ts";

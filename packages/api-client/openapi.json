@@ -928,6 +928,12 @@
                                 },
                                 "name": {
                                   "type": "string"
+                                },
+                                "yours": {
+                                  "enum": [
+                                    true
+                                  ],
+                                  "type": "boolean"
                                 }
                               },
                               "required": [
@@ -986,6 +992,12 @@
                               "type": "object"
                             },
                             "type": "array"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
                           }
                         },
                         "required": [
@@ -1049,6 +1061,12 @@
                               "type": "object"
                             },
                             "type": "array"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
                           }
                         },
                         "required": [
@@ -1169,6 +1187,12 @@
                               "type": "object"
                             },
                             "type": "array"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
                           }
                         },
                         "required": [
@@ -1209,6 +1233,12 @@
                           },
                           "name": {
                             "type": "string"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
                           }
                         },
                         "required": [
@@ -1244,6 +1274,48 @@
                   },
                   "required": [
                     "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/glasses": {
+      "get": {
+        "operationId": "listGlasses",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "items"
                   ],
                   "type": "object"
                 }
@@ -1705,6 +1777,12 @@
                             "type": "object"
                           },
                           "type": "array"
+                        },
+                        "yours": {
+                          "enum": [
+                            true
+                          ],
+                          "type": "boolean"
                         }
                       },
                       "required": [
@@ -1899,6 +1977,12 @@
                               "type": "object"
                             },
                             "type": "array"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
                           }
                         },
                         "required": [
@@ -1924,6 +2008,940 @@
                     "featured",
                     "daiquiri",
                     "buyNext"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/my/recipes": {
+      "get": {
+        "operationId": "listMyRecipes",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "deleted": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "deletedAt": {
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "deletedAt"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "abv": {
+                            "minimum": 0,
+                            "type": "number"
+                          },
+                          "glass": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "abv"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "deleted"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createMyRecipe",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "glass": {
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "lines": {
+                    "items": {
+                      "properties": {
+                        "amount": {
+                          "properties": {
+                            "unit": {
+                              "enum": [
+                                "ml",
+                                "cl",
+                                "oz",
+                                "dash",
+                                "barspoon",
+                                "drop",
+                                "piece",
+                                "top"
+                              ],
+                              "type": "string"
+                            },
+                            "value": {
+                              "exclusiveMinimum": 0,
+                              "maximum": 10000,
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "value",
+                            "unit"
+                          ],
+                          "type": "object"
+                        },
+                        "ingredient": {
+                          "maxLength": 120,
+                          "type": "string"
+                        },
+                        "optional": {
+                          "default": false,
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "ingredient"
+                      ],
+                      "type": "object"
+                    },
+                    "maxItems": 30,
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "method": {
+                    "enum": [
+                      "shaken",
+                      "stirred",
+                      "built",
+                      "blended",
+                      "muddled",
+                      "layered"
+                    ],
+                    "type": "string"
+                  },
+                  "name": {
+                    "maxLength": 80,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "steps": {
+                    "maxLength": 4000,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "method",
+                  "lines"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/my/recipes/{id}": {
+      "delete": {
+        "operationId": "deleteMyRecipe",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "maxLength": 60,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      },
+      "get": {
+        "operationId": "getMyRecipe",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "country",
+            "required": false,
+            "schema": {
+              "pattern": "^[A-Z]{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "maxLength": 60,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "createdAt": {
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                      "type": "string"
+                    },
+                    "deletedAt": {
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                      "type": "string"
+                    },
+                    "glass": {
+                      "type": "string"
+                    },
+                    "glassId": {
+                      "type": "string"
+                    },
+                    "history": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "at": {
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                            "type": "string"
+                          },
+                          "kind": {
+                            "enum": [
+                              "created",
+                              "edited",
+                              "deleted",
+                              "restored"
+                            ],
+                            "type": "string"
+                          },
+                          "spec": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "glass": {
+                                "type": "string"
+                              },
+                              "lines": {
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "amount": {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "unit": {
+                                          "enum": [
+                                            "ml",
+                                            "dash",
+                                            "barspoon",
+                                            "drop",
+                                            "piece",
+                                            "top"
+                                          ],
+                                          "type": "string"
+                                        },
+                                        "value": {
+                                          "minimum": 0,
+                                          "type": "number"
+                                        }
+                                      },
+                                      "required": [
+                                        "value",
+                                        "unit"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    "exact": {
+                                      "enum": [
+                                        true
+                                      ],
+                                      "type": "boolean"
+                                    },
+                                    "ingredient": {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "id",
+                                        "name"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    "max": {
+                                      "minimum": 0,
+                                      "type": "number"
+                                    },
+                                    "optional": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "ingredient",
+                                    "optional"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "method": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "steps": {
+                                "items": {
+                                  "type": "string"
+                                },
+                                "minItems": 1,
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "method",
+                              "steps",
+                              "lines"
+                            ],
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "at"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "lines": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "amount": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "unit": {
+                                "enum": [
+                                  "ml",
+                                  "dash",
+                                  "barspoon",
+                                  "drop",
+                                  "piece",
+                                  "top"
+                                ],
+                                "type": "string"
+                              },
+                              "value": {
+                                "minimum": 0,
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "unit"
+                            ],
+                            "type": "object"
+                          },
+                          "entered": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "unit": {
+                                "enum": [
+                                  "ml",
+                                  "cl",
+                                  "oz",
+                                  "dash",
+                                  "barspoon",
+                                  "drop",
+                                  "piece",
+                                  "top"
+                                ],
+                                "type": "string"
+                              },
+                              "value": {
+                                "exclusiveMinimum": 0,
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "unit"
+                            ],
+                            "type": "object"
+                          },
+                          "exact": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
+                          },
+                          "ingredient": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "max": {
+                            "minimum": 0,
+                            "type": "number"
+                          },
+                          "optional": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "ingredient",
+                          "optional"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "method": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "ownSteps": {
+                      "type": "string"
+                    },
+                    "steps": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "strength": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "abv": {
+                          "minimum": 0,
+                          "type": "number"
+                        },
+                        "drinks": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "measure": {
+                              "enum": [
+                                "standard drinks",
+                                "units",
+                                "grams"
+                              ],
+                              "type": "string"
+                            },
+                            "source": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "minimum": 0,
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "measure",
+                            "value",
+                            "source"
+                          ],
+                          "type": "object"
+                        },
+                        "volumeMl": {
+                          "exclusiveMinimum": 0,
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "abv",
+                        "volumeMl",
+                        "drinks"
+                      ],
+                      "type": "object"
+                    },
+                    "updatedAt": {
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                      "type": "string"
+                    },
+                    "yours": {
+                      "enum": [
+                        true
+                      ],
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "method",
+                    "steps",
+                    "lines",
+                    "id",
+                    "yours",
+                    "strength",
+                    "createdAt",
+                    "updatedAt",
+                    "history"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateMyRecipe",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "maxLength": 60,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "glass": {
+                    "maxLength": 40,
+                    "type": "string"
+                  },
+                  "lines": {
+                    "items": {
+                      "properties": {
+                        "amount": {
+                          "properties": {
+                            "unit": {
+                              "enum": [
+                                "ml",
+                                "cl",
+                                "oz",
+                                "dash",
+                                "barspoon",
+                                "drop",
+                                "piece",
+                                "top"
+                              ],
+                              "type": "string"
+                            },
+                            "value": {
+                              "exclusiveMinimum": 0,
+                              "maximum": 10000,
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "value",
+                            "unit"
+                          ],
+                          "type": "object"
+                        },
+                        "ingredient": {
+                          "maxLength": 120,
+                          "type": "string"
+                        },
+                        "optional": {
+                          "default": false,
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "ingredient"
+                      ],
+                      "type": "object"
+                    },
+                    "maxItems": 30,
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "method": {
+                    "enum": [
+                      "shaken",
+                      "stirred",
+                      "built",
+                      "blended",
+                      "muddled",
+                      "layered"
+                    ],
+                    "type": "string"
+                  },
+                  "name": {
+                    "maxLength": 80,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "steps": {
+                    "maxLength": 4000,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "method",
+                  "lines"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/my/recipes/{id}/restore": {
+      "post": {
+        "operationId": "restoreMyRecipe",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "maxLength": 60,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
                   ],
                   "type": "object"
                 }
@@ -2304,6 +3322,12 @@
                           },
                           "name": {
                             "type": "string"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
                           }
                         },
                         "required": [
@@ -2571,6 +3595,12 @@
                         "type": "object"
                       },
                       "type": "array"
+                    },
+                    "yours": {
+                      "enum": [
+                        true
+                      ],
+                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -2680,6 +3710,12 @@
                                 },
                                 "name": {
                                   "type": "string"
+                                },
+                                "yours": {
+                                  "enum": [
+                                    true
+                                  ],
+                                  "type": "boolean"
                                 }
                               },
                               "required": [
@@ -2738,6 +3774,12 @@
                               "type": "object"
                             },
                             "type": "array"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
                           }
                         },
                         "required": [
@@ -2801,6 +3843,12 @@
                               "type": "object"
                             },
                             "type": "array"
+                          },
+                          "yours": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
                           }
                         },
                         "required": [
