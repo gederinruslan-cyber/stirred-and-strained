@@ -14,6 +14,7 @@ export COMPOSE_PROJECT_NAME="$PROJECT"
 export WEB_PORT="${VERIFY_WEB_PORT:-13300}"
 export API_PORT="${VERIFY_API_PORT:-14300}"
 export POSTGRES_PORT="${VERIFY_POSTGRES_PORT:-15433}"
+export MAILPIT_PORT="${VERIFY_MAILPIT_PORT:-18325}"
 export POSTGRES_USER=stirred POSTGRES_PASSWORD=stirred_local_only POSTGRES_DB=stirred
 export MIGRATOR_DB_PASSWORD=stirred_migrator_local_only APP_DB_PASSWORD=stirred_app_local_only
 # One URL per role (ADR 0003), host side.

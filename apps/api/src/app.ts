@@ -8,6 +8,8 @@ import {
 } from "fastify-type-provider-zod";
 import type { Pool } from "@stirred/db";
 import { ErrorBody, HealthResponse } from "@stirred/schema";
+import { authRoutes } from "./auth/routes.ts";
+import { noMailer, type Mailer } from "./auth/mailer.ts";
 import { landingRoutes } from "./landing.ts";
 import { legalRoutes } from "./legal/routes.ts";
 import type { Library } from "./recipes/library.ts";
@@ -21,10 +23,16 @@ export type AppOptions = {
   publicOrigin: string;
   /** The house library, loaded once at start. */
   library: Library;
+  /** Confirm and reset links go out through it (ADR 0005). */
+  mailer?: Mailer;
 };
 
-export function buildApp({ pool, publicOrigin, library }: AppOptions) {
-  const app = Fastify({ logger: false }).withTypeProvider<ZodTypeProvider>();
+export function buildApp({ pool, publicOrigin, library, mailer = noMailer }: AppOptions) {
+  // Behind web (one hop): the client address comes from its X-Forwarded-For (rate limits only).
+  const app = Fastify({
+    logger: false,
+    trustProxy: (_address: string, hop: number) => hop === 0,
+  }).withTypeProvider<ZodTypeProvider>();
   app.setValidatorCompiler(validatorCompiler);
   // Responses are checked against their schema; a mismatch is a 500, never an unchecked body.
   app.setSerializerCompiler(serializerCompiler);
@@ -80,6 +88,7 @@ export function buildApp({ pool, publicOrigin, library }: AppOptions) {
     landingRoutes(routes, library);
     recipeRoutes(routes, library);
     legalRoutes(routes);
+    authRoutes(routes, { pool, mailer, publicOrigin });
   });
 
   return app;

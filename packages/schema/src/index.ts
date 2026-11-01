@@ -149,3 +149,21 @@ export const AgeRulesResponse = z.object({
   countries: z.array(z.object({ country: z.string(), name: z.string() })),
 });
 export type AgeRulesResponse = z.infer<typeof AgeRulesResponse>;
+
+// Accounts (M2-01, ADR 0005). Answers never say whether an email has an account.
+const Email = z.email().max(254);
+/** 10 to 128 characters, no composition rules (NIST SP 800-63B). */
+const Password = z.string().min(10).max(128);
+const LinkToken = z.string().regex(/^[A-Za-z0-9_-]{43}$/);
+export const SignUpBody = z.object({ email: Email, password: Password });
+export const SignInBody = z.object({ email: Email, password: z.string().min(1).max(128) });
+/** The password typed at sign-up comes back with the link (ADR 0005). */
+export const ConfirmBody = z.object({ token: LinkToken, password: z.string().min(1).max(128) });
+export const ResetBody = z.object({ email: Email });
+export const ResetConfirmBody = z.object({ token: LinkToken, password: Password });
+export const CheckEmail = z.object({ status: z.literal("check-email") });
+/** A new session: the token goes into web's http-only cookie, never anywhere else. */
+export const SessionResponse = z.object({ session: z.string(), expiresAt: z.iso.datetime() });
+export type SessionResponse = z.infer<typeof SessionResponse>;
+export const MeResponse = z.object({ email: z.string() });
+export type MeResponse = z.infer<typeof MeResponse>;

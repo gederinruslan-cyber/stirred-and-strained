@@ -11,3 +11,15 @@ export type { TaxonomyEdge, TaxonomyNode } from "./taxonomy.ts";
 export { loadRecipes } from "./recipes.ts";
 export type { HouseRecipe } from "./recipes.ts";
 export { readSeed } from "./seed/import.ts";
+export {
+  createSession,
+  createUser,
+  endSessions,
+  findUser,
+  issueToken,
+  sessionUser,
+  setPassword,
+  takeToken,
+  userEmail,
+} from "./auth.ts";
+export type { TokenPurpose } from "./auth.ts";

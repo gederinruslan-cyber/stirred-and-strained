@@ -35,16 +35,24 @@ services:
     depends_on:
       postgres: { condition: service_healthy }
 
+  mailpit:
+    # Catches every mail the api sends (ADR 0005); read them at http://127.0.0.1:8325.
+    image: axllent/mailpit:v1.33.0
+    ports:
+      - "127.0.0.1:${MAILPIT_PORT:-8325}:8025"
+
   api:
     build: { context: ., target: api }
     environment:
       # The runtime role: no superuser, no BYPASSRLS, owns nothing (ADR 0003).
       PUBLIC_ORIGIN: http://127.0.0.1:${WEB_PORT:-3300}
       DATABASE_URL: postgres://stirred_app:${APP_DB_PASSWORD:-stirred_app_local_only}@postgres:5432/${POSTGRES_DB:-stirred}
+      MAIL_URL: http://mailpit:8025
     ports:
       - "127.0.0.1:${API_PORT:-4300}:4000"
     depends_on:
       db-setup: { condition: service_completed_successfully }
+      mailpit: { condition: service_started }
     healthcheck:
       test:
         - CMD
