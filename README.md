@@ -17,6 +17,7 @@ pnpm install
 docker compose up -d postgres   # Postgres on 127.0.0.1:5543
 cp .env.example .env            # local-only defaults
 node --env-file=.env packages/db/src/cli.ts setup   # roles + migrations
+node --env-file=.env packages/db/src/cli.ts seed    # the house library (data/seed)
 pnpm dev                        # api on :4300, web on :3300 (or `docker compose up` for all three)
 
 pnpm check         # lint · typecheck · unit

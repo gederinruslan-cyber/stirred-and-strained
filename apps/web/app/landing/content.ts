@@ -30,8 +30,8 @@ export const PICKS: Record<
     },
     tilt: -0.6,
   },
-  "zero-proof-gin-buck": {
-    blurb: "all the zing, none of the proof",
+  "temperance-grapefruit-collins": {
+    blurb: "bright, bitter, no proof",
     photo: {
       src: "/photos/zero-proof-highball.jpg",
       alt: "A tall, pale golden zero-proof highball over ice with a dried citrus wheel",
@@ -42,7 +42,7 @@ export const PICKS: Record<
 };
 
 /** The demo's starting shelf on a first visit. */
-export const DEFAULT_BOTTLES = ["london-dry-gin", "sweet-vermouth", "bitter-aperitivo"];
+export const DEFAULT_BOTTLES = ["gin", "sweet-vermouth", "campari"];
 export const UNITS = [
   { value: "ml", label: "ml" },
   { value: "cl", label: "cl" },

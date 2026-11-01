@@ -64,6 +64,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/recipes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listRecipes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/recipes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRecipe"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -221,7 +253,9 @@ export interface operations {
     };
     getLanding: {
         parameters: {
-            query?: never;
+            query?: {
+                country?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -256,7 +290,10 @@ export interface operations {
                             }[];
                         };
                         daiquiri: {
+                            credit: string;
+                            glass?: string;
                             id: string;
+                            licence: string;
                             lines: {
                                 amount?: {
                                     /** @enum {string} */
@@ -267,17 +304,30 @@ export interface operations {
                                     id: string;
                                     name: string;
                                 };
-                                label: string;
-                                text?: string;
+                                max?: number;
+                                optional: boolean;
                             }[];
                             method: string;
                             name: string;
-                            source?: string;
+                            source: string;
                             steps?: string;
+                            strength: {
+                                abv: number;
+                                drinks: {
+                                    /** @enum {string} */
+                                    measure: "standard drinks" | "units" | "grams";
+                                    source: string;
+                                    value: number;
+                                };
+                                volumeMl: number;
+                            };
                             zeroProof: boolean;
                         };
                         featured: {
+                            credit: string;
+                            glass?: string;
                             id: string;
+                            licence: string;
                             lines: {
                                 amount?: {
                                     /** @enum {string} */
@@ -288,17 +338,30 @@ export interface operations {
                                     id: string;
                                     name: string;
                                 };
-                                label: string;
-                                text?: string;
+                                max?: number;
+                                optional: boolean;
                             }[];
                             method: string;
                             name: string;
-                            source?: string;
+                            source: string;
                             steps?: string;
+                            strength: {
+                                abv: number;
+                                drinks: {
+                                    /** @enum {string} */
+                                    measure: "standard drinks" | "units" | "grams";
+                                    source: string;
+                                    value: number;
+                                };
+                                volumeMl: number;
+                            };
                             zeroProof: boolean;
                         }[];
-                        ginBucks: {
+                        zeroBand: {
+                            credit: string;
+                            glass?: string;
                             id: string;
+                            licence: string;
                             lines: {
                                 amount?: {
                                     /** @enum {string} */
@@ -309,15 +372,138 @@ export interface operations {
                                     id: string;
                                     name: string;
                                 };
-                                label: string;
-                                text?: string;
+                                max?: number;
+                                optional: boolean;
                             }[];
                             method: string;
                             name: string;
-                            source?: string;
+                            source: string;
                             steps?: string;
+                            strength: {
+                                abv: number;
+                                drinks: {
+                                    /** @enum {string} */
+                                    measure: "standard drinks" | "units" | "grams";
+                                    source: string;
+                                    value: number;
+                                };
+                                volumeMl: number;
+                            };
                             zeroProof: boolean;
                         }[];
+                    };
+                };
+            };
+        };
+    };
+    listRecipes: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: {
+                            abv: number;
+                            id: string;
+                            method: string;
+                            name: string;
+                            zeroProof: boolean;
+                        }[];
+                        page: number;
+                        pageSize: number;
+                        total: number;
+                    };
+                };
+            };
+            /** @description Default Response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    getRecipe: {
+        parameters: {
+            query?: {
+                country?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        credit: string;
+                        glass?: string;
+                        id: string;
+                        licence: string;
+                        lines: {
+                            amount?: {
+                                /** @enum {string} */
+                                unit: "ml" | "dash" | "barspoon" | "drop" | "piece" | "top";
+                                value: number;
+                            };
+                            ingredient: {
+                                id: string;
+                                name: string;
+                            };
+                            max?: number;
+                            optional: boolean;
+                        }[];
+                        method: string;
+                        name: string;
+                        source: string;
+                        steps?: string;
+                        strength: {
+                            abv: number;
+                            drinks: {
+                                /** @enum {string} */
+                                measure: "standard drinks" | "units" | "grams";
+                                source: string;
+                                value: number;
+                            };
+                            volumeMl: number;
+                        };
+                        zeroProof: boolean;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
                     };
                 };
             };

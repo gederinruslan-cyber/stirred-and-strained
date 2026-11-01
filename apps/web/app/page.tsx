@@ -33,9 +33,11 @@ type Search = Record<string, string | string[] | undefined>;
 
 export default async function Home({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
-  const { zero, zeroLocked } = await readPrefs();
+  const { zero, zeroLocked, age } = await readPrefs();
 
-  const { data: served } = await api.GET("/landing");
+  const { data: served } = await api.GET("/landing", {
+    params: { query: age ? { country: age.country } : {} },
+  });
   if (!served) throw new Error("the api did not answer /landing");
   // Under the drinking age: nothing alcoholic on the page (M1-11).
   const landing: LandingResponse = zeroLocked
@@ -43,7 +45,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
         ...served,
         bottles: served.bottles.filter((b) => b.zeroProof),
         featured: served.featured.filter((r) => r.zeroProof),
-        ginBucks: served.ginBucks.filter((r) => r.zeroProof),
+        zeroBand: served.zeroBand.filter((r) => r.zeroProof),
       }
     : served;
 
@@ -115,7 +117,7 @@ function LandingPage({
       <Picks recipes={landing.featured} state={state} />
       {!locked && <BuyNext buyNext={landing.buyNext} />}
       {!locked && <JotItDown recipe={landing.daiquiri} state={state} />}
-      <ZeroBand recipes={landing.ginBucks} zero={zero} locked={locked} unit={state.unit} />
+      <ZeroBand recipes={landing.zeroBand} zero={zero} locked={locked} unit={state.unit} />
       <YourRecipes />
       <StraightTalk />
       <Closing />

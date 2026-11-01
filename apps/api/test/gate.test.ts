@@ -2,12 +2,13 @@ import { z } from "zod";
 import { describe, expect, it } from "vitest";
 import type { Pool } from "@stirred/db";
 import { buildApp } from "../src/app.ts";
+import { house } from "./house.ts";
 
 const WEB = "http://127.0.0.1:3300";
 const neverConnects = {} as Pool;
 
 function appWithProbe() {
-  const app = buildApp({ pool: neverConnects, publicOrigin: WEB });
+  const app = buildApp({ pool: neverConnects, publicOrigin: WEB, library: house });
   app.post("/probe", async () => ({ ok: true }));
   app.get(
     "/wrong-shape",

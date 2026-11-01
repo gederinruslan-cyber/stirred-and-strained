@@ -6,17 +6,25 @@ import type { RecipeDetail } from "@stirred/schema";
 type Line = RecipeDetail["lines"][number];
 
 export function amountText(line: Line, unit: DisplayUnit): string {
-  if (line.amount) return formatQuantity(quantity(line.amount.value, line.amount.unit), unit);
-  // A house recipe still being written shows a placeholder, never a guess.
-  return line.text ?? "[ml]";
+  if (!line.amount) return "to taste";
+  return formatQuantity(quantity(line.amount.value, line.amount.unit), unit);
 }
 
-/** A note under the name, when the line also has a measured amount. */
-export const lineNote = (line: Line) => (line.amount ? line.text : undefined);
-
+/**
+ * Finished ABV and the country's drink count, rounded once here: ABV and drinks to 0.1, grams
+ * to the whole gram. The api derives both (ADR 0004).
+ */
 export function strengthText(recipe: RecipeDetail): string {
-  // Finished ABV and standard drinks arrive with the strength model (M1-02).
-  return recipe.zeroProof ? "0% ABV · nothing to count" : "[x.x]% ABV · [x.x] standard drinks";
+  if (recipe.zeroProof) return "0% ABV · nothing to count";
+  const { abv, drinks } = recipe.strength;
+  const count = drinks.value.toFixed(1);
+  const measure =
+    drinks.measure === "grams"
+      ? `${Math.round(drinks.value)} g of alcohol`
+      : drinks.measure === "units"
+        ? `${count} UK ${count === "1.0" ? "unit" : "units"}`
+        : `${count} ${count === "1.0" ? "standard drink" : "standard drinks"}`;
+  return `${abv.toFixed(1)}% ABV · ${measure}`;
 }
 
 export function parseUnit(value: unknown): DisplayUnit {

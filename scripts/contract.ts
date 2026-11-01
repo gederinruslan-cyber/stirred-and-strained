@@ -1,10 +1,13 @@
-// pnpm contract:generate | contract:check. Builds the api with a pool that never connects,
-// renders its OpenAPI 3.1 document (keys sorted) and the client types from it. `check`
-// compares them byte for byte with the committed copies and fails on drift.
+// pnpm contract:generate | contract:check. Builds the api with a pool that never connects and
+// the house library from the vendored seed, renders its OpenAPI 3.1 document (keys sorted) and
+// the client types from it. `check` compares them byte for byte with the committed copies and
+// fails on drift.
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import openapiTS, { astToString } from "openapi-typescript";
 import { buildApp } from "../apps/api/src/app.ts";
+import { createLibrary } from "../apps/api/src/recipes/library.ts";
+import { readSeed } from "../packages/db/src/seed/import.ts";
 
 const CLIENT = join(import.meta.dirname, "..", "packages", "api-client");
 const FILES = { contract: join(CLIENT, "openapi.json"), types: join(CLIENT, "src", "schema.ts") };
@@ -19,7 +22,13 @@ function sortKeys(value: unknown): unknown {
   );
 }
 
-const app = buildApp({ pool: undefined as never, publicOrigin: "http://127.0.0.1:3300" });
+const seed = readSeed(join(import.meta.dirname, "..", "data", "seed"));
+const library = createLibrary(
+  seed.nodes,
+  [],
+  seed.recipes.map((r) => ({ ...r, steps: null })),
+);
+const app = buildApp({ pool: undefined as never, publicOrigin: "http://127.0.0.1:3300", library });
 await app.ready();
 const contract = `${JSON.stringify(sortKeys(app.swagger()), null, 2)}\n`;
 await app.close();

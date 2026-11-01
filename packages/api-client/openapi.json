@@ -373,6 +373,17 @@
     "/landing": {
       "get": {
         "operationId": "getLanding",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "country",
+            "required": false,
+            "schema": {
+              "pattern": "^[A-Z]{2}$",
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -482,7 +493,16 @@
                     "daiquiri": {
                       "additionalProperties": false,
                       "properties": {
+                        "credit": {
+                          "type": "string"
+                        },
+                        "glass": {
+                          "type": "string"
+                        },
                         "id": {
+                          "type": "string"
+                        },
+                        "licence": {
                           "type": "string"
                         },
                         "lines": {
@@ -530,16 +550,17 @@
                                 ],
                                 "type": "object"
                               },
-                              "label": {
-                                "type": "string"
+                              "max": {
+                                "minimum": 0,
+                                "type": "number"
                               },
-                              "text": {
-                                "type": "string"
+                              "optional": {
+                                "type": "boolean"
                               }
                             },
                             "required": [
                               "ingredient",
-                              "label"
+                              "optional"
                             ],
                             "type": "object"
                           },
@@ -557,6 +578,51 @@
                         "steps": {
                           "type": "string"
                         },
+                        "strength": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "abv": {
+                              "minimum": 0,
+                              "type": "number"
+                            },
+                            "drinks": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "measure": {
+                                  "enum": [
+                                    "standard drinks",
+                                    "units",
+                                    "grams"
+                                  ],
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "minimum": 0,
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "measure",
+                                "value",
+                                "source"
+                              ],
+                              "type": "object"
+                            },
+                            "volumeMl": {
+                              "exclusiveMinimum": 0,
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "abv",
+                            "volumeMl",
+                            "drinks"
+                          ],
+                          "type": "object"
+                        },
                         "zeroProof": {
                           "type": "boolean"
                         }
@@ -566,6 +632,10 @@
                         "name",
                         "method",
                         "zeroProof",
+                        "source",
+                        "credit",
+                        "licence",
+                        "strength",
                         "lines"
                       ],
                       "type": "object"
@@ -574,7 +644,16 @@
                       "items": {
                         "additionalProperties": false,
                         "properties": {
+                          "credit": {
+                            "type": "string"
+                          },
+                          "glass": {
+                            "type": "string"
+                          },
                           "id": {
+                            "type": "string"
+                          },
+                          "licence": {
                             "type": "string"
                           },
                           "lines": {
@@ -622,16 +701,17 @@
                                   ],
                                   "type": "object"
                                 },
-                                "label": {
-                                  "type": "string"
+                                "max": {
+                                  "minimum": 0,
+                                  "type": "number"
                                 },
-                                "text": {
-                                  "type": "string"
+                                "optional": {
+                                  "type": "boolean"
                                 }
                               },
                               "required": [
                                 "ingredient",
-                                "label"
+                                "optional"
                               ],
                               "type": "object"
                             },
@@ -649,6 +729,51 @@
                           "steps": {
                             "type": "string"
                           },
+                          "strength": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "abv": {
+                                "minimum": 0,
+                                "type": "number"
+                              },
+                              "drinks": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "measure": {
+                                    "enum": [
+                                      "standard drinks",
+                                      "units",
+                                      "grams"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "source": {
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "minimum": 0,
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "measure",
+                                  "value",
+                                  "source"
+                                ],
+                                "type": "object"
+                              },
+                              "volumeMl": {
+                                "exclusiveMinimum": 0,
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "abv",
+                              "volumeMl",
+                              "drinks"
+                            ],
+                            "type": "object"
+                          },
                           "zeroProof": {
                             "type": "boolean"
                           }
@@ -658,17 +783,30 @@
                           "name",
                           "method",
                           "zeroProof",
+                          "source",
+                          "credit",
+                          "licence",
+                          "strength",
                           "lines"
                         ],
                         "type": "object"
                       },
                       "type": "array"
                     },
-                    "ginBucks": {
+                    "zeroBand": {
                       "items": {
                         "additionalProperties": false,
                         "properties": {
+                          "credit": {
+                            "type": "string"
+                          },
+                          "glass": {
+                            "type": "string"
+                          },
                           "id": {
+                            "type": "string"
+                          },
+                          "licence": {
                             "type": "string"
                           },
                           "lines": {
@@ -716,16 +854,17 @@
                                   ],
                                   "type": "object"
                                 },
-                                "label": {
-                                  "type": "string"
+                                "max": {
+                                  "minimum": 0,
+                                  "type": "number"
                                 },
-                                "text": {
-                                  "type": "string"
+                                "optional": {
+                                  "type": "boolean"
                                 }
                               },
                               "required": [
                                 "ingredient",
-                                "label"
+                                "optional"
                               ],
                               "type": "object"
                             },
@@ -743,6 +882,51 @@
                           "steps": {
                             "type": "string"
                           },
+                          "strength": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "abv": {
+                                "minimum": 0,
+                                "type": "number"
+                              },
+                              "drinks": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "measure": {
+                                    "enum": [
+                                      "standard drinks",
+                                      "units",
+                                      "grams"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "source": {
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "minimum": 0,
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "measure",
+                                  "value",
+                                  "source"
+                                ],
+                                "type": "object"
+                              },
+                              "volumeMl": {
+                                "exclusiveMinimum": 0,
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "abv",
+                              "volumeMl",
+                              "drinks"
+                            ],
+                            "type": "object"
+                          },
                           "zeroProof": {
                             "type": "boolean"
                           }
@@ -752,6 +936,10 @@
                           "name",
                           "method",
                           "zeroProof",
+                          "source",
+                          "credit",
+                          "licence",
+                          "strength",
                           "lines"
                         ],
                         "type": "object"
@@ -764,8 +952,327 @@
                     "basics",
                     "featured",
                     "daiquiri",
-                    "ginBucks",
+                    "zeroBand",
                     "buyNext"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "operationId": "listRecipes",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "maximum": 9007199254740991,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "default": 24,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "abv": {
+                            "minimum": 0,
+                            "type": "number"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "zeroProof": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "zeroProof",
+                          "abv"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "page": {
+                      "maximum": 9007199254740991,
+                      "minimum": -9007199254740991,
+                      "type": "integer"
+                    },
+                    "pageSize": {
+                      "maximum": 9007199254740991,
+                      "minimum": -9007199254740991,
+                      "type": "integer"
+                    },
+                    "total": {
+                      "maximum": 9007199254740991,
+                      "minimum": -9007199254740991,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "page",
+                    "pageSize",
+                    "total"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/recipes/{id}": {
+      "get": {
+        "operationId": "getRecipe",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "country",
+            "required": false,
+            "schema": {
+              "pattern": "^[A-Z]{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "maxLength": 120,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "credit": {
+                      "type": "string"
+                    },
+                    "glass": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "licence": {
+                      "type": "string"
+                    },
+                    "lines": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "amount": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "unit": {
+                                "enum": [
+                                  "ml",
+                                  "dash",
+                                  "barspoon",
+                                  "drop",
+                                  "piece",
+                                  "top"
+                                ],
+                                "type": "string"
+                              },
+                              "value": {
+                                "minimum": 0,
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "unit"
+                            ],
+                            "type": "object"
+                          },
+                          "ingredient": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "max": {
+                            "minimum": 0,
+                            "type": "number"
+                          },
+                          "optional": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "ingredient",
+                          "optional"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "method": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "steps": {
+                      "type": "string"
+                    },
+                    "strength": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "abv": {
+                          "minimum": 0,
+                          "type": "number"
+                        },
+                        "drinks": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "measure": {
+                              "enum": [
+                                "standard drinks",
+                                "units",
+                                "grams"
+                              ],
+                              "type": "string"
+                            },
+                            "source": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "minimum": 0,
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "measure",
+                            "value",
+                            "source"
+                          ],
+                          "type": "object"
+                        },
+                        "volumeMl": {
+                          "exclusiveMinimum": 0,
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "abv",
+                        "volumeMl",
+                        "drinks"
+                      ],
+                      "type": "object"
+                    },
+                    "zeroProof": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "method",
+                    "zeroProof",
+                    "source",
+                    "credit",
+                    "licence",
+                    "strength",
+                    "lines"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
                   ],
                   "type": "object"
                 }

@@ -22,9 +22,10 @@ services:
       retries: 20
 
   db-setup:
-    # One-shot: roles (as the image superuser, its only use) and migrations, then exit 0.
+    # One-shot: roles (as the image superuser, its only use), migrations and the house library
+    # (data/seed), then exit 0. Both steps are repeatable.
     build: { context: ., target: deps }
-    command: ["node", "packages/db/src/cli.ts", "setup"]
+    command: ["sh", "-c", "node packages/db/src/cli.ts setup && node packages/db/src/cli.ts seed"]
     environment:
       DATABASE_ADMIN_URL: postgres://${POSTGRES_USER:-stirred}:${POSTGRES_PASSWORD:-stirred_local_only}@postgres:5432/${POSTGRES_DB:-stirred}
       MIGRATION_DATABASE_URL: postgres://stirred_migrator:${MIGRATOR_DB_PASSWORD:-stirred_migrator_local_only}@postgres:5432/${POSTGRES_DB:-stirred}

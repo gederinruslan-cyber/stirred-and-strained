@@ -131,6 +131,9 @@ importers:
       '@stirred/schema':
         specifier: workspace:*
         version: link:../../packages/schema
+      '@stirred/units':
+        specifier: workspace:*
+        version: link:../../packages/units
       fastify:
         specifier: 'catalog:'
         version: 5.12.7

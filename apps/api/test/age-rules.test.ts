@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { Pool } from "@stirred/db";
 import { buildApp } from "../src/app.ts";
+import { house } from "./house.ts";
 
-const app = buildApp({ pool: {} as Pool, publicOrigin: "http://127.0.0.1:3300" });
+const app = buildApp({ pool: {} as Pool, publicOrigin: "http://127.0.0.1:3300", library: house });
 const rule = async (q: string) =>
   (await app.inject({ method: "GET", url: `/age-rules${q}` })).json();
 

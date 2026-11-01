@@ -8,3 +8,6 @@ export type { Db, Scoped, Tx, UserId } from "./scope.ts";
 export { assertSafeRole } from "./role-check.ts";
 export { loadTaxonomy } from "./taxonomy.ts";
 export type { TaxonomyEdge, TaxonomyNode } from "./taxonomy.ts";
+export { loadRecipes } from "./recipes.ts";
+export type { HouseRecipe } from "./recipes.ts";
+export { readSeed } from "./seed/import.ts";

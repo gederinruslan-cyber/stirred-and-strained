@@ -10,6 +10,8 @@ import type { Pool } from "@stirred/db";
 import { ErrorBody, HealthResponse } from "@stirred/schema";
 import { landingRoutes } from "./landing.ts";
 import { legalRoutes } from "./legal/routes.ts";
+import type { Library } from "./recipes/library.ts";
+import { recipeRoutes } from "./recipes/routes.ts";
 
 const MUTATING = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
@@ -17,9 +19,11 @@ export type AppOptions = {
   pool: Pool;
   /** The web origin; the only Origin a mutating request may carry. */
   publicOrigin: string;
+  /** The house library, loaded once at start. */
+  library: Library;
 };
 
-export function buildApp({ pool, publicOrigin }: AppOptions) {
+export function buildApp({ pool, publicOrigin, library }: AppOptions) {
   const app = Fastify({ logger: false }).withTypeProvider<ZodTypeProvider>();
   app.setValidatorCompiler(validatorCompiler);
   // Responses are checked against their schema; a mismatch is a 500, never an unchecked body.
@@ -73,7 +77,8 @@ export function buildApp({ pool, publicOrigin }: AppOptions) {
         }
       },
     );
-    landingRoutes(routes);
+    landingRoutes(routes, library);
+    recipeRoutes(routes, library);
     legalRoutes(routes);
   });
 

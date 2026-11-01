@@ -33,16 +33,16 @@ Reference mockup: `mockups/landing.dc.html`; photos in `mockups/photos/`. Anythi
    whiskey." · "How strong is it, really?" (copy in the mockup).
 4. **A few to get you going** — Caveat "start here", sub "Four favourites, written up properly.
    Pick your units and every amount follows.", an ml/cl/oz control, four recipe cards with photos:
-   Negroni, Old Fashioned, Margarita, Zero-proof Gin Buck (blurbs, ingredients, method, strength
-   line, credit). Cards come from the house library (featured flag); amounts follow the unit.
+   Negroni, Old Fashioned, Margarita, Temperance Grapefruit Collins (zero-proof; blurbs,
+   ingredients, method, strength line, credit). Cards come from the house library (featured flag); amounts follow the unit.
 5. **Which bottle should you buy next?** — copy left with "How we work it out →" and aside "(this
    is the bit other apps charge for)"; right a ruled table for the example bar "gin, bourbon,
    sweet vermouth, Angostura & the usual": Buy this · New recipes · Like. Rows from `buyNext`.
 6. **Every recipe, the way a bartender would jot it down** — Daiquiri card (unit control, rows,
-   "aged rum works too", strength strip, IBA credit) with four handwritten callouts: who made it ·
+   strength strip, IBA credit) with four handwritten callouts: who made it ·
    ml, cl or oz · how strong, after the ice · swaps that actually work.
 7. **Not drinking? Same great drinks.** — green band; **Try zero-proof** / **Show everything**
-   toggles the site mode; Gin Buck and Zero-proof Gin Buck cards side by side.
+   toggles the site mode; two sourced zero-proof cards side by side (Shirley Temple, Neruda).
 8. **Your recipes live right next to ours.** — search-results card (Daiquiri house, My Daiquiri #2
    "yours!", Hemingway Daiquiri one away) and copy; aside "private unless you say otherwise".
 9. **Straight talk** — dashed box: "It's free. All of it." (no paid plan, no ads) ·
@@ -55,11 +55,10 @@ Reference mockup: `mockups/landing.dc.html`; photos in `mockups/photos/`. Anythi
     Dark.
 
 ## Data
-- Demo, "buy next" table and featured cards read from the API; the web holds no matching logic.
-  Until the house library exists (M1), the API serves them from the engine's sample library
-  fixture; M1-07 switches them to the house library.
-- Strength values come from `packages/units` once M1-02 lands; until then the strength line shows
-  "[x.x]" placeholders.
+- Demo, "buy next" table and featured cards read from the API over the house library (M1-07);
+  the web holds no matching logic. The demo lists IBA classics first, then by name.
+- Strength values come from `packages/units` (ADR 0004) for the visitor's country: ABV and
+  standard drinks (UK units, or grams where no standard drink is defined).
 
 ## States
 - Demo empty: "Tick a bottle or two and we'll show you." Nothing makeable: "Nothing yet with just

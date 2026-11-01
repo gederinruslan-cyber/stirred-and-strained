@@ -1,5 +1,6 @@
 import { assertSafeRole, createPool } from "@stirred/db";
 import { buildApp } from "./app.ts";
+import { loadLibrary } from "./recipes/library.ts";
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) throw new Error("DATABASE_URL is not set (see .env.example)");
@@ -10,7 +11,7 @@ const publicOrigin = new URL(process.env.PUBLIC_ORIGIN ?? "http://127.0.0.1:3300
 
 const pool = createPool(databaseUrl);
 await assertSafeRole(pool);
-const app = buildApp({ pool, publicOrigin });
+const app = buildApp({ pool, publicOrigin, library: await loadLibrary(pool) });
 
 for (const signal of ["SIGINT", "SIGTERM"] as const) {
   process.once(signal, () => {

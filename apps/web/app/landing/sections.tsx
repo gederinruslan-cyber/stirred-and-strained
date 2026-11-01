@@ -12,7 +12,7 @@ import {
   ZeroProofTag,
 } from "@stirred/ui";
 import Link from "next/link";
-import { amountText, lineNote, strengthText } from "../../lib/amounts.ts";
+import { amountText, strengthText } from "../../lib/amounts.ts";
 import type { LandingState } from "../page.tsx";
 import { AutoSubmitForm } from "./auto-submit.tsx";
 import { PICKS, UNITS } from "./content.ts";
@@ -222,10 +222,13 @@ export function Picks({ recipes, state }: { recipes: RecipeDetail[]; state: Land
               id={`pick-${r.id}`}
               name={r.name}
               {...(pick ? { blurb: pick.blurb, photo: pick.photo, tilt: pick.tilt } : {})}
-              lines={r.lines.map((l) => ({ name: l.label, amount: amountText(l, state.unit) }))}
+              lines={r.lines.map((l) => ({
+                name: l.ingredient.name,
+                amount: amountText(l, state.unit),
+              }))}
               method={r.steps ?? r.method}
               strength={<strong>{strengthText(r)}</strong>}
-              credit={r.source ?? ""}
+              credit={r.credit}
               href="#card"
               zeroProof={r.zeroProof}
             />
@@ -291,28 +294,25 @@ export function JotItDown({ recipe, state }: { recipe: RecipeDetail; state: Land
               <h3 id="dq-h" className="jot__title">
                 {recipe.name}
               </h3>
-              <p className="hand">a sour · {recipe.method} · coupe</p>
+              <p className="hand">
+                a sour · {recipe.method}
+                {recipe.glass && ` · ${recipe.glass.toLowerCase()}`}
+              </p>
             </div>
             <UnitControl state={state} legend="Units" />
           </div>
           <ul className="lines">
             {recipe.lines.map((l) => (
               <li key={l.ingredient.id}>
-                <span>
-                  {l.label}
-                  {lineNote(l) && <span className="hand jot__note"> {lineNote(l)}</span>}
-                </span>
+                <span>{l.ingredient.name}</span>
                 <span className="amount">{amountText(l, state.unit)}</span>
               </li>
             ))}
           </ul>
           <p className="strength">
-            <strong>[x.x]% ABV</strong> once shaken · <strong>[x.x]</strong> standard drinks
-            ([locale])
+            <strong>{strengthText(recipe)}</strong>, once {recipe.method}
           </p>
-          <p className="credit">
-            An IBA official cocktail. Found on the IBA list, [revision]. Method written by us.
-          </p>
+          <p className="credit">{recipe.credit}</p>
         </article>
         <ul className="jot__callouts">
           {[
@@ -392,13 +392,13 @@ export function ZeroBand({
                 {r.name}
               </h3>
               <p className="muted">
-                highball · {r.method} · {r.zeroProof ? "0% ABV" : "[x.x]% ABV"}{" "}
+                {[r.glass?.toLowerCase(), r.method, strengthText(r)].filter(Boolean).join(" · ")}{" "}
                 {r.zeroProof && <ZeroProofTag />}
               </p>
               <ul className="lines">
                 {r.lines.map((l) => (
                   <li key={l.ingredient.id}>
-                    <span>{l.label}</span>
+                    <span>{l.ingredient.name}</span>
                     <span className="amount">{amountText(l, unit)}</span>
                   </li>
                 ))}

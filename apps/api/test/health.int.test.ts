@@ -1,6 +1,7 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { createPool } from "@stirred/db";
 import { buildApp } from "../src/app.ts";
+import { house } from "./house.ts";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL is required for integration tests");
@@ -14,7 +15,11 @@ describe("GET /health", () => {
   });
 
   it("answers 200 with db up when Postgres is reachable", async () => {
-    const res = await buildApp({ pool: up, publicOrigin: "http://127.0.0.1:3300" }).inject({
+    const res = await buildApp({
+      pool: up,
+      publicOrigin: "http://127.0.0.1:3300",
+      library: house,
+    }).inject({
       method: "GET",
       url: "/health",
     });
@@ -23,7 +28,11 @@ describe("GET /health", () => {
   });
 
   it("answers 503 with db down, and no connection details, when Postgres is unreachable", async () => {
-    const res = await buildApp({ pool: down, publicOrigin: "http://127.0.0.1:3300" }).inject({
+    const res = await buildApp({
+      pool: down,
+      publicOrigin: "http://127.0.0.1:3300",
+      library: house,
+    }).inject({
       method: "GET",
       url: "/health",
     });

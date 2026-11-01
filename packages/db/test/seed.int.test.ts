@@ -1,5 +1,5 @@
 import { afterAll, describe, expect, it } from "vitest";
-import { createPool } from "../src/index.ts";
+import { createDb, createPool, loadRecipes } from "../src/index.ts";
 import { importSeed, readSeed } from "../src/seed/import.ts";
 import { APP_URL, MIGRATION_URL } from "./env.ts";
 
@@ -72,5 +72,14 @@ describe("seed import", () => {
       /permission denied/,
     );
     await expect(app.query("delete from recipe_line")).rejects.toThrow(/permission denied/);
+  });
+
+  it("loads back exactly as imported, lines in order, ordered by name then id", async () => {
+    const loaded = await loadRecipes(createDb(app));
+    const byName = (a: { name: string; id: string }, b: { name: string; id: string }) =>
+      a.name < b.name ? -1 : a.name > b.name ? 1 : a.id < b.id ? -1 : 1;
+    expect(loaded.map(({ steps, ...r }) => (steps === null ? r : null))).toEqual(
+      [...seed.recipes].sort(byName),
+    );
   });
 });

@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { Pool } from "@stirred/db";
 import { buildApp } from "../src/app.ts";
+import { house } from "./house.ts";
 
-const app = buildApp({ pool: {} as Pool, publicOrigin: "http://127.0.0.1:3300" });
+const app = buildApp({ pool: {} as Pool, publicOrigin: "http://127.0.0.1:3300", library: house });
 const get = async (url: string) => {
   const res = await app.inject({ method: "GET", url });
   return { status: res.statusCode, body: res.json() };
@@ -10,39 +11,31 @@ const get = async (url: string) => {
 const names = (rs: { name: string }[]) => rs.map((r) => r.name);
 
 describe("GET /demo", () => {
-  it("runs the default demo bar on the engine", async () => {
+  it("runs the default shelf on the engine over the house library", async () => {
     const { status, body } = await get(
-      "/demo?bottle=london-dry-gin&bottle=sweet-vermouth&bottle=bitter-aperitivo&basics=true",
+      "/demo?bottle=gin&bottle=sweet-vermouth&bottle=campari&basics=true",
     );
     expect(status).toBe(200);
-    expect(names(body.makeNow)).toEqual(
-      expect.arrayContaining(["Negroni", "Americano", "Gimlet", "Tom Collins"]),
-    );
-    expect(body.oneAway).toContainEqual(
+    // IBA classics first, then by name.
+    expect(names(body.makeNow).slice(0, 3)).toEqual(["Americano", "John Collins", "Negroni"]);
+    expect(body.oneAway[0]).toEqual(
       expect.objectContaining({
         name: "Boulevardier",
-        missing: { id: "bourbon", name: "Bourbon" },
+        missing: { id: "bourbon-whiskey", name: "Bourbon Whiskey" },
       }),
     );
   });
 
-  it("names the swaps a recipe relies on", async () => {
-    const { body } = await get(
-      "/demo?bottle=rye&bottle=sweet-vermouth&bottle=bitter-aperitivo&basics=false",
-    );
-    expect(body.makeNow).toContainEqual(
-      expect.objectContaining({
-        name: "Boulevardier",
-        swaps: [{ for: "Bourbon", using: "Rye whiskey" }],
-      }),
-    );
+  it("makes a Daiquiri from light rum and the usual", async () => {
+    const { body } = await get("/demo?bottle=light-rum&basics=true");
+    expect(names(body.makeNow)).toContain("Daiquiri");
   });
 
   it("lists only zero-proof recipes in zero-proof mode", async () => {
     const { body } = await get(
-      "/demo?bottle=zero-proof-gin&bottle=london-dry-gin&basics=true&zero=true",
+      "/demo?bottle=ginger-beer&bottle=grenadine-syrup&bottle=gin&basics=true&zero=true",
     );
-    expect(names(body.makeNow)).toEqual(["Zero-proof Gin Sour"]);
+    expect(names(body.makeNow)).toContain("Shirley Temple");
     expect(body.makeNow.every((r: { zeroProof: boolean }) => r.zeroProof)).toBe(true);
   });
 
@@ -53,25 +46,23 @@ describe("GET /demo", () => {
 });
 
 describe("GET /landing", () => {
-  it("serves the chips, featured recipes and the buy-next example from the sample library", async () => {
-    const { status, body } = await get("/landing");
+  it("serves house recipes with provenance and strength for the visitor's country", async () => {
+    const { status, body } = await get("/landing?country=US");
     expect(status).toBe(200);
     expect(body.bottles).toHaveLength(12);
     expect(names(body.featured)).toEqual([
       "Negroni",
       "Old Fashioned",
       "Margarita",
-      "Zero-proof Gin Buck",
+      "Temperance Grapefruit Collins",
     ]);
-    expect(body.featured[0].lines[0]).toEqual({
-      ingredient: { id: "gin", name: "Gin" },
-      label: "London dry gin",
-      amount: { value: 30, unit: "ml" },
-    });
-    expect(body.featured[3].zeroProof).toBe(true);
+    expect(body.featured[3]).toMatchObject({ zeroProof: true, strength: { abv: 0 } });
+    expect(body.featured[0].credit).toBe("Spec via iba-world.com");
+    expect(body.featured[0].strength.drinks.measure).toBe("standard drinks");
     expect(body.daiquiri.name).toBe("Daiquiri");
-    expect(names(body.ginBucks)).toEqual(["Gin Buck", "Zero-proof Gin Buck"]);
-    expect(body.buyNext.rows.length).toBeLessThanOrEqual(4);
+    expect(names(body.zeroBand)).toEqual(["Shirley Temple", "Neruda"]);
+    expect(body.zeroBand.every((r: { zeroProof: boolean }) => r.zeroProof)).toBe(true);
+    expect(body.buyNext.rows.length).toBe(4);
     expect(body.buyNext.rows[0].count).toBeGreaterThanOrEqual(body.buyNext.rows.at(-1).count);
   });
 });

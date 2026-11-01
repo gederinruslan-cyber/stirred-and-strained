@@ -1,89 +1,98 @@
-// The landing page's data and demo: the engine over the sample library (M1-07 switches to the
-// house library). No user data; read-only.
-import { buyNext, createTaxonomy, makeNow, oneAway } from "@stirred/engine";
-import {
-  DemoQuery,
-  DemoResult,
-  ErrorBody,
-  LandingResponse,
-  type RecipeDetail,
-} from "@stirred/schema";
+// The landing page's data and demo: the engine over the house library. No user data; read-only.
+import { buyNext, makeNow, oneAway } from "@stirred/engine";
+import { DemoQuery, DemoResult, ErrorBody, LandingQuery, LandingResponse } from "@stirred/schema";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import {
-  ALWAYS,
-  BASICS,
-  DEMO_BOTTLES,
-  SAMPLE_NODES,
-  SAMPLE_RECIPES,
-  SAMPLE_SUBSTITUTIONS,
-  isZeroProof,
-  type SampleRecipe,
-} from "./sample/library.ts";
+import { detail, isZeroProof, nameOf, ref, type Library } from "./recipes/library.ts";
 
-const tax = createTaxonomy(SAMPLE_NODES, SAMPLE_SUBSTITUTIONS);
-const nameOf = (id: string) => tax.nodes.get(id)?.name ?? id;
-const ref = (id: string) => ({ id, name: nameOf(id) });
-const byId = new Map(SAMPLE_RECIPES.map((r) => [r.id, r]));
-const recipe = (id: string) => byId.get(id)!;
-
-function detail(r: SampleRecipe): RecipeDetail {
-  return {
-    id: r.id,
-    name: r.name,
-    method: r.method,
-    zeroProof: isZeroProof(r),
-    ...(r.steps ? { steps: r.steps } : {}),
-    ...(r.source ? { source: r.source } : {}),
-    lines: r.lines.map((l) => ({
-      ingredient: ref(l.ingredient),
-      label: l.label ?? nameOf(l.ingredient),
-      ...(l.amount ? { amount: l.amount } : {}),
-      ...(l.text ? { text: l.text } : {}),
-    })),
-  };
-}
-const summary = (r: SampleRecipe) => ({
-  id: r.id,
-  name: r.name,
-  method: r.method,
-  zeroProof: isZeroProof(r),
-});
-
+/** The demo's chips, in display order. */
+const DEMO_BOTTLES = [
+  "gin",
+  "bourbon-whiskey",
+  "rye-whiskey",
+  "light-rum",
+  "tequila-blanco",
+  "sweet-vermouth",
+  "dry-vermouth",
+  "campari",
+  "triple-sec",
+  "angostura-aromatic-bitters",
+  "ginger-beer",
+  "grenadine-syrup",
+];
+/** "Plus the usual": lemons, limes, sugar, syrup, soda water. Water is always assumed. */
+const BASICS = ["lemon-juice", "lime-juice", "sugar", "simple-syrup", "club-soda"];
+const ALWAYS = ["water"];
+const FEATURED = ["negroni", "old-fashioned", "margarita", "temperance-grapefruit-collins"];
+const ZERO_BAND = ["shirley-temple", "neruda"];
 /** The example bar in the "buy next" table: gin, bourbon, sweet vermouth, Angostura and the usual. */
-const EXAMPLE_BAR = ["london-dry-gin", "bourbon", "sweet-vermouth", "angostura"];
+const EXAMPLE_BAR = ["gin", "bourbon-whiskey", "sweet-vermouth", "angostura-aromatic-bitters"];
 
-const landing = {
-  bottles: DEMO_BOTTLES.map((id) => ({
-    ...ref(id),
-    zeroProof: SAMPLE_NODES.find((n) => n.id === id)?.abv === 0,
-  })),
-  basics: BASICS.map(ref),
-  featured: ["negroni", "old-fashioned", "margarita", "zero-proof-gin-buck"].map((id) =>
-    detail(recipe(id)),
-  ),
-  daiquiri: detail(recipe("daiquiri")),
-  ginBucks: ["gin-buck", "zero-proof-gin-buck"].map((id) => detail(recipe(id))),
-  buyNext: {
-    bar: EXAMPLE_BAR.map(nameOf),
-    rows: buyNext(tax, [...EXAMPLE_BAR, ...BASICS, ...ALWAYS], SAMPLE_RECIPES)
+export function landingRoutes(app: FastifyInstance, lib: Library) {
+  for (const id of [...DEMO_BOTTLES, ...BASICS, ...ALWAYS, ...EXAMPLE_BAR]) {
+    if (!lib.tax.nodes.has(id)) throw new Error(`the house library has no ingredient "${id}"`);
+  }
+  const recipe = (id: string) => {
+    const r = lib.byId.get(id);
+    if (!r) throw new Error(`the house library has no recipe "${id}"`);
+    return r;
+  };
+  const featured = FEATURED.map(recipe);
+  const daiquiri = recipe("daiquiri");
+  const zeroBand = ZERO_BAND.map(recipe);
+  const zeroRecipes = lib.recipes.filter((r) => isZeroProof(lib, r));
+
+  const bottles = DEMO_BOTTLES.map((id) => ({ ...ref(lib, id), zeroProof: lib.abv.get(id) === 0 }));
+  const basics = BASICS.map((id) => ref(lib, id));
+  const buyNextTable = {
+    bar: EXAMPLE_BAR.map((id) => nameOf(lib, id)),
+    rows: buyNext(lib.tax, [...EXAMPLE_BAR, ...BASICS, ...ALWAYS], lib.recipes)
       .slice(0, 4)
       .map((b) => ({
-        ingredient: ref(b.ingredient.id),
+        ingredient: ref(lib, b.ingredient.id),
         count: b.unlocks.length,
         recipes: b.unlocks.map((r) => r.name),
       })),
-  },
-};
+  };
 
-export function landingRoutes(app: FastifyInstance) {
   const r = app.withTypeProvider<ZodTypeProvider>();
 
   r.get(
     "/landing",
-    { schema: { operationId: "getLanding", response: { 200: LandingResponse } } },
-    async () => landing,
+    {
+      schema: {
+        operationId: "getLanding",
+        querystring: LandingQuery,
+        response: { 200: LandingResponse },
+      },
+    },
+    async (req) => {
+      const country = req.query.country;
+      return {
+        bottles,
+        basics,
+        featured: featured.map((rc) => detail(lib, rc, country)),
+        daiquiri: detail(lib, daiquiri, country),
+        zeroBand: zeroBand.map((rc) => detail(lib, rc, country)),
+        buyNext: buyNextTable,
+      };
+    },
   );
+
+  // The demo lists IBA classics first, then the engine's order (name, then id).
+  const iba = (rc: (typeof lib.recipes)[number]) => (rc.source.includes("iba-world.com") ? 0 : 1);
+  const classicsFirst = <T extends { recipe: (typeof lib.recipes)[number] }>(rows: T[]) =>
+    rows
+      .map((row, i) => ({ row, i }))
+      .sort((a, b) => iba(a.row.recipe) - iba(b.row.recipe) || a.i - b.i)
+      .map((x) => x.row);
+
+  const demoRecipe = (rc: (typeof lib.recipes)[number]) => ({
+    id: rc.id,
+    name: rc.name,
+    method: rc.method,
+    zeroProof: isZeroProof(lib, rc),
+  });
 
   r.get(
     "/demo",
@@ -95,20 +104,22 @@ export function landingRoutes(app: FastifyInstance) {
       },
     },
     async (req, reply) => {
-      const bottles = [req.query.bottle ?? []].flat();
-      if (bottles.some((b) => !DEMO_BOTTLES.includes(b)))
+      const chosen = [req.query.bottle ?? []].flat();
+      if (chosen.some((b) => !DEMO_BOTTLES.includes(b)))
         return reply.code(400).send({ error: "unknown_bottle" });
-      const bar = [...bottles, ...(req.query.basics === "false" ? [] : BASICS), ...ALWAYS];
-      const recipes =
-        req.query.zero === "true" ? SAMPLE_RECIPES.filter(isZeroProof) : SAMPLE_RECIPES;
+      const bar = [...chosen, ...(req.query.basics === "false" ? [] : BASICS), ...ALWAYS];
+      const recipes = req.query.zero === "true" ? zeroRecipes : lib.recipes;
       return {
-        makeNow: makeNow(tax, bar, recipes).map(({ recipe: rc, swaps }) => ({
-          ...summary(rc),
-          swaps: swaps.map((s) => ({ for: nameOf(s.line.ingredient), using: nameOf(s.using) })),
+        makeNow: classicsFirst(makeNow(lib.tax, bar, recipes)).map(({ recipe: rc, swaps }) => ({
+          ...demoRecipe(rc),
+          swaps: swaps.map((s) => ({
+            for: nameOf(lib, s.line.ingredient),
+            using: nameOf(lib, s.using),
+          })),
         })),
-        oneAway: oneAway(tax, bar, recipes).map(({ recipe: rc, missing }) => ({
-          ...summary(rc),
-          missing: ref(missing.ingredient),
+        oneAway: classicsFirst(oneAway(lib.tax, bar, recipes)).map(({ recipe: rc, missing }) => ({
+          ...demoRecipe(rc),
+          missing: ref(lib, missing.ingredient),
         })),
       };
     },
