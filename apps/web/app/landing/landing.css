@@ -143,6 +143,16 @@
   align-items: center;
   gap: 6px;
 }
+.demo__list a {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration-color: var(--dash);
+  text-underline-offset: 3px;
+}
+.demo__list a:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
 .demo__foot {
   margin: 16px 0 0;
   font-size: 15px;

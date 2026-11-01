@@ -132,7 +132,8 @@ export function Hero({
                 <ul className="demo__list">
                   {make.map((r) => (
                     <li key={r.id}>
-                      <strong>{r.name}</strong> <span className="muted">· {r.method}</span>
+                      <Link href={`/recipes/${r.id}`}>{r.name}</Link>{" "}
+                      <span className="muted">· {r.method}</span>
                     </li>
                   ))}
                 </ul>
@@ -146,7 +147,8 @@ export function Hero({
                 <ul className="demo__list">
                   {away.map((r) => (
                     <li key={r.id}>
-                      <strong>{r.name}</strong> <span className="muted">+ {r.missing.name}</span>
+                      <Link href={`/recipes/${r.id}`}>{r.name}</Link>{" "}
+                      <span className="muted">+ {r.missing.name}</span>
                     </li>
                   ))}
                 </ul>

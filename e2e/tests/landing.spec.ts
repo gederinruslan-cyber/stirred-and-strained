@@ -22,6 +22,13 @@ test("the demo runs on the engine and updates live as bottles are ticked", async
   await expect(makeList(page)).toContainText("Tick a bottle or two");
 });
 
+test("a demo result opens its recipe", async ({ page }) => {
+  await page.goto("/");
+  await awayList(page).getByRole("link", { name: "Boulevardier" }).click();
+  await expect(page).toHaveURL("/recipes/boulevardier");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Boulevardier");
+});
+
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
