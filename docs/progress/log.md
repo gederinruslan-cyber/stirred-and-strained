@@ -17,3 +17,4 @@
 - 2026-11-01 · M0-04 `api-contract-and-client` merged (dfcd304); local verify:quick.
 - 2026-11-01 · M0-04 report: merged dfcd304; verify:quick green; verify:full green on branch; review APPROVE + note fixed (origin normalised); tests 47 lines vs ~170 production; open: none.
 - 2026-11-01 · M0-06 `design-tokens-and-app-shell` merged (f5bc25d); local verify:quick.
+- 2026-11-01 · M0-06 report: merged f5bc25d; verify:full green (6 e2e incl. axe light/dark × desktop/360); review not needed; tests ~150 lines vs ~900 production (CSS + components); design pass = approved Bar Napkin, no new pattern; axe caught footer tagline contrast, fixed; open: none.
