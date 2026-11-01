@@ -25,3 +25,4 @@
 - 2026-11-01 · M0 demo accepted by the human; NH-3 closed.
 - 2026-11-01 · Decisions: NH-1 both sources credited (M1-05); bar before sign-up via cookie (M2-03); promise "Good drinks from what you've got"; zero-proof only from sources (M1-06/07); age-gate No → zero-proof session (M1-11); free, no paid plan; name decided before M3 (NH-2); IBA classics pinned by import test.
 - 2026-11-01 · M0-08 `pricing-copy` merged (5b108a3); local verify:quick.
+- 2026-11-01 · M1-03 `taxonomy-schema` merged (9a72887); local verify:quick.
