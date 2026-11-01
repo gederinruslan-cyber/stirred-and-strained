@@ -8,6 +8,7 @@ import {
 } from "fastify-type-provider-zod";
 import type { Pool } from "@stirred/db";
 import { ErrorBody, HealthResponse } from "@stirred/schema";
+import { landingRoutes } from "./landing.ts";
 
 const MUTATING = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
@@ -71,6 +72,7 @@ export function buildApp({ pool, publicOrigin }: AppOptions) {
         }
       },
     );
+    landingRoutes(routes);
   });
 
   return app;

@@ -5,8 +5,24 @@ import type { IngredientNode, Substitution } from "@stirred/engine";
 
 type Amount = { value: number; unit: "ml" | "dash" | "barspoon" | "piece" | "top" };
 export type SampleNode = IngredientNode & { abv: number };
-export type SampleLine = { ingredient: string; amount?: Amount; text?: string; optional?: boolean };
-export type SampleRecipe = { id: string; name: string; method: string; lines: SampleLine[] };
+export type SampleLine = {
+  ingredient: string;
+  /** Display name when it differs from the ingredient's ("Bourbon or rye"). */
+  label?: string;
+  amount?: Amount;
+  /** A note or a non-measured amount ("aged rum works too", "a splash"). */
+  text?: string;
+  optional?: boolean;
+};
+export type SampleRecipe = {
+  id: string;
+  name: string;
+  method: string;
+  lines: SampleLine[];
+  /** How to make it, in our own words. */
+  steps?: string;
+  source?: string;
+};
 
 const node = (
   id: string,
@@ -84,140 +100,60 @@ const l = (
 ): SampleLine => (amount ? { ingredient, amount, ...extra } : { ingredient, ...extra });
 const TOP: Amount = { value: 1, unit: "top" };
 
+const IBA = "IBA official cocktail";
+const dashes = (value: number): Amount => ({ value, unit: "dash" });
+
+// prettier-ignore
 export const SAMPLE_RECIPES: SampleRecipe[] = [
-  {
-    id: "negroni",
-    name: "Negroni",
-    method: "stirred",
-    lines: [l("gin", ml(30)), l("bitter-aperitivo", ml(30)), l("sweet-vermouth", ml(30))],
-  },
-  {
-    id: "americano",
-    name: "Americano",
-    method: "built",
-    lines: [l("bitter-aperitivo", ml(30)), l("sweet-vermouth", ml(30)), l("soda-water", TOP)],
-  },
-  {
-    id: "boulevardier",
-    name: "Boulevardier",
-    method: "stirred",
-    lines: [l("bourbon", ml(45)), l("bitter-aperitivo", ml(30)), l("sweet-vermouth", ml(30))],
-  },
-  {
-    id: "old-fashioned",
-    name: "Old Fashioned",
-    method: "stirred",
-    lines: [
-      l("american-whiskey", ml(45)),
-      l("sugar", { value: 1, unit: "piece" }),
-      l("angostura", { value: 2, unit: "dash" }),
-      l("water", undefined, { text: "a splash" }),
-    ],
-  },
-  {
-    id: "manhattan",
-    name: "Manhattan",
-    method: "stirred",
-    lines: [
-      l("rye", ml(50)),
-      l("sweet-vermouth", ml(20)),
-      l("angostura", { value: 1, unit: "dash" }),
-    ],
-  },
-  {
-    id: "dry-martini",
-    name: "Dry Martini",
-    method: "stirred",
-    lines: [l("gin", ml(60)), l("dry-vermouth", ml(10))],
-  },
-  {
-    id: "margarita",
-    name: "Margarita",
-    method: "shaken",
-    lines: [l("blanco-tequila", ml(50)), l("orange-liqueur", ml(20)), l("lime-juice", ml(15))],
-  },
-  {
-    id: "tommys-margarita",
-    name: "Tommy's Margarita",
-    method: "shaken",
-    lines: [l("blanco-tequila", ml(60)), l("lime-juice", ml(30)), l("agave-syrup", ml(15))],
-  },
-  {
-    id: "paloma",
-    name: "Paloma",
-    method: "built",
-    lines: [l("blanco-tequila", ml(50)), l("lime-juice", ml(5)), l("grapefruit-soda", TOP)],
-  },
-  {
-    id: "daiquiri",
-    name: "Daiquiri",
-    method: "shaken",
-    lines: [l("white-rum", ml(60)), l("lime-juice", ml(20)), l("sugar", ml(15))],
-  },
-  {
-    id: "hemingway-daiquiri",
-    name: "Hemingway Daiquiri",
-    method: "shaken",
-    lines: [
-      l("white-rum", ml(60)),
-      l("maraschino", ml(15)),
-      l("grapefruit-juice", ml(40)),
-      l("lime-juice", ml(15)),
-    ],
-  },
-  {
-    id: "mojito",
-    name: "Mojito",
-    method: "built",
-    lines: [
-      l("white-rum", ml(45)),
-      l("lime-juice", ml(20)),
-      l("sugar", ml(15)),
-      l("mint", { value: 6, unit: "piece" }),
-      l("soda-water", TOP),
-    ],
-  },
-  {
-    id: "gimlet",
-    name: "Gimlet",
-    method: "shaken",
-    lines: [l("gin", ml(60)), l("lime-juice", ml(15)), l("sugar", ml(15))],
-  },
-  {
-    id: "tom-collins",
-    name: "Tom Collins",
-    method: "built",
-    lines: [l("gin", ml(45)), l("lemon-juice", ml(30)), l("sugar", ml(15)), l("soda-water", TOP)],
-  },
-  {
-    id: "whiskey-sour",
-    name: "Whiskey Sour",
-    method: "shaken",
-    lines: [l("bourbon", ml(45)), l("lemon-juice", ml(25)), l("sugar", ml(20))],
-  },
-  {
-    id: "gin-buck",
-    name: "Gin Buck",
-    method: "built",
-    lines: [l("gin", ml(45)), l("lime-juice", ml(10)), l("ginger-beer", TOP)],
-  },
-  {
-    id: "moscow-mule",
-    name: "Moscow Mule",
-    method: "built",
-    lines: [l("vodka", ml(45)), l("lime-juice", ml(10)), l("ginger-beer", TOP)],
-  },
+  { id: "negroni", name: "Negroni", method: "stirred", source: IBA,
+    steps: "Stir over ice, strain onto one big cube, add a slice of orange.",
+    lines: [l("gin", ml(30), { label: "London dry gin" }), l("bitter-aperitivo", ml(30)), l("sweet-vermouth", ml(30))] },
+  { id: "americano", name: "Americano", method: "built", source: IBA,
+    lines: [l("bitter-aperitivo", ml(30)), l("sweet-vermouth", ml(30)), l("soda-water", TOP)] },
+  { id: "boulevardier", name: "Boulevardier", method: "stirred", source: IBA,
+    lines: [l("bourbon", ml(45)), l("bitter-aperitivo", ml(30)), l("sweet-vermouth", ml(30))] },
+  { id: "old-fashioned", name: "Old Fashioned", method: "stirred", source: IBA,
+    steps: "Soak the sugar with the bitters and a splash of water, add whiskey and ice, stir, finish with orange peel.",
+    lines: [l("american-whiskey", ml(45), { label: "Bourbon or rye" }), l("sugar", { value: 1, unit: "piece" }, { label: "Sugar cube" }),
+      l("angostura", dashes(2)), l("water", undefined, { text: "a splash" })] },
+  { id: "manhattan", name: "Manhattan", method: "stirred", source: IBA,
+    lines: [l("rye", ml(50)), l("sweet-vermouth", ml(20)), l("angostura", dashes(1))] },
+  { id: "dry-martini", name: "Dry Martini", method: "stirred", source: IBA,
+    lines: [l("gin", ml(60)), l("dry-vermouth", ml(10))] },
+  { id: "margarita", name: "Margarita", method: "shaken", source: IBA,
+    steps: "Shake hard with ice and strain into a glass with a salted rim.",
+    lines: [l("blanco-tequila", ml(50)), l("orange-liqueur", ml(20)), l("lime-juice", ml(15), { label: "Fresh lime juice" })] },
+  { id: "tommys-margarita", name: "Tommy's Margarita", method: "shaken", source: IBA,
+    lines: [l("blanco-tequila", ml(60)), l("lime-juice", ml(30)), l("agave-syrup", ml(15))] },
+  { id: "paloma", name: "Paloma", method: "built", source: IBA,
+    lines: [l("blanco-tequila", ml(50)), l("lime-juice", ml(5)), l("grapefruit-soda", TOP)] },
+  { id: "daiquiri", name: "Daiquiri", method: "shaken", source: IBA,
+    steps: "Shake hard with ice and fine-strain into a chilled coupe.",
+    lines: [l("white-rum", ml(60), { text: "aged rum works too" }), l("lime-juice", ml(20), { label: "Fresh lime juice" }),
+      l("sugar", ml(15), { label: "Sugar syrup (1:1)" })] },
+  { id: "hemingway-daiquiri", name: "Hemingway Daiquiri", method: "shaken", source: IBA,
+    lines: [l("white-rum", ml(60)), l("maraschino", ml(15)), l("grapefruit-juice", ml(40)), l("lime-juice", ml(15))] },
+  { id: "mojito", name: "Mojito", method: "built", source: IBA,
+    lines: [l("white-rum", ml(45)), l("lime-juice", ml(20)), l("sugar", ml(15)), l("mint", { value: 6, unit: "piece" }, { label: "Mint leaves" }), l("soda-water", TOP)] },
+  { id: "gimlet", name: "Gimlet", method: "shaken", source: IBA,
+    lines: [l("gin", ml(60)), l("lime-juice", ml(15)), l("sugar", ml(15))] },
+  { id: "tom-collins", name: "Tom Collins", method: "built", source: IBA,
+    lines: [l("gin", ml(45)), l("lemon-juice", ml(30)), l("sugar", ml(15)), l("soda-water", TOP)] },
+  { id: "whiskey-sour", name: "Whiskey Sour", method: "shaken", source: IBA,
+    lines: [l("bourbon", ml(45)), l("lemon-juice", ml(25)), l("sugar", ml(20))] },
+  { id: "gin-buck", name: "Gin Buck", method: "built", source: "Classic",
+    lines: [l("gin", ml(45), { label: "London dry gin" }), l("lemon-juice", ml(15)), l("ginger-beer", TOP)] },
+  { id: "moscow-mule", name: "Moscow Mule", method: "built", source: IBA,
+    lines: [l("vodka", ml(45)), l("lime-juice", ml(10)), l("ginger-beer", TOP)] },
   // House recipes still to be written: amounts stay out until they are.
-  {
-    id: "zero-proof-gin-buck",
-    name: "Zero-proof Gin Buck",
-    method: "built",
-    lines: [l("zero-proof-gin"), l("lime-juice"), l("ginger-beer", TOP)],
-  },
-  {
-    id: "zero-proof-gin-sour",
-    name: "Zero-proof Gin Sour",
-    method: "shaken",
-    lines: [l("zero-proof-gin"), l("lemon-juice"), l("sugar")],
-  },
+  { id: "zero-proof-gin-buck", name: "Zero-proof Gin Buck", method: "built", source: "House recipe · [credit]",
+    steps: "Build over ice in a tall glass, top with ginger beer, give it one gentle stir.",
+    lines: [l("zero-proof-gin"), l("lemon-juice", undefined, { label: "Fresh lemon juice" }), l("ginger-beer", TOP)] },
+  { id: "zero-proof-gin-sour", name: "Zero-proof Gin Sour", method: "shaken", source: "House recipe · [credit]",
+    lines: [l("zero-proof-gin"), l("lemon-juice"), l("sugar")] },
 ];
+
+const ABV = new Map(SAMPLE_NODES.map((n) => [n.id, n.abv]));
+/** Zero-proof when every line's ingredient is 0% ABV (derived, never typed in). */
+export const isZeroProof = (recipe: SampleRecipe) =>
+  recipe.lines.every((line) => ABV.get(line.ingredient) === 0);

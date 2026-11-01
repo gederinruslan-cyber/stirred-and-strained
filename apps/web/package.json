@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@stirred/api-client": "workspace:*",
+    "@stirred/schema": "workspace:*",
     "@stirred/ui": "workspace:*",
+    "@stirred/units": "workspace:*",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

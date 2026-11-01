@@ -8,6 +8,184 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/demo": {
+      "get": {
+        "operationId": "getDemo",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "bottle",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "basics",
+            "required": false,
+            "schema": {
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zero",
+            "required": false,
+            "schema": {
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "makeNow": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "swaps": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "for": {
+                                  "type": "string"
+                                },
+                                "using": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "for",
+                                "using"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "zeroProof": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "zeroProof",
+                          "swaps"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "oneAway": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "missing": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "zeroProof": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "zeroProof",
+                          "missing"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "makeNow",
+                    "oneAway"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "operationId": "getHealth",
@@ -86,6 +264,412 @@
                   "required": [
                     "status",
                     "db"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/landing": {
+      "get": {
+        "operationId": "getLanding",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "basics": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "bottles": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "zeroProof": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "zeroProof"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "buyNext": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "bar": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "rows": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "count": {
+                                "maximum": 9007199254740991,
+                                "minimum": -9007199254740991,
+                                "type": "integer"
+                              },
+                              "ingredient": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name"
+                                ],
+                                "type": "object"
+                              },
+                              "recipes": {
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "ingredient",
+                              "count",
+                              "recipes"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "bar",
+                        "rows"
+                      ],
+                      "type": "object"
+                    },
+                    "daiquiri": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "lines": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "amount": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "unit": {
+                                    "enum": [
+                                      "ml",
+                                      "dash",
+                                      "barspoon",
+                                      "drop",
+                                      "piece",
+                                      "top"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "minimum": 0,
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "value",
+                                  "unit"
+                                ],
+                                "type": "object"
+                              },
+                              "ingredient": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name"
+                                ],
+                                "type": "object"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ingredient",
+                              "label"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "method": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "steps": {
+                          "type": "string"
+                        },
+                        "zeroProof": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "method",
+                        "zeroProof",
+                        "lines"
+                      ],
+                      "type": "object"
+                    },
+                    "featured": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "lines": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "amount": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "unit": {
+                                      "enum": [
+                                        "ml",
+                                        "dash",
+                                        "barspoon",
+                                        "drop",
+                                        "piece",
+                                        "top"
+                                      ],
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "minimum": 0,
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "value",
+                                    "unit"
+                                  ],
+                                  "type": "object"
+                                },
+                                "ingredient": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name"
+                                  ],
+                                  "type": "object"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "text": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "ingredient",
+                                "label"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string"
+                          },
+                          "steps": {
+                            "type": "string"
+                          },
+                          "zeroProof": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "zeroProof",
+                          "lines"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "ginBucks": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "lines": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "amount": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "unit": {
+                                      "enum": [
+                                        "ml",
+                                        "dash",
+                                        "barspoon",
+                                        "drop",
+                                        "piece",
+                                        "top"
+                                      ],
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "minimum": 0,
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "value",
+                                    "unit"
+                                  ],
+                                  "type": "object"
+                                },
+                                "ingredient": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name"
+                                  ],
+                                  "type": "object"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "text": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "ingredient",
+                                "label"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string"
+                          },
+                          "steps": {
+                            "type": "string"
+                          },
+                          "zeroProof": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "zeroProof",
+                          "lines"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "bottles",
+                    "basics",
+                    "featured",
+                    "daiquiri",
+                    "ginBucks",
+                    "buyNext"
                   ],
                   "type": "object"
                 }

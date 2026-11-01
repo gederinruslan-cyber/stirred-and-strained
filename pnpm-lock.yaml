@@ -159,9 +159,15 @@ importers:
       '@stirred/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
+      '@stirred/schema':
+        specifier: workspace:*
+        version: link:../../packages/schema
       '@stirred/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@stirred/units':
+        specifier: workspace:*
+        version: link:../../packages/units
       next:
         specifier: 'catalog:'
         version: 16.4.3(@babel/core@7.29.7)(@playwright/test@1.64.1)(@types/node@24.19.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
