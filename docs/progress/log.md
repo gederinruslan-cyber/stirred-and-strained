@@ -11,3 +11,4 @@
 - 2026-11-01 · M0-05 `units-package` merged (46c2856); local verify:quick.
 - 2026-11-01 · M0-05 report: merged 46c2856; verify:quick green; review APPROVE; tests 118 lines vs 92 production (over the ceiling by 26: property tests the engine-and-units rule requires); open: none.
 - 2026-11-01 · M0-07 `engine-matching` merged (c1346e3); local verify:quick.
+- 2026-11-01 · M0-07 report: merged c1346e3; verify:quick green; review APPROVE (note: top-ups need an ml figure before strength uses the sample library — M1-02); tests 165 lines vs ~240 production (engine 135 + sample data 105); open: none.
