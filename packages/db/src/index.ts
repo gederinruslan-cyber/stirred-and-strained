@@ -6,3 +6,5 @@ export { MIGRATIONS_DIR, appliedMigrations, migrate, rollback } from "./migrate.
 export { createDb, withUser } from "./scope.ts";
 export type { Db, Scoped, Tx, UserId } from "./scope.ts";
 export { assertSafeRole } from "./role-check.ts";
+export { loadTaxonomy } from "./taxonomy.ts";
+export type { TaxonomyEdge, TaxonomyNode } from "./taxonomy.ts";

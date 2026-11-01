@@ -15,7 +15,8 @@
     "@types/node": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "@types/pg": "catalog:"
+    "@types/pg": "catalog:",
+    "@stirred/engine": "workspace:*"
   },
   "dependencies": {
     "drizzle-orm": "catalog:",
