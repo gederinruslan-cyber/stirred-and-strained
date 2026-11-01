@@ -3,7 +3,7 @@
 Desktop-first web app for home bartenders: a curated, attributed cocktail library on top of an
 inventory-aware engine ("what can I make", "one bottle away", "what to buy next"), with
 substitutions a bartender would accept, first-class custom recipes and zero-proof parity.
-Promise: **"Every spec tested, every bottle counted."** ("Stirred & Strained" is a working name.)
+Promise: **"Good drinks from what you've got."** Every house recipe is credited; we never claim a spec is tested. ("Stirred & Strained" is a working name.)
 
 Read `docs/features.md` for what to build next. Product background and evidence:
 `docs/research/Cocktail app feature landscape.md`. Stack and module map: `docs/architecture.md`.

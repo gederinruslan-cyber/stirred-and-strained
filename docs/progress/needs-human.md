@@ -13,15 +13,8 @@ Template:
 - **Why a human:** money | deploy/public | legal/licensing | privacy | naming | repeated failure | demo
 ```
 
-## NH-1 · Seed data licences · open
-- **Feature:** M1-05, M1-06
-- **Question:** Confirm the licences of the planned seed sources (IBA official list, Bar
-  Assistant open data) allow taking ingredients and quantities with attribution.
-- **Options:** A: use both with attribution, write all text ourselves (recommended) / B: IBA
-  only.
-- **Why a human:** legal/licensing
-
 ## NH-2 · Working name · open
 - **Feature:** M3-02
 - **Question:** Keep "Stirred & Strained" as the public name (domain, trademark check)?
+- **Decided so far:** working name until M3; the check runs in M3-02 and the human decides then.
 - **Why a human:** naming

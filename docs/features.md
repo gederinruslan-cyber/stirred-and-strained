@@ -43,13 +43,13 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 | M1-01 | strength-model-adr | todo | M0-05 | 🧪 ⚖️ | ADR with the dilution model per method and standard-drink grams per country, each from cited primary sources; worked examples for a stirred, a shaken, a built and a zero-proof drink |
 | M1-02 | strength-in-units | todo | M1-01 | 🧪 | `finishedAbv` and `standardDrinks` implement the ADR; property tests (0% ABV, counted units, scaling invariance); the ADR's worked examples pass as tests |
 | M1-03 | taxonomy-schema | todo | M0-03 | 🧪 | Tables for ingredient nodes (category > type > brand, ABV) and substitution edges, in the shape the engine reads (M0-07 fixtures) |
-| M1-05 | seed-sources-and-licences | todo | — | ⚖️ | `data/SOURCES.md` lists each source (IBA list, Bar Assistant data, others) with licence, what we take (facts only) and attribution text; needs-human sign-off before M1-06 ships |
-| M1-06 | seed-import | todo | M1-03, M1-05 | 🧪 ⚖️ | Script imports sources into the schema; fails on a recipe without provenance, an unresolved ingredient or a quantity without a canonical unit; recipe text is ours; re-run is idempotent |
-| M1-07 | recipes-api | todo | M0-04, M1-06, M1-02 | | List and get house recipes with lines, provenance, computed ABV and standard drinks; pagination; unknown id 404; the landing demo, buy-next table and featured cards switch from the sample library to the house library |
+| M1-05 | seed-sources-and-licences | todo | — | ⚖️ | `data/SOURCES.md` lists each source (IBA list, Bar Assistant data, others) with licence, what we take (facts only) and attribution text. Decided 2026-11-01: use IBA and Bar Assistant, facts with credit, all text ours; SOURCES.md still gets a final look before M1-06 ships |
+| M1-06 | seed-import | todo | M1-03, M1-05 | 🧪 ⚖️ | Script imports sources into the schema; fails on a recipe without provenance, an unresolved ingredient or a quantity without a canonical unit; recipe text is ours; re-run is idempotent; zero-proof recipes come only from credited sources (no house recipes for now); a test pins the landing classics (Negroni, Old Fashioned, Margarita, Daiquiri) to the IBA source |
+| M1-07 | recipes-api | todo | M0-04, M1-06, M1-02 | | List and get house recipes with lines, provenance, computed ABV and standard drinks; pagination; unknown id 404; the landing demo, buy-next table and featured cards switch from the sample library to the house library; the featured zero-proof card and the zero-proof band use sourced zero-proof recipes, and the two house placeholders (Zero-proof Gin Buck, Gin Sour) are removed |
 | M1-08 | recipe-page | todo | M0-06, M1-07 | | Server-rendered recipe page with schema.org/Recipe, stable slug URL, ml/cl/oz toggle (remembered), finished ABV and standard drinks, attribution, variation link |
 | M1-09 | search-and-facets | todo | M1-07, M1-08 | | Search by name; include/exclude ingredients (hierarchy-aware); facets: base spirit, ABV range, method, glass, family, flavour tags; results beside filters on desktop; keyboard shortcuts |
 | M1-10 | zero-proof-mode | todo | M1-09 | 🧪 | A site-wide zero-proof mode that shows NA recipes and NA swaps through the same engine; NA recipes look first-class; strength shows 0% and no standard drinks |
-| M1-11 | age-gate-and-responsible-footer | todo | M0-06 | ⚖️ | Locale-aware age gate (legal drinking age table with sources), responsible-drinking footer with local help links; needs-human sign-off on copy and table |
+| M1-11 | age-gate-and-responsible-footer | todo | M0-06 | ⚖️ | Locale-aware age gate (legal drinking age table with sources), responsible-drinking footer with local help links; answering "No" gives a zero-proof-only session (no alcoholic recipes or ingredients), not a dead end; needs-human sign-off on copy, table and that behaviour (legal check) |
 
 ## M2 · My Bar
 
@@ -57,7 +57,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 |---|---|---|---|---|---|
 | M2-01 | auth-core | todo | M0-03, M0-04 | 🔒 | ADR on the auth library; email + password sign-up, sign-in, sign-out, reset; sessions in Postgres with an http-only cookie; rate limits; no secrets in logs |
 | M2-02 | auth-screens | todo | M2-01, M0-06 | 🔒 | Sign up, sign in, reset screens that work without JavaScript; errors never reveal whether an email exists |
-| M2-03 | my-bar | todo | M2-01, M1-03 | 🔒 | Bar items API (add, remove, list) scoped per user; hierarchy-aware typeahead (category, type or brand); bulk add by category; isolation test |
+| M2-03 | my-bar | todo | M2-01, M1-03 | 🔒 | Bar items API (add, remove, list) scoped per user; hierarchy-aware typeahead (category, type or brand); bulk add by category; isolation test; works before sign-up: the shelf (ingredient ids only, no personal data) lives in a short-lived cookie and moves to the account at sign-up |
 | M2-04 | what-can-i-make | todo | M2-03, M0-07, M1-09 | 🧪 | Make now, one away (with the missing bottle named) and buy next ranked by drinks unlocked, from the engine; shown beside My Bar on desktop |
 | M2-05 | substitutions | todo | M2-04 | 🧪 🔒 | Global substitution preferences per user (accept or refuse an edge); recipe lines marked `exact` are shown as such; results update immediately |
 | M2-06 | custom-recipes | todo | M2-03, M1-08 | 🧪 🔒 | Create, edit, soft delete with undo, change history; lines resolve in the taxonomy; searchable and matched like house recipes; private by default; isolation test |
@@ -69,7 +69,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 | ID | Feature | Status | Depends | Marks | Acceptance |
 |---|---|---|---|---|---|
 | M3-01 | accessibility-audit | todo | M2-08 | | WCAG 2.2 AA audit of every screen with axe in e2e plus a manual keyboard and screen-reader pass; findings fixed |
-| M3-02 | legal-and-privacy-pages | todo | M1-11 | ⚖️ | Terms, privacy, cookies, attribution page; needs-human review |
+| M3-02 | legal-and-privacy-pages | todo | M1-11 | ⚖️ | Terms, privacy, cookies, attribution page; domain and trademark check for the public name (NH-2); needs-human review |
 | M3-03 | observability-and-backups | todo | M0-02 | | Structured logs with the allow-list, error reporting without personal data, health dashboard, nightly Postgres backup with a restore test |
 | M3-04 | deploy | todo | M3-02, M3-03 | ⚖️ | Hosting ADR (needs-human: costs money); staging and production; migrations on deploy; smoke test after deploy |
 | M3-05 | onboarding | todo | M2-04 | | First visit to first "make now" in under 2 minutes: pick bottles by category, see results; measured in e2e |
