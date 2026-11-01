@@ -25,3 +25,10 @@ Template:
 - **Feature:** M3-02
 - **Question:** Keep "Stirred & Strained" as the public name (domain, trademark check)?
 - **Why a human:** naming
+
+## NH-3 · Milestone M0 demo · blocking
+- **Feature:** M0
+- **Question:** Walk the M0 demo checklist in `docs/progress/milestone-M0.md` and accept the
+  milestone (or list what to change before M1 starts).
+- **Options:** A: accept, start M1 (recommended) / B: changes first.
+- **Why a human:** demo

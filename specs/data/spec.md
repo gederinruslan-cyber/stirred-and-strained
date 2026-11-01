@@ -2,7 +2,8 @@
 
 ## Requirement: The api runs with least privilege
 - **Scenario: runtime role.** The api's database role is not a superuser, cannot bypass
-  row-level security, owns nothing and cannot create tables.
+  row-level security, owns nothing and cannot create tables,
+  temporary ones included.
 - **Scenario: unsafe role refused.** Given the api is configured with a superuser, a BYPASSRLS
   role or a role that acts as the table owner, then it refuses to start and says why, without
   printing the connection details.

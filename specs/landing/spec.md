@@ -20,7 +20,7 @@
 
 ## Requirement: Featured recipes and units
 - **Scenario: units.** The ml/cl/oz control changes every amount on the featured cards and the
-  Daiquiri card: Negroni gin 30 ml → 1 oz, Daiquiri rum 60 ml → 2 oz; it works without JavaScript.
+  Daiquiri card and the zero-proof band: Negroni gin 30 ml → 1 oz, Daiquiri rum 60 ml → 2 oz; it works without JavaScript.
 - **Scenario: strength line.** Zero-proof recipes read "0% ABV · nothing to count"; alcoholic
   recipes show placeholders until strength is calculated.
 - **Scenario: house recipes in progress.** A house recipe whose amounts are not written yet shows

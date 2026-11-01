@@ -12,7 +12,8 @@
   remembered for a year and the next page renders in it from the server.
 - **Scenario: without JavaScript.** The header and footer theme controls and the zero-proof switch
   are forms that save the choice and return to the same page; a return path that is not a local
-  path returns to the home page.
+  path (another site, a backslash, or any tab, newline or other control character) returns to
+  the home page.
 
 ## Requirement: The app shell
 - **Scenario: header and footer.** Every page has a skip link (first on Tab), the wordmark,
