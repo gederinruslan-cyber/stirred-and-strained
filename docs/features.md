@@ -61,7 +61,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 | M2-04 | what-can-i-make | done `84ce258` | M2-03, M0-07, M1-09 | 🧪 | Make now, one away (with the missing bottle named) and buy next ranked by drinks unlocked, from the engine; shown beside My Bar on desktop |
 | M2-05 | substitutions | done `98d70aa` | M2-04 | 🧪 🔒 | Global substitution preferences per user (accept or refuse an edge); recipe lines marked `exact` are shown as such; results update immediately |
 | M2-06 | custom-recipes | done `ee028fc` | M2-03, M1-08 | 🧪 🔒 | Create, edit, soft delete with undo, change history; lines resolve in the taxonomy; searchable and matched like house recipes; private by default; isolation test |
-| M2-07 | favourites-ratings-notes | in-progress | M2-01, M1-08 | 🔒 | Favourite, 1–5 rating and a private note per recipe; lists and filters for them; isolation test |
+| M2-07 | favourites-ratings-notes | done `7cf2f0d` | M2-01, M1-08 | 🔒 | Favourite, 1–5 rating and a private note per recipe; lists and filters for them; isolation test |
 | M2-08 | export-and-erase | todo | M2-06, M2-07 | 🔒 | Export everything a user owns as JSON and Markdown; account erase removes all user rows after confirmation; tests prove both |
 
 ## M3 · Public beta
