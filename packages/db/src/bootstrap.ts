@@ -26,6 +26,7 @@ export async function bootstrapRoles(
       alter role stirred_app login nosuperuser nobypassrls nocreatedb nocreaterole password ${pw(passwords.app)};
       grant stirred_owner to stirred_migrator;
       grant connect on database ${db} to stirred_migrator, stirred_app;
+      revoke temporary on database ${db} from public;
       alter schema public owner to stirred_owner;
       revoke create on schema public from public;
       grant usage on schema public to stirred_app;

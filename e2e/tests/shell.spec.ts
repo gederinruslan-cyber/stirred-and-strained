@@ -67,6 +67,14 @@ test("preference forms work without JavaScript and only return to local pages", 
   expect(dark.status()).toBe(303);
   expect(dark.headers()["location"]).toBe("/?x=1");
   expect(dark.headers()["set-cookie"]).toContain("theme=dark");
-  expect((await save({ zero: "on", back: "//evil.example/" })).headers()["location"]).toBe("/");
+  for (const back of [
+    "//evil.example/",
+    "/\t/evil.example",
+    "/\n/evil.example",
+    "/\\evil.example",
+  ]) {
+    const res = await save({ zero: "on", back });
+    expect([res.status(), res.headers()["location"]]).toEqual([303, "/"]);
+  }
   expect((await save({ zero: "on", back: "/" })).headers()["set-cookie"]).toContain("zero=1");
 });

@@ -17,6 +17,9 @@ describe("database roles", () => {
 
   it("does not let the api create tables", async () => {
     await expect(app.query("create table sneaky (id int)")).rejects.toThrow(/permission denied/);
+    await expect(app.query("create temp table sneaky (id int)")).rejects.toThrow(
+      /permission denied/,
+    );
   });
 
   it("refuses to start as a superuser or as the migrator (a member of the table owner)", async () => {

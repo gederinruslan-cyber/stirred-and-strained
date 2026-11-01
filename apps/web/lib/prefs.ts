@@ -15,5 +15,10 @@ export async function readPrefs(): Promise<{ theme: Theme | null; zero: boolean 
 
 /** A local path to return to, or "/" (never another site). */
 export function safeBack(value: unknown): string {
-  return typeof value === "string" && /^\/(?![/\\])/.test(value) ? value : "/";
+  // Browsers drop tabs and newlines before resolving a URL ("/\t/evil" becomes "//evil"), so any
+  // control character or backslash is refused outright.
+  if (typeof value !== "string") return "/";
+  if ([...value].some((c) => c.charCodeAt(0) < 32 || c.charCodeAt(0) === 127 || c === "\\"))
+    return "/";
+  return /^\/(?!\/)/.test(value) ? value : "/";
 }

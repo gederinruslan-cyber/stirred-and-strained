@@ -340,7 +340,15 @@ export function JotItDown({ recipe, state }: { recipe: RecipeDetail; state: Land
   );
 }
 
-export function ZeroBand({ recipes, zero }: { recipes: RecipeDetail[]; zero: boolean }) {
+export function ZeroBand({
+  recipes,
+  zero,
+  unit,
+}: {
+  recipes: RecipeDetail[];
+  zero: boolean;
+  unit: LandingState["unit"];
+}) {
   return (
     <section aria-labelledby="zero-h" className="zero-band">
       <div className="container split">
@@ -383,7 +391,7 @@ export function ZeroBand({ recipes, zero }: { recipes: RecipeDetail[]; zero: boo
                 {r.lines.map((l) => (
                   <li key={l.ingredient.id}>
                     <span>{l.label}</span>
-                    <span className="amount">{amountText(l, "ml")}</span>
+                    <span className="amount">{amountText(l, unit)}</span>
                   </li>
                 ))}
               </ul>

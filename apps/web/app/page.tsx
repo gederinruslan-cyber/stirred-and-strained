@@ -102,7 +102,7 @@ function LandingPage({
       <Picks recipes={landing.featured} state={state} />
       <BuyNext buyNext={landing.buyNext} />
       <JotItDown recipe={landing.daiquiri} state={state} />
-      <ZeroBand recipes={landing.ginBucks} zero={zero} />
+      <ZeroBand recipes={landing.ginBucks} zero={zero} unit={state.unit} />
       <YourRecipes />
       <StraightTalk />
       <Closing />
