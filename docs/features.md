@@ -55,7 +55,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 
 | ID | Feature | Status | Depends | Marks | Acceptance |
 |---|---|---|---|---|---|
-| M2-01 | auth-core | in-progress | M0-03, M0-04 | 🔒 | ADR on the auth library; email + password sign-up, sign-in, sign-out, reset; sessions in Postgres with an http-only cookie; rate limits; no secrets in logs |
+| M2-01 | auth-core | done `e60211c` | M0-03, M0-04 | 🔒 | ADR on the auth library; email + password sign-up, sign-in, sign-out, reset; sessions in Postgres with an http-only cookie; rate limits; no secrets in logs |
 | M2-02 | auth-screens | todo | M2-01, M0-06 | 🔒 | Sign up, sign in, reset screens that work without JavaScript; errors never reveal whether an email exists |
 | M2-03 | my-bar | todo | M2-01, M1-03 | 🔒 | Bar items API (add, remove, list) scoped per user; hierarchy-aware typeahead (category, type or brand); bulk add by category; isolation test; works before sign-up: the shelf (ingredient ids only, no personal data) lives in a short-lived cookie and moves to the account at sign-up |
 | M2-04 | what-can-i-make | todo | M2-03, M0-07, M1-09 | 🧪 | Make now, one away (with the missing bottle named) and buy next ranked by drinks unlocked, from the engine; shown beside My Bar on desktop |
