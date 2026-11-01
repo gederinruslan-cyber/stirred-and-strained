@@ -92,6 +92,9 @@ importers:
       '@stirred/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@stirred/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
       fastify:
         specifier: 'catalog:'
         version: 5.12.7
@@ -182,6 +185,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 24.19.2
+      fast-check:
+        specifier: 'catalog:'
+        version: 4.10.2
       typescript:
         specifier: 'catalog:'
         version: 6.0.3

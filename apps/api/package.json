@@ -10,8 +10,9 @@
     "test:unit": "vitest run --passWithNoTests --exclude \"**/*.int.test.ts\""
   },
   "dependencies": {
-    "fastify": "catalog:",
-    "@stirred/db": "workspace:*"
+    "@stirred/db": "workspace:*",
+    "@stirred/engine": "workspace:*",
+    "fastify": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",
