@@ -15,3 +15,4 @@
 - 2026-11-01 · M0-03 `db-foundation` merged (b57d1e0); local verify:quick.
 - 2026-11-01 · M0-03 report: merged b57d1e0; verify:quick green; verify:full on main green; review APPROVE + 2 notes fixed (owner-member role refused; migrations may not control transactions); tests ~190 lines vs ~210 production; open: none.
 - 2026-11-01 · M0-04 `api-contract-and-client` merged (dfcd304); local verify:quick.
+- 2026-11-01 · M0-04 report: merged dfcd304; verify:quick green; verify:full green on branch; review APPROVE + note fixed (origin normalised); tests 47 lines vs ~170 production; open: none.
