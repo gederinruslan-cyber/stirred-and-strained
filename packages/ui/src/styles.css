@@ -169,6 +169,16 @@ img {
   background: var(--ink);
   color: var(--paper);
 }
+/* Danger (M2-08): an outline in --accent, so a deletion is never the most inviting button. */
+.btn--danger {
+  background: var(--card);
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+.btn--danger:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+}
 .icon-btn {
   width: 40px;
   height: 40px;
@@ -624,6 +634,13 @@ img {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+/* Signed in (M2-08): "Account" and "Sign out" stay together when the row wraps. */
+.site-header__account {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  white-space: nowrap;
 }
 button.site-header__link {
   min-height: 44px;

@@ -211,6 +211,11 @@ position only; 0 ms under `prefers-reduced-motion`.
 - **Mark tags (M2-07):** the user's own marks beside a name in a list. `span.mark-tags`, DM Sans
   700 `tabular-nums` `--accent`: `aria-hidden` "♥" / "[n]★", each with a `.vh` phrase (", in your
   favourites", ", you rated it [n] of 5"). Text, never colour alone; not links; signed in only.
+- **Danger button (M2-08):** for the one action that destroys user data (delete account).
+  `.btn--danger` (`Button variant="danger"`): `--card` fill, 2 px `--accent` border, `--accent`
+  text, 700; hover fills `--accent` with `--on-accent` text. Never the primary pill, never alone:
+  it sits last in a POST form behind the password and a required "I understand" tick, its label
+  says what goes ("Delete my account"), on a flat panel (no tape, tilt or aside). 44 px.
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.

@@ -42,12 +42,21 @@ export function SiteHeader({
       <div className="site-header__actions">
         <ThemeToggle initial={theme} back={back} />
         {signedIn ? (
-          <form action={signOut} className="inline-form">
-            <input type="hidden" name="back" value={back} />
-            <button type="submit" className="site-header__link">
-              Sign out
-            </button>
-          </form>
+          <span className="site-header__account">
+            <Link
+              href="/account"
+              className="site-header__link"
+              {...(back === "/account" ? { "aria-current": "page" as const } : {})}
+            >
+              Account
+            </Link>
+            <form action={signOut} className="inline-form">
+              <input type="hidden" name="back" value={back} />
+              <button type="submit" className="site-header__link">
+                Sign out
+              </button>
+            </form>
+          </span>
         ) : (
           <Link
             href={back.startsWith("/sign-in") ? back : `/sign-in?back=${encodeURIComponent(back)}`}

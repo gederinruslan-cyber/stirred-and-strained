@@ -12,7 +12,7 @@ export function ButtonLink({
   children,
 }: {
   href: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "danger";
   children: ReactNode;
 }) {
   return (
@@ -26,7 +26,10 @@ export function Button({
   variant = "primary",
   children,
   ...rest
-}: { variant?: "primary" | "secondary"; children: ReactNode } & ComponentProps<"button">) {
+}: {
+  variant?: "primary" | "secondary" | "danger";
+  children: ReactNode;
+} & ComponentProps<"button">) {
   return (
     <button type="button" className={`btn btn--${variant}`} {...rest}>
       {children}

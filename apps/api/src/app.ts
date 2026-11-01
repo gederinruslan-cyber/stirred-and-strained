@@ -8,6 +8,7 @@ import {
 } from "fastify-type-provider-zod";
 import type { Pool } from "@stirred/db";
 import { ErrorBody, HealthResponse } from "@stirred/schema";
+import { accountRoutes } from "./account/routes.ts";
 import { authRoutes } from "./auth/routes.ts";
 import { barRoutes } from "./bar/routes.ts";
 import { noMailer, type Mailer } from "./auth/mailer.ts";
@@ -95,6 +96,7 @@ export function buildApp({ pool, publicOrigin, library, mailer = noMailer }: App
     barRoutes(routes, { pool, lib: library });
     myRecipeRoutes(routes, { pool, lib: library });
     markRoutes(routes, { pool, lib: library });
+    accountRoutes(routes, { pool, lib: library });
   });
 
   return app;

@@ -23,6 +23,8 @@ export {
   userEmail,
 } from "./auth.ts";
 export type { TokenPurpose } from "./auth.ts";
+export { eraseUser, exportUser } from "./account.ts";
+export type { UserExport } from "./account.ts";
 export { addToBar, listBar, removeFromBar } from "./bar.ts";
 export { listRefusals, setSwapAllowed } from "./swaps.ts";
 export { canMark, getMark, listMarks, setMark, undoNote } from "./marks.ts";

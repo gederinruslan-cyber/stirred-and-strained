@@ -1,0 +1,94 @@
+/* Your account (M2-08, docs/design/account.md). Tokens only. */
+.account {
+  max-width: 1040px;
+  padding-top: 64px;
+  padding-bottom: 112px;
+}
+.account h1 {
+  margin-bottom: 8px;
+}
+.account__email {
+  margin: 0 0 32px;
+  font-size: 18px;
+  line-height: 28px;
+  overflow-wrap: anywhere;
+}
+.account__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+.account__h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 34px;
+}
+.account__export p,
+.account__danger p {
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0 0 16px;
+}
+.account__downloads {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+.account__downloads .field__help {
+  margin: 6px 0 0;
+}
+.account__danger {
+  background: var(--card);
+  border-radius: 6px;
+  box-shadow: 0 8px 18px var(--shadow);
+  padding: 32px;
+}
+.account__tick {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ink);
+}
+.account__tick input {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  accent-color: var(--ink);
+}
+.account__danger .btn {
+  align-self: flex-start;
+}
+@media (max-width: 900px) {
+  .account__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .account__aside {
+    display: none;
+  }
+  .account .napkin {
+    transform: none;
+  }
+  .account__downloads li,
+  .account__downloads .btn {
+    width: 100%;
+  }
+  .account__danger .btn {
+    align-self: stretch;
+  }
+}
+@media (max-width: 600px) {
+  .account__danger {
+    padding: 24px;
+  }
+}

@@ -325,3 +325,65 @@ export const MarkList = z.object({
   items: z.array(RecipeSummary.extend({ mark: Mark })),
 });
 export type MarkList = z.infer<typeof MarkList>;
+
+// Export and erase (M2-08): everything a signed-in user owns, and its removal.
+const ExportLine = z.object({
+  ingredient: IngredientRef,
+  /** Canonical: ml or a counted unit, unrounded. */
+  amount: Amount.nullable(),
+  /** The unit the user typed it in. */
+  entered: EnteredUnit.nullable(),
+  optional: z.boolean(),
+});
+const ExportSpec = z.object({
+  name: z.string(),
+  method: z.string(),
+  glass: z.string().nullable(),
+  /** The user's own steps, one per line; null when written from the method. */
+  steps: z.string().nullable(),
+  lines: z.array(ExportLine),
+});
+export const AccountExport = z.object({
+  format: z.literal("stirred-and-strained-export/1"),
+  exportedAt: z.iso.datetime(),
+  account: z.object({ email: z.string(), createdAt: z.iso.datetime() }),
+  /** When each live session started and ends; never a token. */
+  sessions: z.array(z.object({ createdAt: z.iso.datetime(), expiresAt: z.iso.datetime() })),
+  bar: z.array(z.object({ ingredient: IngredientRef, addedAt: z.iso.datetime() })),
+  swapsTurnedOff: z.array(
+    z.object({ substitute: IngredientRef, replaces: IngredientRef, turnedOffAt: z.iso.datetime() }),
+  ),
+  /** Deleted ones too, each with its whole history, oldest first. */
+  recipes: z.array(
+    ExportSpec.extend({
+      id: z.string(),
+      createdAt: z.iso.datetime(),
+      updatedAt: z.iso.datetime(),
+      deletedAt: z.iso.datetime().nullable(),
+      history: z.array(
+        z.object({
+          kind: z.enum(["created", "edited", "deleted", "restored"]),
+          at: z.iso.datetime(),
+          spec: ExportSpec.nullable(),
+        }),
+      ),
+    }),
+  ),
+  marks: z.array(
+    z.object({
+      recipe: z.object({ id: z.string(), name: z.string(), yours: z.boolean() }),
+      favourite: z.boolean(),
+      rating: Rating.nullable(),
+      note: z.string().nullable(),
+      /** The note before its last change, kept for undo. */
+      noteBefore: z.string().nullable(),
+      updatedAt: z.iso.datetime(),
+    }),
+  ),
+});
+export type AccountExport = z.infer<typeof AccountExport>;
+/** The password again, and the tick: an erase is never an accident. */
+export const EraseBody = z.object({
+  password: z.string().min(1).max(128),
+  understood: z.literal(true),
+});

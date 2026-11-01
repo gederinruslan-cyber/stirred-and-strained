@@ -69,6 +69,9 @@ export async function keepSession(session: SessionResponse) {
 
 /** In a server action: end this session in the api (if it still exists) and drop the cookie. */
 export async function endSession() {
-  if (await sessionToken()) await api.POST("/auth/sign-out", { headers: await apiHeaders() });
+  if (await sessionToken()) {
+    // The cookie goes even when the api cannot be reached (after an erase it is dead already).
+    await api.POST("/auth/sign-out", { headers: await apiHeaders() }).catch(() => undefined);
+  }
   (await cookies()).delete(SESSION_COOKIE);
 }
