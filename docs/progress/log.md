@@ -8,3 +8,4 @@
 - 2026-11-01 · M0-01 report: merged 9466194; verify:quick (= verify) green; fresh clone check+verify green; review not needed; tests 0 lines (tooling; boundary rule proven by hand); open: none.
 - 2026-11-01 · M0-02 `local-stack-and-gates` merged (ea6b72b); local verify:quick.
 - 2026-11-01 · M0-02 report: merged ea6b72b; verify:quick green; verify:full on main green (51s); review not needed; tests 46 lines vs ~150 production (incl. scripts); open: none.
+- 2026-11-01 · M0-05 `units-package` merged (46c2856); local verify:quick.
