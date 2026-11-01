@@ -1,7 +1,10 @@
 export default function Home() {
   return (
-    <main>
-      <h1>What can you make tonight?</h1>
-    </main>
+    <section aria-labelledby="hero-h" className="container section">
+      <p className="hand">your home bar, sorted</p>
+      <h1 id="hero-h" className="display">
+        What can you make <span className="highlight">tonight?</span>
+      </h1>
+    </section>
   );
 }

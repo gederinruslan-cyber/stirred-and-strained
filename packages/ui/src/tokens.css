@@ -1,0 +1,85 @@
+/* Bar Napkin tokens (docs/design/patterns.md). The only place colours are defined: light by
+   default, dark from the OS unless the visitor chose light, or when they chose dark. Checked by
+   packages/ui/test/contrast.test.ts. */
+:root {
+  --paper: #fbf5e9;
+  --card: #ffffff;
+  --ink: #2a211a;
+  --muted: #5e5145;
+  --note: #4a3f35;
+  --accent: #c23b22;
+  --accent-hover: #9e2c17;
+  --on-accent: #ffffff;
+  --hl: #ffd84d;
+  --tape: rgba(255, 216, 77, 0.75);
+  --dots: #f1e8d6;
+  --dash: #d9ccb4;
+  --sticky-y: #fff3c4;
+  --sticky-g: #e4f0e6;
+  --zero: #2e6b4f;
+  --zero-text: #3e4a40;
+  --seg: #f4ecdd;
+  --rowhl: #fffae6;
+  --shadow: rgba(42, 33, 26, 0.12);
+  --ft-bg: #2a211a;
+  --ft-ink: #f1e8d6;
+  --ft-muted: #d9ccb4;
+  --ft-accent: #ffd84d;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1b1612;
+    --card: #26201a;
+    --ink: #f3eadb;
+    --muted: #c2b4a2;
+    --note: #d6c9b8;
+    --accent: #ff8a6b;
+    --accent-hover: #ffa68d;
+    --on-accent: #1b1612;
+    --hl: #6e5410;
+    --tape: rgba(255, 216, 77, 0.3);
+    --dots: #2f2821;
+    --dash: #4a3f33;
+    --sticky-y: #382f1c;
+    --sticky-g: #1e2a22;
+    --zero: #8fd1ae;
+    --zero-text: #c5d6c8;
+    --seg: #332b23;
+    --rowhl: #30281a;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --ft-bg: #110d0a;
+    --ft-ink: #f1e8d6;
+    --ft-muted: #bfb09c;
+    --ft-accent: #ffd84d;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #1b1612;
+  --card: #26201a;
+  --ink: #f3eadb;
+  --muted: #c2b4a2;
+  --note: #d6c9b8;
+  --accent: #ff8a6b;
+  --accent-hover: #ffa68d;
+  --on-accent: #1b1612;
+  --hl: #6e5410;
+  --tape: rgba(255, 216, 77, 0.3);
+  --dots: #2f2821;
+  --dash: #4a3f33;
+  --sticky-y: #382f1c;
+  --sticky-g: #1e2a22;
+  --zero: #8fd1ae;
+  --zero-text: #c5d6c8;
+  --seg: #332b23;
+  --rowhl: #30281a;
+  --shadow: rgba(0, 0, 0, 0.4);
+  --ft-bg: #110d0a;
+  --ft-ink: #f1e8d6;
+  --ft-muted: #bfb09c;
+  --ft-accent: #ffd84d;
+  color-scheme: dark;
+}

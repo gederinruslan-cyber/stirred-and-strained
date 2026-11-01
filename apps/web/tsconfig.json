@@ -21,6 +21,7 @@
     "lib/**/*.ts",
     "lib/**/*.tsx",
     "next.config.ts",
+    "proxy.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],

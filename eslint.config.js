@@ -28,7 +28,15 @@ const PURE_BANNED = [
 ];
 
 export default defineConfig([
-  globalIgnores(["**/node_modules/", "**/dist/", "**/.next/", "**/.turbo/", "**/next-env.d.ts"]),
+  globalIgnores([
+    "**/node_modules/",
+    "**/dist/",
+    "**/.next/",
+    "**/.turbo/",
+    "**/next-env.d.ts",
+    "e2e/playwright-report/",
+    "e2e/test-results/",
+  ]),
   js.configs.recommended,
   tseslint.configs.recommended,
   {
