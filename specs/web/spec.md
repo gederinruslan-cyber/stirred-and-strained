@@ -10,14 +10,14 @@
 - **Scenario: OS preference.** With no saved choice, the page uses the OS colour scheme.
 - **Scenario: chosen theme.** Pressing the header theme button switches at once; the choice is
   remembered for a year and the next page renders in it from the server.
-- **Scenario: without JavaScript.** The header and footer theme controls and the zero-proof switch
+- **Scenario: without JavaScript.** The header and footer theme controls
   are forms that save the choice and return to the same page; a return path that is not a local
   path (another site, a backslash, or any tab, newline or other control character) returns to
   the home page.
 
 ## Requirement: The app shell
 - **Scenario: header and footer.** Every page has a skip link (first on Tab), the wordmark,
-  Recipes, My Bar, the zero-proof switch, search ("Find a drink…"), the theme button, Sign in and
+  Recipes, My Bar, search ("Find a drink…"), the theme button, Sign in and
   Start my bar; the footer has The app, Behind the bar, The small print, the responsible-drinking
   line and the theme control.
 
@@ -32,8 +32,9 @@
   country's age, also without JavaScript.
 - **Scenario: yes.** "Yes" returns to the page asked for (local pages only) and the gate is not
   shown again for a year.
-- **Scenario: no.** "No" returns to the page with zero-proof mode on and locked: the switch shows
-  on and cannot be turned off, and only zero-proof recipes and bottles are shown.
+- **Scenario: no.** After "No" every page except cookies, privacy and terms shows "Come back when
+  you're [age]." (UK: 18) with a header of the wordmark only, no search, no recipe, bottle or
+  strength, and the footer help line; the answer is kept for a year.
 - **Scenario: always reachable.** The cookie, privacy and terms pages open without the gate.
 - **Scenario: accessible.** The gate passes WCAG 2.2 AA in light and dark at 1440 and 360 px,
   and the keyboard reaches both answers and the country picker.
@@ -58,10 +59,6 @@
 - **Scenario: variations.** A recipe lists the house recipes whose name contains its name as whole
   words (Negroni → Coffee Negroni, Negroni Sbagliato…), and a variation says "A twist on the
   Negroni", linking back to the closest original.
-- **Scenario: zero-proof.** Shirley Temple shows the zero-proof tag and "0% ABV · nothing to
-  count". In a locked zero-proof session an alcoholic recipe answers 404 "That one's not on the
-  zero-proof side of the bar." without any part of its spec, and only zero-proof variations are
-  linked.
 - **Scenario: unknown.** An unknown recipe answers 404 "We can't find that recipe." with a way
   back to the start.
 - **Scenario: machine-readable.** The page carries schema.org/Recipe JSON-LD with the name,
@@ -71,7 +68,7 @@
 ## Requirement: Find a recipe with filters beside the results
 - **Scenario: search.** Searching "negroni" from the header opens `/recipes?q=negroni` with
   "14 recipes for “negroni”", each row linking to its page with method · glass · family and the
-  finished ABV (or the zero-proof tag); no glass shows the method alone.
+  finished ABV; no glass shows the method alone.
 - **Scenario: filters.** Filters sit left of the results at 1440 px and fold into a "Filters"
   disclosure at 360 px: With/Without ingredients (a typed name such as "whiskey" becomes a ticked
   chip; an unknown name says "We don't have “…” in the bar yet."), base spirit, strength from/to,

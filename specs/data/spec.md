@@ -26,7 +26,7 @@
 ## Requirement: The ingredient taxonomy is house data in the engine's shape
 - **Scenario: shape.** Nodes (id, name, kind category|type|brand, parent, ABV 0–100) and one-way
   substitution edges load in the shape the engine reads, ordered by id; ABV is a number and
-  zero-proof ingredients are stored at 0 like any other.
+  non-alcoholic ingredients are stored at 0.
 - **Scenario: kind rules.** A category has no parent; a type or brand has one; an unknown parent,
   an ABV outside 0–100 or an unknown kind is refused.
 - **Scenario: edges.** An edge naming an unknown node, a node replacing itself or a duplicate edge
@@ -59,9 +59,10 @@
   corrected to it and credited to the IBA; one never checked against its page fails the import.
   Negroni is 30/30/30 ml; Daiquiri 60 ml rum, 20 ml lime, 2 barspoons sugar; Margarita 50/20/15
   ml; Old Fashioned 45 ml whiskey, 1 sugar cube, dashes of Angostura.
-- **Scenario: zero-proof is derived.** A recipe is zero-proof only when every ingredient is 0%;
-  an upstream "Virgin" tag is ignored, so a "virgin" drink with dashes of 44.7% bitters is not
-  zero-proof.
+- **Scenario: no recipe without alcohol.** A recipe whose every ingredient is 0% fails the import
+  unless excluded with a reason; the 9 upstream no-alcohol recipes (Shirley Temple, Neruda…) are
+  excluded ("zero-proof dropped", 2026-11-01), leaving 595 recipes. The upstream "Virgin" tag is
+  dropped.
 - **Scenario: idempotent.** Importing twice leaves identical rows; a recipe dropped from the
   source is removed.
 - **Scenario: read-only at runtime.** The api role can read recipes and cannot write them.

@@ -27,7 +27,7 @@
 - **Scenario: list.** `GET /recipes` pages through every house recipe ordered by name then id
   (24 per page by default, at most 100); a page below 1 or a page size above 100 answers 400.
 - **Scenario: every recipe has a strength.** Every house recipe has a derived ABV and drink
-  count; a zero-proof recipe shows 0% and 0.
+  count above 0%; there are no no-alcohol recipes.
 - **Scenario: start-up.** The api refuses to start on a database without the house library and
   says to run the seed.
 
@@ -42,6 +42,5 @@
   source's tags under our own labels). Values within a facet are OR, facets are AND, and each
   facet counts its values over the current results.
 - **Scenario: strength range.** `abvMin`/`abvMax` keep recipes whose finished ABV is within the
-  range; zero-proof drinks sit at 0.
-- **Scenario: zero-proof.** In zero-proof mode only the 9 zero-proof house recipes are searched.
+  range.
 - **Scenario: ingredient names.** `GET /ingredients` lists every ingredient by name for pickers.

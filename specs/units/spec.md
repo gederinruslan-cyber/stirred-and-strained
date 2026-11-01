@@ -33,7 +33,7 @@ stirred drinks; built and muddled as stirred, blended as shaken, layered undilut
   alcohol: 1.35 US standard drinks, 2.40 UK units, 1.89 Australian standard drinks.
 - **Scenario: gin and tonic, built.** 50 ml at 40% topped with tonic (a top counts as 90 ml at
   0%) finishes at ≈11.0%, 15.8 g, 1.13 US standard drinks.
-- **Scenario: zero-proof.** A recipe whose every line is 0% finishes at 0% and 0 standard drinks,
+- **Scenario: all 0%.** A recipe whose every line is 0% finishes at 0% and 0 standard drinks,
   through the same calculation.
 - **Scenario: counted units.** For strength a dash is 0.8 ml, a barspoon 5 ml, a drop 0.05 ml
   and a top 90 ml; a piece (sugar cube, mint leaf) adds nothing.
