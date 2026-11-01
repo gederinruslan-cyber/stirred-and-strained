@@ -33,3 +33,27 @@
   is refused; deleting a node that still has children or edges is refused.
 - **Scenario: read-only at runtime.** The api role can read the taxonomy and cannot insert,
   update or delete it.
+
+## Requirement: House recipes are imported with provenance, in canonical amounts
+- **Scenario: taxonomy placement.** Source ingredients land as category > type > brand: a root
+  with children is a category, a childless root is placed under a named category (salt under
+  pantry), a node with a producer is a brand; ABV is the ingredient's own strength, and the
+  result is a valid engine taxonomy.
+- **Scenario: canonical amounts.** 1.5 oz is stored as 44.360 ml and 1 tsp as 4.929 ml; dashes
+  stay dashes, "top up" is top 1, leaves, slices and wedges are pieces, and a range keeps its
+  maximum.
+- **Scenario: fails loudly.** A recipe without a source, with an amount that cannot be made
+  canonical ("1 part"), an unknown ingredient or no method fails the import, naming the recipe,
+  unless it is listed as excluded with a reason.
+- **Scenario: provenance.** Every house recipe stores its source (a URL or a citation), a credit
+  line and the licence; the source's own prose, images and computed strengths are never stored.
+- **Scenario: IBA classics.** A recipe credited to the IBA matches the IBA's own page or is
+  corrected to it and credited to the IBA; one never checked against its page fails the import.
+  Negroni is 30/30/30 ml; Daiquiri 60 ml rum, 20 ml lime, 2 barspoons sugar; Margarita 50/20/15
+  ml; Old Fashioned 45 ml whiskey, 1 sugar cube, dashes of Angostura.
+- **Scenario: zero-proof is derived.** A recipe is zero-proof only when every ingredient is 0%;
+  an upstream "Virgin" tag is ignored, so a "virgin" drink with dashes of 44.7% bitters is not
+  zero-proof.
+- **Scenario: idempotent.** Importing twice leaves identical rows; a recipe dropped from the
+  source is removed.
+- **Scenario: read-only at runtime.** The api role can read recipes and cannot write them.
