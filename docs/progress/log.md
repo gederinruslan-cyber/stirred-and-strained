@@ -24,3 +24,4 @@
 - 2026-11-01 · M0 close: verifier ran against the running app; 1 fail + 2 minor fixed in 9a64151; verify:full green on main; milestone-M0.md written; tag m0; NH-3 demo (blocking).
 - 2026-11-01 · M0 demo accepted by the human; NH-3 closed.
 - 2026-11-01 · Decisions: NH-1 both sources credited (M1-05); bar before sign-up via cookie (M2-03); promise "Good drinks from what you've got"; zero-proof only from sources (M1-06/07); age-gate No → zero-proof session (M1-11); free, no paid plan; name decided before M3 (NH-2); IBA classics pinned by import test.
+- 2026-11-01 · M0-08 `pricing-copy` merged (5b108a3); local verify:quick.
