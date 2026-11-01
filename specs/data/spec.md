@@ -22,3 +22,14 @@
 - **Scenario: outside a user's scope.** Outside a user-scoped unit of work, user-owned tables
   show no rows.
 - **Scenario: malformed user id.** A malformed user id is refused before any query runs.
+
+## Requirement: The ingredient taxonomy is house data in the engine's shape
+- **Scenario: shape.** Nodes (id, name, kind category|type|brand, parent, ABV 0–100) and one-way
+  substitution edges load in the shape the engine reads, ordered by id; ABV is a number and
+  zero-proof ingredients are stored at 0 like any other.
+- **Scenario: kind rules.** A category has no parent; a type or brand has one; an unknown parent,
+  an ABV outside 0–100 or an unknown kind is refused.
+- **Scenario: edges.** An edge naming an unknown node, a node replacing itself or a duplicate edge
+  is refused; deleting a node that still has children or edges is refused.
+- **Scenario: read-only at runtime.** The api role can read the taxonomy and cannot insert,
+  update or delete it.
