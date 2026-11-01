@@ -55,3 +55,4 @@
 - 2026-11-01 · M1 close: verifier FAIL (narrow, 4 defects) on a1189a2, fixed in 58fd544 (reviewer APPROVE); verify:full green on main (29 integration, 32 e2e); docs/progress/milestone-M1.md; tag m1; NH-7 demo blocking.
 - 2026-11-01 · M0-08 `demo-recipe-links` merged (adb2f6d); local verify:quick.
 - 2026-11-01 · M1-08 `recipe-photos` merged (b414c62); local verify:quick.
+- 2026-11-01 · M1 demo accepted by the human; NH-7 closed. After the demo: demo results link to their recipes (`adb2f6d`), a photo on every recipe and search result (`b414c62`).

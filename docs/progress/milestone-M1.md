@@ -61,7 +61,7 @@ locales; no write route on house data). Isolation: N/A (M1 has no user data).
 ## Open
 - Footer `/sources`, `/strength` and header `/sign-in` still 404 (M2 sign-in, M3 pages).
 - Three near-zero recipes remain (Non-Alc Hurricane 0.6%, Tea Time 0.3%, Tonic Rickey 0.8%:
-  only bitters dashes); keep or exclude is a human call.
+  only bitters dashes); kept, M1 accepted without excluding them.
 - `GET /recipes?abvMin=abc` answers 400 `FST_ERR_VALIDATION` (framework code in the body).
 - The web demo silently ignores an unknown bottle in the URL; the api refuses it.
 - 132 untagged recipes have no family or flavour; flavoured spirits show as their own base spirit.

@@ -18,7 +18,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 | Milestone | Exit criteria | State |
 |---|---|---|
 | **M0 · Foundation** | Monorepo, gates and CI green; local stack; db with user scoping; API contract and client; units package; engine matching on fixtures; Bar Napkin tokens, components and app shell in both themes; landing page live locally | done (demo accepted 2026-11-01) |
-| **M1 · Library and engine** | Seeded, attributed house library browsable and searchable without an account; strength shown on every recipe; landing switched to the house library; age gate (zero-proof dropped 2026-11-01) | |
+| **M1 · Library and engine** | Seeded, attributed house library browsable and searchable without an account; strength shown on every recipe; landing switched to the house library; age gate (zero-proof dropped 2026-11-01) | done (demo accepted 2026-11-01) |
 | **M2 · My Bar** | Sign up/in; My Bar with hierarchy typeahead; make now, one away, buy next; substitutions; custom recipes that match inventory; favourites, ratings, notes; export and erase; isolation proven | |
 | **M3 · Public beta** | Accessibility audit, legal and privacy pages, deploy, backups, observability, onboarding to a first "make now" in under 2 minutes | |
 | **v1+** | Variations, batching, party menus, import, cost per drink, shared bars, natural-language search, bar mode | |
