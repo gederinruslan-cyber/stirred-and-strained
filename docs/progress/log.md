@@ -22,3 +22,4 @@
 - 2026-11-01 · M0-08 report: merged 780be90; verify:full on main green (10 e2e incl. axe on the full landing, light/dark × desktop/360, no-JS demo); review not needed (read-only, no user data; engine already reviewed); tests ~110 lines vs ~900 production; open: strength placeholders until M1-02, house zero-proof recipes to write, IBA specs to check.
 - 2026-11-01 · M0 `m0-verifier-fixes` merged (9a64151); local verify:quick.
 - 2026-11-01 · M0 close: verifier ran against the running app; 1 fail + 2 minor fixed in 9a64151; verify:full green on main; milestone-M0.md written; tag m0; NH-3 demo (blocking).
+- 2026-11-01 · M0 demo accepted by the human; NH-3 closed.
