@@ -1,6 +1,7 @@
 # Recipe page — design spec (M1-08)
 
-*Bar Napkin (`patterns.md`) in both themes. Route `/recipes/<id>`. No photos in this feature.
+*Bar Napkin (`patterns.md`) in both themes. Route `/recipes/<id>`. The drink's photo heads the side
+column (Photo frame, 4:5, at most 400 px wide, alt "[name], the finished drink").
 [BRACKETS] are filled from `GET /recipes/:id`, never typed in. Closest pattern: the landing
 "jot it down" Daiquiri card (`.napkin.jot__card`, `.lines`, `.strength`, `.credit`).*
 

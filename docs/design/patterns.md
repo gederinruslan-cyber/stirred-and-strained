@@ -156,7 +156,8 @@ position only; 0 ms under `prefers-reduced-motion`.
   "grab a drink") and never a punishment for "No": "Come back when you're [age]." with the help line.
 
 ## Photos
-- Real drink photos in photo frames on recipe and featured cards. We serve our own copies; no
+- Real drink photos in photo frames on recipe and featured cards, and a 56 × 70 thumbnail on
+  each search result (decorative: empty alt, the name beside it says it). We serve our own copies; no
   credit labels or credit lines.
 
 ## Accessibility

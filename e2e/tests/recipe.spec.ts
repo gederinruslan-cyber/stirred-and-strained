@@ -8,6 +8,9 @@ test("a recipe page shows the spec, its strength for the country and where it is
   await expect(page).toHaveTitle("Negroni · Stirred & Strained");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Negroni");
   await expect(page.locator(".recipe__meta")).toHaveText(/built · rocks glass/);
+  const photo = page.getByRole("img", { name: "Negroni, the finished drink" });
+  await expect(photo).toBeVisible();
+  expect(await photo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
   await expect(page.locator(".lines li").first()).toHaveText(/Gin\s*30 ml/);
   // ADR 0004 for a US visitor (the e2e cookie): 30 ml each at 40%, 25% and 18%, built.
   await expect(page.locator(".strength")).toContainText("19.8% ABV · 1.4 standard drinks");

@@ -391,7 +391,16 @@ function Results({
         <ol className="results">
           {data.items.map((r) => (
             <li key={r.id} className="result">
-              <div>
+              {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized thumbnails */}
+              <img
+                className="result__photo"
+                src={`/photos/recipes/thumbs/${r.id}.jpg`}
+                alt=""
+                width={56}
+                height={70}
+                loading="lazy"
+              />
+              <div className="result__text">
                 <Link href={`/recipes/${r.id}`} className="result__name">
                   {r.name}
                 </Link>

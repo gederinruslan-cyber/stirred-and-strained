@@ -176,6 +176,16 @@
 .result:last-child {
   border-bottom: none;
 }
+.result__photo {
+  flex: none;
+  object-fit: cover;
+  border-radius: 3px;
+  background: var(--seg);
+}
+.result__text {
+  flex: 1;
+  min-width: 0;
+}
 .result__name {
   font-family: var(--font-display), Georgia, serif;
   font-weight: 600;

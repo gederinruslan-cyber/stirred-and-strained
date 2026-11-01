@@ -2,7 +2,8 @@
 
 What the house library is built from, what we take, and how each source is credited. We take
 **facts only**: ingredient lists, amounts, method (stirred, shaken, built…), glass and garnish.
-Every description and every step is written by us. No images are taken from any source.
+Every description and every step is written by us. Each recipe's photo is the first image of
+the same Bar Assistant entry (`scripts/fetch-photos.sh`).
 
 Researched 2026-11-01. Decision (2026-11-01, needs-human NH-1): use both sources below with
 credit, all text ours.
@@ -22,16 +23,16 @@ credit, all text ours.
 
 ## 1. Bar Assistant open data (primary import)
 
-|                    |                                                                                                                                                                                  |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Where              | https://github.com/bar-assistant/data, branch `v5`, pinned at commit `5a504d4` (2026-09-13)                                                                                      |
-| Licence            | MIT, "Copyright (c) 2026 Bar Assistant" — https://github.com/bar-assistant/data/blob/v5/LICENSE                                                                                  |
-| Size               | 663 cocktails, 296 ingredients (ABV on every ingredient, a parent hierarchy, categories)                                                                                         |
-| We take            | Ingredient names, hierarchy and ABV; per cocktail: ingredient lines (amount, unit, optional, substitutes), method, glass, garnish, the `source` URL and `author`                 |
-| We do not take     | `description`, `instructions` (largely third-party text the maintainer cannot license), images, the computed cocktail `abv` (strength is derived by us, never imported)          |
-| Licence notice     | The MIT notice is shipped in `data/LICENSES/bar-assistant-data.txt` and shown on the attribution page (M3-02)                                                                    |
-| Credit on a recipe | `Spec via <original source> (<author, if any>) · data: Bar Assistant (MIT)` with a link to the original `source` URL. A recipe with no `source` (15 of 663) is **not imported**. |
-| No-alcohol recipes | Dropped (decision 2026-11-01): recipes with no alcohol at all are not imported.                                                                                                  |
+|                    |                                                                                                                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Where              | https://github.com/bar-assistant/data, branch `v5`, pinned at commit `5a504d4` (2026-09-13)                                                                                           |
+| Licence            | MIT, "Copyright (c) 2026 Bar Assistant" — https://github.com/bar-assistant/data/blob/v5/LICENSE                                                                                       |
+| Size               | 663 cocktails, 296 ingredients (ABV on every ingredient, a parent hierarchy, categories)                                                                                              |
+| We take            | Ingredient names, hierarchy and ABV; per cocktail: ingredient lines (amount, unit, optional, substitutes), method, glass, garnish, the `source` URL and `author`, and its first photo |
+| We do not take     | `description`, `instructions` (largely third-party text the maintainer cannot license), the computed cocktail `abv` (strength is derived by us, never imported)                       |
+| Licence notice     | The MIT notice is shipped in `data/LICENSES/bar-assistant-data.txt` and shown on the attribution page (M3-02)                                                                         |
+| Credit on a recipe | `Spec via <original source> (<author, if any>) · data: Bar Assistant (MIT)` with a link to the original `source` URL. A recipe with no `source` (15 of 663) is **not imported**.      |
+| No-alcohol recipes | Dropped (decision 2026-11-01): recipes with no alcohol at all are not imported.                                                                                                       |
 
 ## 2. IBA official cocktails (reference for the classics)
 

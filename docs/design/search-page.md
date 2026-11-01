@@ -48,7 +48,8 @@ Filter column, Text field, Result list. [BRACKETS] come from the api, never type
 - `h2#results-h.finder__count` (Fraunces 24/32): "[n] recipes" ("1 recipe"); with q "[n] recipes
   for “[q]”"; paged, `span.muted` " · [from]–[to] shown". JS
   writes the same sentence to `p.vh[role=status]`.
-- `ol.results` (Result list): `li.result` — `a.result__name` [name] → `/recipes/<id>`;
+- `ol.results` (Result list): `li.result` — `img.result__photo` (56 × 70 thumbnail, empty alt),
+  `a.result__name` [name] → `/recipes/<id>`;
   `p.result__meta` "[method] · [glass]" lower-case (no glass: "[method]"), then " · [Family]" if any; right:
   `span.result__abv` "[abv]% ABV" (one decimal, `abvText`). Order name then id.
 - **Paging**: Previous/Next (name order, so "Newer/Older" means nothing), 24 per page, `page`

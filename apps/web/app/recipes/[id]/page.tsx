@@ -116,6 +116,10 @@ export default async function RecipePage({ params }: Params) {
       </article>
 
       <aside className="recipe__side">
+        <div className="photo-frame recipe__photo">
+          {/* eslint-disable-next-line @next/next/no-img-element -- photos are pre-sized copies */}
+          <img src={`/photos/recipes/${r.id}.webp`} alt={`${r.name}, the finished drink`} />
+        </div>
         <section aria-labelledby="from-h" className="sticky sticky--white">
           <h2 id="from-h" className="recipe__h2">
             Where it&apos;s from

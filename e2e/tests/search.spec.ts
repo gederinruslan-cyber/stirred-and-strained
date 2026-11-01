@@ -9,6 +9,9 @@ test("search by name from the header, then open a recipe", async ({ page }) => {
   await page.getByRole("searchbox", { name: "Find a drink" }).press("Enter");
   await expect(page).toHaveURL(/\/recipes\?q=negroni/);
   await expect(page.locator("#results-h")).toContainText("for “negroni”");
+  const thumb = results(page).locator("li").first().locator("img");
+  await expect(thumb).toHaveJSProperty("complete", true);
+  expect(await thumb.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
   await results(page).getByRole("link", { name: "Negroni", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Negroni");
 });

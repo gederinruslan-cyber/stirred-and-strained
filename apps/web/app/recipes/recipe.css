@@ -10,6 +10,11 @@
   min-width: 0;
   max-width: 720px;
 }
+.recipe__photo {
+  height: auto;
+  aspect-ratio: 4 / 5;
+  max-width: 400px;
+}
 .recipe__side {
   flex: 1 1 320px;
   min-width: 0;
