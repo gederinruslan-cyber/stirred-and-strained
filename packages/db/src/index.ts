@@ -1,9 +1,8 @@
-// Drizzle schema, plain SQL migrations and user-scoped data access.
-import pg from "pg";
-
-export type Pool = pg.Pool;
-
-/** A connection pool that fails fast instead of hanging when the database is unreachable. */
-export function createPool(connectionString: string): Pool {
-  return new pg.Pool({ connectionString, connectionTimeoutMillis: 2000, max: 10 });
-}
+// Plain SQL migrations, roles and user-scoped data access (ADR 0003).
+export { createPool } from "./pool.ts";
+export type { Pool } from "./pool.ts";
+export { bootstrapRoles } from "./bootstrap.ts";
+export { MIGRATIONS_DIR, appliedMigrations, migrate, rollback } from "./migrate.ts";
+export { createDb, withUser } from "./scope.ts";
+export type { Db, Scoped, Tx, UserId } from "./scope.ts";
+export { assertSafeRole } from "./role-check.ts";

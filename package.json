@@ -19,7 +19,10 @@
     "ship": "bash scripts/ship.sh",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "verify:full": "bash scripts/verify-full.sh",
-    "dev": "turbo run dev --parallel"
+    "dev": "turbo run dev --parallel",
+    "db:setup": "node packages/db/src/cli.ts setup",
+    "db:migrate": "node packages/db/src/cli.ts migrate",
+    "db:rollback": "node packages/db/src/cli.ts rollback"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

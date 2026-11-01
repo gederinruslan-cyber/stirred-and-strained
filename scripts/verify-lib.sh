@@ -15,7 +15,11 @@ export WEB_PORT="${VERIFY_WEB_PORT:-13300}"
 export API_PORT="${VERIFY_API_PORT:-14300}"
 export POSTGRES_PORT="${VERIFY_POSTGRES_PORT:-15433}"
 export POSTGRES_USER=stirred POSTGRES_PASSWORD=stirred_local_only POSTGRES_DB=stirred
-export DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:${POSTGRES_PORT}/${POSTGRES_DB}"
+export MIGRATOR_DB_PASSWORD=stirred_migrator_local_only APP_DB_PASSWORD=stirred_app_local_only
+# One URL per role (ADR 0003), host side.
+export DATABASE_ADMIN_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:${POSTGRES_PORT}/${POSTGRES_DB}"
+export MIGRATION_DATABASE_URL="postgres://stirred_migrator:${MIGRATOR_DB_PASSWORD}@127.0.0.1:${POSTGRES_PORT}/${POSTGRES_DB}"
+export DATABASE_URL="postgres://stirred_app:${APP_DB_PASSWORD}@127.0.0.1:${POSTGRES_PORT}/${POSTGRES_DB}"
 
 vcompose() { docker compose -p "$PROJECT" -f docker-compose.yml "$@"; }
 

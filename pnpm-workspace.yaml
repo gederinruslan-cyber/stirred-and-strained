@@ -21,6 +21,8 @@ catalog:
   "@types/pg": ^8.23.1
   "@types/react": ^19.3.0
   "@types/react-dom": ^19.3.0
+  # Pinned exactly: typed queries over user data; bumps run verify:full.
+  drizzle-orm: 0.45.3
   fast-check: ^4.10.2
   fastify: ^5.12.7
   next: ^16.4.2
