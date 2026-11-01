@@ -10,6 +10,9 @@
   scroll jump, and Boulevardier moves to "you can make".
 - **Scenario: opening a result.** Every recipe name in both lists links to its recipe page;
   Boulevardier opens /recipes/boulevardier.
+- **Scenario: keeping it.** "Start my bar" under the results adds the ticked bottles (and the
+  usual, when ticked) to My Bar and opens /bar; every other "Start my bar" and the header's "My
+  Bar" open /bar.
 - **Scenario: empty shelf.** With nothing ticked and the usual off: "Tick a bottle or two and
   we'll show you."
 - **Scenario: without JavaScript.** The shelf is a form; submitting it renders the results for the
