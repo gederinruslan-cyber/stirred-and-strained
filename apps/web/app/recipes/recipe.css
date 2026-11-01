@@ -1,0 +1,127 @@
+/* Recipe page (docs/design/recipe-page.md) and the Not-found page pattern. Tokens only. */
+.recipe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 48px 64px;
+}
+.recipe__card {
+  flex: 1 1 640px;
+  min-width: 0;
+  max-width: 720px;
+}
+.recipe__side {
+  flex: 1 1 320px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.recipe__title {
+  margin: 0 0 4px;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 40px;
+}
+.recipe__meta {
+  margin: 0 0 8px;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--muted);
+}
+.recipe__twist {
+  margin: 0 0 8px;
+  font-size: 18px;
+  line-height: 28px;
+}
+.recipe__h2 {
+  margin: 24px 0 8px;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+}
+.recipe__side .recipe__h2 {
+  margin-top: 0;
+}
+.recipe .strength {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 12px;
+  font-size: 18px;
+  line-height: 28px;
+  padding: 8px 12px;
+}
+.strength__model {
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--muted);
+  align-self: center;
+}
+.strength--zero {
+  background: var(--sticky-g);
+  color: var(--zero-text);
+}
+.steps {
+  margin: 0;
+  padding-left: 28px;
+  font-size: 18px;
+  line-height: 28px;
+}
+.steps li::marker {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  color: var(--accent);
+}
+.recipe__credit {
+  font-size: 18px;
+  line-height: 26px;
+}
+.recipe__credit a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.recipe__small {
+  font-size: 15px;
+  line-height: 22px;
+  margin: 8px 0 0;
+}
+.variations {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  line-height: 28px;
+}
+.variations li {
+  border-bottom: 1.5px dashed var(--dash);
+}
+.variations a {
+  display: block;
+  padding: 8px 0;
+}
+.not-found {
+  max-width: 608px;
+  padding-top: 64px;
+  padding-bottom: 112px;
+}
+.not-found__body {
+  font-size: 18px;
+  line-height: 28px;
+  margin: 0 0 24px;
+}
+@media (max-width: 900px) {
+  .recipe__title {
+    font-size: 32px;
+    line-height: 36px;
+  }
+  .recipe .tilt,
+  .recipe__side .sticky {
+    transform: none;
+  }
+  .variations a {
+    min-height: 44px;
+  }
+}

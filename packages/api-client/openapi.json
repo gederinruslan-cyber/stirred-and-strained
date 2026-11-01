@@ -576,7 +576,11 @@
                           "type": "string"
                         },
                         "steps": {
-                          "type": "string"
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1,
+                          "type": "array"
                         },
                         "strength": {
                           "additionalProperties": false,
@@ -623,6 +627,41 @@
                           ],
                           "type": "object"
                         },
+                        "variationOf": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name"
+                          ],
+                          "type": "object"
+                        },
+                        "variations": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
                         "zeroProof": {
                           "type": "boolean"
                         }
@@ -632,11 +671,14 @@
                         "name",
                         "method",
                         "zeroProof",
+                        "glass",
+                        "steps",
                         "source",
                         "credit",
                         "licence",
                         "strength",
-                        "lines"
+                        "lines",
+                        "variations"
                       ],
                       "type": "object"
                     },
@@ -727,7 +769,11 @@
                             "type": "string"
                           },
                           "steps": {
-                            "type": "string"
+                            "items": {
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "type": "array"
                           },
                           "strength": {
                             "additionalProperties": false,
@@ -774,6 +820,41 @@
                             ],
                             "type": "object"
                           },
+                          "variationOf": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "variations": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "name"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
                           "zeroProof": {
                             "type": "boolean"
                           }
@@ -783,11 +864,14 @@
                           "name",
                           "method",
                           "zeroProof",
+                          "glass",
+                          "steps",
                           "source",
                           "credit",
                           "licence",
                           "strength",
-                          "lines"
+                          "lines",
+                          "variations"
                         ],
                         "type": "object"
                       },
@@ -880,7 +964,11 @@
                             "type": "string"
                           },
                           "steps": {
-                            "type": "string"
+                            "items": {
+                              "type": "string"
+                            },
+                            "minItems": 1,
+                            "type": "array"
                           },
                           "strength": {
                             "additionalProperties": false,
@@ -927,6 +1015,41 @@
                             ],
                             "type": "object"
                           },
+                          "variationOf": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "variations": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "name"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
                           "zeroProof": {
                             "type": "boolean"
                           }
@@ -936,11 +1059,14 @@
                           "name",
                           "method",
                           "zeroProof",
+                          "glass",
+                          "steps",
                           "source",
                           "credit",
                           "licence",
                           "strength",
-                          "lines"
+                          "lines",
+                          "variations"
                         ],
                         "type": "object"
                       },
@@ -1193,7 +1319,11 @@
                       "type": "string"
                     },
                     "steps": {
-                      "type": "string"
+                      "items": {
+                        "type": "string"
+                      },
+                      "minItems": 1,
+                      "type": "array"
                     },
                     "strength": {
                       "additionalProperties": false,
@@ -1240,6 +1370,41 @@
                       ],
                       "type": "object"
                     },
+                    "variationOf": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "variations": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
                     "zeroProof": {
                       "type": "boolean"
                     }
@@ -1249,11 +1414,14 @@
                     "name",
                     "method",
                     "zeroProof",
+                    "glass",
+                    "steps",
                     "source",
                     "credit",
                     "licence",
                     "strength",
-                    "lines"
+                    "lines",
+                    "variations"
                   ],
                   "type": "object"
                 }

@@ -27,7 +27,9 @@ test.describe("in the United Kingdom", () => {
     await expect(page.getByRole("switch")).toHaveCount(0);
     await expect(page.getByText("You're seeing the zero-proof side of the bar.")).toBeVisible();
     await expect(page.getByRole("article", { name: "Negroni" })).toHaveCount(0);
-    await expect(page.getByRole("checkbox", { name: "Bourbon", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("checkbox", { name: "Bourbon Whiskey", exact: true })).toHaveCount(
+      0,
+    );
     const res = await page.request.post("/prefs", {
       form: { zero: "off", back: "/" },
       maxRedirects: 0,

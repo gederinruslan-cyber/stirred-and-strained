@@ -13,13 +13,41 @@ import {
 import { createTaxonomy, type Taxonomy } from "@stirred/engine";
 import type { RecipeDetail } from "@stirred/schema";
 import { finishedAbv, quantity, standardDrinks, type Method } from "@stirred/units";
+import { glassName, stepsFor } from "./steps.ts";
 
 export type Library = {
   tax: Taxonomy;
   recipes: HouseRecipe[];
   byId: Map<string, HouseRecipe>;
   abv: Map<string, number>;
+  /** Recipes whose name contains this one's as whole words (Negroni → Coffee Negroni). */
+  variations: Map<string, HouseRecipe[]>;
+  /** The longest house recipe name inside this one's (Coffee Negroni → Negroni). */
+  variationOf: Map<string, HouseRecipe>;
 };
+
+const words = (name: string) =>
+  ` ${name
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()} `;
+
+function variationsOf(recipes: HouseRecipe[]) {
+  const variations = new Map<string, HouseRecipe[]>();
+  const variationOf = new Map<string, HouseRecipe>();
+  const keyed = recipes.map((r) => ({ r, key: words(r.name) }));
+  for (const base of keyed) {
+    for (const v of keyed) {
+      if (v.key === base.key || !v.key.includes(base.key)) continue;
+      variations.set(base.r.id, [...(variations.get(base.r.id) ?? []), v.r]);
+      const best = variationOf.get(v.r.id);
+      if (!best || base.r.name.length > best.name.length) variationOf.set(v.r.id, base.r);
+    }
+  }
+  return { variations, variationOf };
+}
 
 export function createLibrary(
   nodes: TaxonomyNode[],
@@ -31,6 +59,7 @@ export function createLibrary(
     recipes,
     byId: new Map(recipes.map((r) => [r.id, r])),
     abv: new Map(nodes.map((n) => [n.id, n.abv])),
+    ...variationsOf(recipes),
   };
 }
 
@@ -46,6 +75,10 @@ export async function loadLibrary(pool: Pool): Promise<Library> {
 
 export const nameOf = (lib: Library, id: string) => lib.tax.nodes.get(id)?.name ?? id;
 export const ref = (lib: Library, id: string) => ({ id, name: nameOf(lib, id) });
+
+/** A type reads lower case in a sentence ("club soda"); a brand keeps its name. */
+const topName = (lib: Library, id: string) =>
+  lib.tax.nodes.get(id)?.kind === "brand" ? nameOf(lib, id) : nameOf(lib, id).toLowerCase();
 
 export const isZeroProof = (lib: Library, r: HouseRecipe) =>
   r.lines.every((l) => lib.abv.get(l.ingredient) === 0);
@@ -75,8 +108,14 @@ export function detail(lib: Library, r: HouseRecipe, country = "ZZ"): RecipeDeta
     name: r.name,
     method: r.method,
     zeroProof: isZeroProof(lib, r),
-    ...(r.glass ? { glass: r.glass } : {}),
-    ...(r.steps ? { steps: r.steps } : {}),
+    glass: glassName(r.glass),
+    steps: r.steps
+      ? r.steps.split("\n")
+      : stepsFor(
+          r.method,
+          r.glass,
+          r.lines.filter((l) => l.unit === "top").map((l) => topName(lib, l.ingredient)),
+        ),
     source: r.source,
     credit: r.credit,
     licence: r.licence,
@@ -87,5 +126,11 @@ export function detail(lib: Library, r: HouseRecipe, country = "ZZ"): RecipeDeta
       ...(l.max !== null ? { max: l.max } : {}),
       optional: l.optional,
     })),
+    variations: (lib.variations.get(r.id) ?? []).map((v) => ({ id: v.id, name: v.name })),
+    ...(lib.variationOf.has(r.id)
+      ? {
+          variationOf: { id: lib.variationOf.get(r.id)!.id, name: lib.variationOf.get(r.id)!.name },
+        }
+      : {}),
   };
 }

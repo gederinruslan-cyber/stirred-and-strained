@@ -291,7 +291,7 @@ export interface operations {
                         };
                         daiquiri: {
                             credit: string;
-                            glass?: string;
+                            glass: string;
                             id: string;
                             licence: string;
                             lines: {
@@ -310,7 +310,7 @@ export interface operations {
                             method: string;
                             name: string;
                             source: string;
-                            steps?: string;
+                            steps: string[];
                             strength: {
                                 abv: number;
                                 drinks: {
@@ -321,11 +321,19 @@ export interface operations {
                                 };
                                 volumeMl: number;
                             };
+                            variationOf?: {
+                                id: string;
+                                name: string;
+                            };
+                            variations: {
+                                id: string;
+                                name: string;
+                            }[];
                             zeroProof: boolean;
                         };
                         featured: {
                             credit: string;
-                            glass?: string;
+                            glass: string;
                             id: string;
                             licence: string;
                             lines: {
@@ -344,7 +352,7 @@ export interface operations {
                             method: string;
                             name: string;
                             source: string;
-                            steps?: string;
+                            steps: string[];
                             strength: {
                                 abv: number;
                                 drinks: {
@@ -355,11 +363,19 @@ export interface operations {
                                 };
                                 volumeMl: number;
                             };
+                            variationOf?: {
+                                id: string;
+                                name: string;
+                            };
+                            variations: {
+                                id: string;
+                                name: string;
+                            }[];
                             zeroProof: boolean;
                         }[];
                         zeroBand: {
                             credit: string;
-                            glass?: string;
+                            glass: string;
                             id: string;
                             licence: string;
                             lines: {
@@ -378,7 +394,7 @@ export interface operations {
                             method: string;
                             name: string;
                             source: string;
-                            steps?: string;
+                            steps: string[];
                             strength: {
                                 abv: number;
                                 drinks: {
@@ -389,6 +405,14 @@ export interface operations {
                                 };
                                 volumeMl: number;
                             };
+                            variationOf?: {
+                                id: string;
+                                name: string;
+                            };
+                            variations: {
+                                id: string;
+                                name: string;
+                            }[];
                             zeroProof: boolean;
                         }[];
                     };
@@ -462,7 +486,7 @@ export interface operations {
                 content: {
                     "application/json": {
                         credit: string;
-                        glass?: string;
+                        glass: string;
                         id: string;
                         licence: string;
                         lines: {
@@ -481,7 +505,7 @@ export interface operations {
                         method: string;
                         name: string;
                         source: string;
-                        steps?: string;
+                        steps: string[];
                         strength: {
                             abv: number;
                             drinks: {
@@ -492,6 +516,14 @@ export interface operations {
                             };
                             volumeMl: number;
                         };
+                        variationOf?: {
+                            id: string;
+                            name: string;
+                        };
+                        variations: {
+                            id: string;
+                            name: string;
+                        }[];
                         zeroProof: boolean;
                     };
                 };

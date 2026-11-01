@@ -7,7 +7,11 @@ type Line = RecipeDetail["lines"][number];
 
 export function amountText(line: Line, unit: DisplayUnit): string {
   if (!line.amount) return "to taste";
-  return formatQuantity(quantity(line.amount.value, line.amount.unit), unit);
+  const text = formatQuantity(quantity(line.amount.value, line.amount.unit), unit);
+  if (line.max === undefined) return text;
+  // A range keeps one unit word: "2–3 dashes", "¾–1 oz".
+  const top = formatQuantity(quantity(line.max, line.amount.unit), unit);
+  return `${text.split(" ")[0]}–${top}`;
 }
 
 /**

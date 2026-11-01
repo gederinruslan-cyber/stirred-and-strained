@@ -1,5 +1,8 @@
-// Per-viewer preferences kept in cookies: colour theme, zero-proof mode and the age answer.
+// Per-viewer preferences kept in cookies: colour theme, zero-proof mode, display unit and the
+// age answer.
+import type { DisplayUnit } from "@stirred/units";
 import { cookies } from "next/headers";
+import { parseUnit } from "./amounts.ts";
 import { AGE_COOKIE, parseAgeCookie, type AgeAnswer } from "./age.ts";
 import type { Theme } from "./prefs-shared.ts";
 
@@ -11,6 +14,8 @@ export type Prefs = {
   /** Under the drinking age: zero-proof is on and cannot be turned off. */
   zeroLocked: boolean;
   age: AgeAnswer | null;
+  /** ml, cl or oz: remembered across recipes and the landing. */
+  unit: DisplayUnit;
 };
 
 export async function readPrefs(): Promise<Prefs> {
@@ -23,6 +28,7 @@ export async function readPrefs(): Promise<Prefs> {
     zero: zeroLocked || jar.get("zero")?.value === "1",
     zeroLocked,
     age,
+    unit: parseUnit(jar.get("unit")?.value),
   };
 }
 

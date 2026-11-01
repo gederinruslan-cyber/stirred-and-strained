@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { RecipeDetail } from "@stirred/schema";
-import { strengthText } from "../lib/amounts.ts";
+import { amountText, strengthText } from "../lib/amounts.ts";
 
 const recipe = (
   drinks: RecipeDetail["strength"]["drinks"],
@@ -10,6 +10,9 @@ const recipe = (
   id: "negroni",
   name: "Negroni",
   method: "built",
+  glass: "rocks glass",
+  steps: ["Fill a rocks glass with ice.", "Pour in everything and give it a gentle stir."],
+  variations: [],
   zeroProof,
   source: "https://iba-world.com/negroni/",
   credit: "Spec via iba-world.com",
@@ -32,5 +35,22 @@ describe("strengthText rounds once, at display", () => {
     expect(
       strengthText(recipe({ measure: "standard drinks", value: 0, source: "" }, true, 0)),
     ).toBe("0% ABV · nothing to count");
+  });
+});
+
+describe("amountText", () => {
+  const line = (value: number, unit: "ml" | "dash" | "top", max?: number) => ({
+    ingredient: { id: "x", name: "X" },
+    amount: { value, unit },
+    ...(max === undefined ? {} : { max }),
+    optional: false,
+  });
+  it.each([
+    [line(30, "ml"), "oz", "1 oz"],
+    [line(2, "dash", 3), "ml", "2–3 dashes"],
+    [line(22.5, "ml", 30), "oz", "¾–1 oz"],
+    [line(1, "top"), "cl", "top up"],
+  ] as const)("%o in %s → %s", (l, unit, text) => {
+    expect(amountText(l, unit)).toBe(text);
   });
 });

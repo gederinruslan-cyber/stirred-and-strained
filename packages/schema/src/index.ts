@@ -45,14 +45,20 @@ export const RecipeSummary = z.object({
   abv: z.number().nonnegative(),
 });
 
+const RecipeRef = z.object({ id: z.string(), name: z.string() });
+
 export const RecipeDetail = RecipeSummary.omit({ abv: true }).extend({
-  glass: z.string().optional(),
-  steps: z.string().optional(),
+  /** The glass as a phrase ("rocks glass", "coupe"); "glass" when the source names none. */
+  glass: z.string(),
+  /** How to make it, in our own words. */
+  steps: z.array(z.string()).min(1),
   source: z.string(),
   credit: z.string(),
   licence: z.string(),
   strength: Strength,
   lines: z.array(RecipeLine),
+  variations: z.array(RecipeRef),
+  variationOf: RecipeRef.optional(),
 });
 export type RecipeDetail = z.infer<typeof RecipeDetail>;
 

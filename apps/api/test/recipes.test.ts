@@ -48,6 +48,33 @@ describe("GET /recipes/:id", () => {
   });
 });
 
+describe("GET /recipes/:id: steps and variations", () => {
+  it("derives the steps from method and glass, tops last", async () => {
+    const { body } = await get("/recipes/americano");
+    expect(body.glass).toBe("highball");
+    expect(body.steps).toEqual([
+      "Fill a highball with ice.",
+      "Pour in the rest and give it a gentle stir.",
+      "Top up with club soda.",
+    ]);
+  });
+
+  it("links a recipe to its variations and a variation back to the closest original", async () => {
+    const names = (await get("/recipes/negroni")).body.variations.map(
+      (v: { name: string }) => v.name,
+    );
+    expect(names).toEqual(expect.arrayContaining(["Coffee Negroni", "Negroni Sbagliato"]));
+    expect(names).not.toContain("Negroni");
+    expect((await get("/recipes/coffee-negroni")).body.variationOf).toEqual({
+      id: "negroni",
+      name: "Negroni",
+    });
+    expect((await get("/recipes/white-negroni-sbagliato")).body.variationOf.name).toBe(
+      "Negroni Sbagliato",
+    );
+  });
+});
+
 describe("GET /recipes", () => {
   it("pages through every house recipe, ordered by name then id", async () => {
     const { status, body } = await get("/recipes?page=2&pageSize=24");

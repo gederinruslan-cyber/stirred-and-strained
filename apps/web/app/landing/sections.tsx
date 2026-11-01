@@ -226,7 +226,7 @@ export function Picks({ recipes, state }: { recipes: RecipeDetail[]; state: Land
                 name: l.ingredient.name,
                 amount: amountText(l, state.unit),
               }))}
-              method={r.steps ?? r.method}
+              method={r.steps.join(" ")}
               strength={<strong>{strengthText(r)}</strong>}
               credit={r.credit}
               href="#card"
@@ -296,7 +296,7 @@ export function JotItDown({ recipe, state }: { recipe: RecipeDetail; state: Land
               </h3>
               <p className="hand">
                 a sour · {recipe.method}
-                {recipe.glass && ` · ${recipe.glass.toLowerCase()}`}
+                {` · ${recipe.glass}`}
               </p>
             </div>
             <UnitControl state={state} legend="Units" />
@@ -392,8 +392,7 @@ export function ZeroBand({
                 {r.name}
               </h3>
               <p className="muted">
-                {[r.glass?.toLowerCase(), r.method, strengthText(r)].filter(Boolean).join(" · ")}{" "}
-                {r.zeroProof && <ZeroProofTag />}
+                {[r.glass, r.method, strengthText(r)].join(" · ")} {r.zeroProof && <ZeroProofTag />}
               </p>
               <ul className="lines">
                 {r.lines.map((l) => (

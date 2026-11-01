@@ -124,6 +124,11 @@ position only; 0 ms under `prefers-reduced-motion`.
   card (max 560 px, tilt -0.8° on desktop, none below 900 px), the normal footer. The question
   is the `h1`; answers are two full submit buttons in one POST form; secondary choices (country)
   follow under an `h2`. No dialog, no overlay, no content behind it; works without JavaScript.
+- **Not-found page (M1-08):** the answer for a missing or out-of-reach page, HTTP 404. Normal
+  header and footer; `main` with one centred napkin card (max 560 px, tape, tilt -0.8° on
+  desktop, none below 900 px). `h1` says what is missing in plain words, one short body line,
+  one primary `ButtonLink` to somewhere useful. Never shows any part of the thing refused, never
+  blames the visitor; a zero-proof session's refusal points to "the zero-proof side of the bar".
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.

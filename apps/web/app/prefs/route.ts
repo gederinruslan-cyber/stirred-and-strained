@@ -12,6 +12,8 @@ export async function POST(request: NextRequest) {
   const cookie = { path: "/", maxAge: PREF_MAX_AGE, sameSite: "lax" as const, httpOnly: false };
   const theme = form.get("theme");
   if (theme === "light" || theme === "dark") response.cookies.set("theme", theme, cookie);
+  const unit = form.get("unit");
+  if (unit === "ml" || unit === "cl" || unit === "oz") response.cookies.set("unit", unit, cookie);
   const zero = form.get("zero");
   const locked = parseAgeCookie(request.cookies.get(AGE_COOKIE)?.value)?.answer === "zero";
   if ((zero === "on" || zero === "off") && !locked)

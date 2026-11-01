@@ -33,7 +33,7 @@ type Search = Record<string, string | string[] | undefined>;
 
 export default async function Home({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
-  const { zero, zeroLocked, age } = await readPrefs();
+  const { zero, zeroLocked, age, unit } = await readPrefs();
 
   const { data: served } = await api.GET("/landing", {
     params: { query: age ? { country: age.country } : {} },
@@ -56,7 +56,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
       ? [sp.b ?? []].flat().filter((b) => known.has(b))
       : DEFAULT_BOTTLES.filter((b) => known.has(b)),
     basics: submitted ? sp.basics === "1" : true,
-    unit: parseUnit(sp.unit),
+    // The landing's own control is a query parameter; otherwise the remembered unit.
+    unit: sp.unit ? parseUnit(sp.unit) : unit,
   };
 
   const { data: demo } = await api.GET("/demo", {
