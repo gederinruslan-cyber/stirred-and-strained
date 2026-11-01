@@ -31,3 +31,5 @@
 - 2026-11-01 · M1-05 report: merged a7bb195; verify:quick green; review not needed (docs only); no tests (docs); open: NH-3 final look before M1-06 ships; EU database right to confirm with counsel (M3-02).
 - 2026-11-01 · M1-01 `strength-model-adr` merged (7d927d0); local verify:quick.
 - 2026-11-01 · M1-01 report: ADR 0004 merged as proposed (39878ed); row blocked on NH-4 (sign-off); worked examples recomputed (Thai Basil Daiquiri 15.0% vs published 15%); M1-02 waits.
+- 2026-11-01 · M1-06 report: built on `change/seed-import` (615 recipes, 297 ingredients, 48+11 exclusions with reasons, 32 IBA corrections from an entry-by-entry check of 89 pages); verify:quick green; review BLOCK (monkey-gland) refuted against iba-world.com, guard added, review APPROVE; not shipped: blocked on NH-3.
+- 2026-11-01 · M1-11 report: built on `change/age-gate` (ui-ux pass, 4 new patterns); verify:full green (17 e2e incl. axe light/dark 1440/360); review not needed (no user data or auth; cookie only); not shipped: blocked on NH-5.
