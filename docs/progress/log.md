@@ -14,3 +14,4 @@
 - 2026-11-01 · M0-07 report: merged c1346e3; verify:quick green; review APPROVE (note: top-ups need an ml figure before strength uses the sample library — M1-02); tests 165 lines vs ~240 production (engine 135 + sample data 105); open: none.
 - 2026-11-01 · M0-03 `db-foundation` merged (b57d1e0); local verify:quick.
 - 2026-11-01 · M0-03 report: merged b57d1e0; verify:quick green; verify:full on main green; review APPROVE + 2 notes fixed (owner-member role refused; migrations may not control transactions); tests ~190 lines vs ~210 production; open: none.
+- 2026-11-01 · M0-04 `api-contract-and-client` merged (dfcd304); local verify:quick.
