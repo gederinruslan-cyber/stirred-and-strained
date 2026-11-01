@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { amountText, strengthText } from "../../lib/amounts.ts";
 import type { LandingState } from "../page.tsx";
+import { addTicked } from "../bar/actions.ts";
 import { AutoSubmitForm } from "./auto-submit.tsx";
 import { PICKS, UNITS } from "./content.ts";
 
@@ -75,7 +76,7 @@ export function Hero({
           credited.
         </p>
         <div className="hero__actions">
-          <ButtonLink href="#demo">Start my bar</ButtonLink>
+          <ButtonLink href="/bar">Start my bar</ButtonLink>
           <ButtonLink href="#picks" variant="secondary">
             Just browse
           </ButtonLink>
@@ -155,9 +156,21 @@ export function Hero({
               )}
             </div>
           </div>
-          <p className="demo__foot muted">
-            Nothing&apos;s saved yet. <Link href="#demo">Start my bar</Link> to keep it.
-          </p>
+          {empty ? (
+            <p className="demo__foot muted">
+              Nothing&apos;s saved yet. <Link href="/bar">Start my bar</Link> to keep a shelf.
+            </p>
+          ) : (
+            <form action={addTicked} className="demo__foot muted">
+              {[...state.bottles, ...(state.basics ? landing.basics.map((b) => b.id) : [])].map(
+                (id) => (
+                  <input key={id} type="hidden" name="ingredients" value={id} />
+                ),
+              )}
+              Nothing&apos;s saved yet. <button type="submit">Start my bar</button> with these to
+              keep them.
+            </form>
+          )}
         </div>
         <p className="hand hand-aside demo__aside" aria-hidden="true">
           tick a few, it updates live
@@ -407,7 +420,7 @@ export function Closing() {
         So… what&apos;s on your shelf?
       </h2>
       <p className="muted">Tick a few bottles and see what tonight could look like.</p>
-      <ButtonLink href="#demo">Start my bar</ButtonLink>
+      <ButtonLink href="/bar">Start my bar</ButtonLink>
       <p className="hand">takes a couple of minutes</p>
     </section>
   );

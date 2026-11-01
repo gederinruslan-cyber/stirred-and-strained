@@ -101,7 +101,15 @@ export const RecipeList = z.object({
   }),
 });
 export type RecipeList = z.infer<typeof RecipeList>;
-export const IngredientList = z.object({ items: z.array(IngredientRef) });
+/** An ingredient with where it sits: `path` is its ancestors' names, category first. */
+export const IngredientEntry = IngredientRef.extend({
+  kind: z.enum(["category", "type", "brand"]),
+  path: z.array(z.string()),
+});
+export type IngredientEntry = z.infer<typeof IngredientEntry>;
+/** With `q`: at most 20 suggestions, best first (M2-03); without: every ingredient by name. */
+export const IngredientQuery = z.object({ q: z.string().trim().min(1).max(60).optional() });
+export const IngredientList = z.object({ items: z.array(IngredientEntry) });
 
 // Landing page and demo (M0-08), over the house library.
 export const DemoQuery = z.object({
@@ -167,3 +175,8 @@ export const SessionResponse = z.object({ session: z.string(), expiresAt: z.iso.
 export type SessionResponse = z.infer<typeof SessionResponse>;
 export const MeResponse = z.object({ email: z.string() });
 export type MeResponse = z.infer<typeof MeResponse>;
+
+// My Bar (M2-03): the ingredients a signed-in user keeps.
+export const BarResponse = z.object({ items: z.array(IngredientEntry) });
+export const BarAddBody = z.object({ ingredients: z.array(z.string().max(120)).min(1).max(400) });
+export const BarItemParams = z.object({ ingredientId: z.string().max(120) });

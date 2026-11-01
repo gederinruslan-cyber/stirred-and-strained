@@ -9,6 +9,7 @@ import {
 import type { Pool } from "@stirred/db";
 import { ErrorBody, HealthResponse } from "@stirred/schema";
 import { authRoutes } from "./auth/routes.ts";
+import { barRoutes } from "./bar/routes.ts";
 import { noMailer, type Mailer } from "./auth/mailer.ts";
 import { landingRoutes } from "./landing.ts";
 import { legalRoutes } from "./legal/routes.ts";
@@ -89,6 +90,7 @@ export function buildApp({ pool, publicOrigin, library, mailer = noMailer }: App
     recipeRoutes(routes, library);
     legalRoutes(routes);
     authRoutes(routes, { pool, mailer, publicOrigin });
+    barRoutes(routes, { pool, lib: library });
   });
 
   return app;

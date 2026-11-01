@@ -2,6 +2,7 @@
 import {
   ErrorBody,
   IngredientList,
+  IngredientQuery,
   RecipeDetail,
   RecipeList,
   RecipeListQuery,
@@ -10,6 +11,7 @@ import {
 } from "@stirred/schema";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { entry, suggest } from "../ingredients.ts";
 import { detail, summary, type Library } from "./library.ts";
 import { search } from "./search.ts";
 
@@ -60,12 +62,18 @@ export function recipeRoutes(app: FastifyInstance, lib: Library) {
   );
 
   const ingredients = [...lib.tax.nodes.values()]
-    .map((n) => ({ id: n.id, name: n.name }))
-    .sort((a, b) => a.name.localeCompare(b.name) || (a.id < b.id ? -1 : 1));
+    .sort((a, b) => a.name.localeCompare(b.name) || (a.id < b.id ? -1 : 1))
+    .map((n) => entry(lib, n.id));
   r.get(
     "/ingredients",
-    { schema: { operationId: "listIngredients", response: { 200: IngredientList } } },
-    async () => ({ items: ingredients }),
+    {
+      schema: {
+        operationId: "listIngredients",
+        querystring: IngredientQuery,
+        response: { 200: IngredientList },
+      },
+    },
+    async (req) => ({ items: req.query.q ? suggest(lib, req.query.q) : ingredients }),
   );
 
   r.get(

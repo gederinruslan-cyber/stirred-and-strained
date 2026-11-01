@@ -156,6 +156,21 @@ position only; 0 ms under `prefers-reduced-motion`.
 - **Header account control (M2-02):** theme button, "Sign in" link or "Sign out" (a POST
   `button` styled as the header link, 44 px) and "Start my bar" share `.site-header__actions`, so
   they wrap together; at 360 px that group is its own row. No email or name shown.
+- **Status line (M2-03):** the result of a POST that changed something. `p[role=status]` above
+  the forms it reports on: `--sticky-g` fill, `--ink` 16/24, 4 px radius, 12 16 padding, no tilt;
+  one sentence in the past tense naming the thing ("Gin removed.", "Added Bourbon Whiskey.").
+  Full page load: `tabIndex=-1` + `autoFocus`; with JS the text changes in place and focus stays
+  with the user's task. Errors are never a status line (Text field error or Form-level error).
+- **Suggestion list (M2-03):** when a typed name is not one exact match, under the field's
+  `field__error`: `ul` of secondary submit pills "Add [name]" (`name=pick value=[id]`, 44 px),
+  each followed by its path in `--muted` 15/22, linked by `aria-describedby`. At most 8.
+- **Check tree (M2-03):** a long hierarchical pick list. Native checkboxes in `label` rows (32 px
+  ≥900, 44 below) in nested `ul`s, 24 px indent per level; inside a closed `details` per top-level
+  group whose `summary` carries name and a `tabular-nums` count; two CSS columns ≥900 with no
+  group split. A state beside a row ("on your bar") is words plus an `aria-hidden` tick.
+- **Shelf list (M2-03):** the Result list panel with `h3` group heads; row = name (DM Sans 500
+  18/28), path under it (`--muted` 15/22), a link-styled `button` "Remove" with a `.vh` name. Paths
+  render "A › B" with `›` `aria-hidden` and a `.vh` comma.
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.

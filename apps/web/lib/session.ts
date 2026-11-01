@@ -4,6 +4,7 @@ import "server-only";
 import type { SessionResponse } from "@stirred/schema";
 import { cookies, headers } from "next/headers";
 import { api } from "./api.ts";
+import { readShelf, writeShelf } from "./shelf.ts";
 
 const SESSION_COOKIE = "session";
 const TOKEN = /^[A-Za-z0-9_-]{43}$/;
@@ -32,7 +33,11 @@ export async function signedInEmail(): Promise<string | null> {
   return data?.email ?? null;
 }
 
-/** In a server action: keep a new session until the api says it ends. */
+/**
+ * In a server action: keep a new session until the api says it ends, and move the signed-out
+ * shelf into the account (M2-03). Ids the taxonomy no longer knows are dropped; if the api
+ * cannot take the shelf now, the cookie stays for the next sign-in.
+ */
 export async function keepSession(session: SessionResponse) {
   (await cookies()).set(SESSION_COOKIE, session.session, {
     path: "/",
@@ -41,6 +46,25 @@ export async function keepSession(session: SessionResponse) {
     secure,
     expires: new Date(session.expiresAt),
   });
+  const shelf = await readShelf();
+  if (shelf.length === 0) return;
+  try {
+    const list = (await api.GET("/ingredients")).data;
+    if (!list) return;
+    const known = new Set(list.items.map((i) => i.id));
+    const ingredients = shelf.filter((id) => known.has(id));
+    const moved =
+      ingredients.length === 0 ||
+      (
+        await api.POST("/bar/items", {
+          body: { ingredients },
+          headers: { authorization: `Bearer ${session.session}` },
+        })
+      ).response.ok;
+    if (moved) await writeShelf([]);
+  } catch {
+    // The api is down: the shelf waits in its cookie.
+  }
 }
 
 /** In a server action: end this session in the api (if it still exists) and drop the cookie. */

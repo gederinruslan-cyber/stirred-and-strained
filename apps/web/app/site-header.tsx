@@ -33,7 +33,7 @@ export function SiteHeader({
       </Link>
       <nav aria-label="Main" className="site-nav">
         <Link href="/#picks">Recipes</Link>
-        <Link href="/#demo">My Bar</Link>
+        <Link href="/bar">My Bar</Link>
       </nav>
       <form role="search" method="get" action="/recipes" className="site-header__search">
         <SearchInput name="q" label="Find a drink" placeholder="Find a drink…" />
@@ -56,7 +56,7 @@ export function SiteHeader({
             Sign in
           </Link>
         )}
-        <ButtonLink href="/#demo">Start my bar</ButtonLink>
+        <ButtonLink href="/bar">Start my bar</ButtonLink>
       </div>
     </header>
   );

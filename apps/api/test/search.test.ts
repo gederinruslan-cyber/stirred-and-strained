@@ -69,6 +69,8 @@ describe("GET /ingredients", () => {
     const res = await app.inject({ method: "GET", url: "/ingredients" });
     const items = res.json().items;
     expect(items).toHaveLength(house.tax.nodes.size);
-    expect(items).toContainEqual({ id: "bourbon-whiskey", name: "Bourbon Whiskey" });
+    expect(items).toContainEqual(
+      expect.objectContaining({ id: "bourbon-whiskey", name: "Bourbon Whiskey" }),
+    );
   });
 });
