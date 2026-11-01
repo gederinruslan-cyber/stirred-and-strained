@@ -49,7 +49,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 | M1-08 | recipe-page | todo | M0-06, M1-07 | | Server-rendered recipe page with schema.org/Recipe, stable slug URL, ml/cl/oz toggle (remembered), finished ABV and standard drinks, attribution, variation link |
 | M1-09 | search-and-facets | todo | M1-07, M1-08 | | Search by name; include/exclude ingredients (hierarchy-aware); facets: base spirit, ABV range, method, glass, family, flavour tags; results beside filters on desktop; keyboard shortcuts |
 | M1-10 | zero-proof-mode | todo | M1-09 | 🧪 | A site-wide zero-proof mode that shows NA recipes and NA swaps through the same engine; NA recipes look first-class; strength shows 0% and no standard drinks |
-| M1-11 | age-gate-and-responsible-footer | in-progress | M0-06 | ⚖️ | Locale-aware age gate (legal drinking age table with sources), responsible-drinking footer with local help links; answering "No" gives a zero-proof-only session (no alcoholic recipes or ingredients), not a dead end; needs-human sign-off on copy, table and that behaviour (legal check) |
+| M1-11 | age-gate-and-responsible-footer | done `82941c3` | M0-06 | ⚖️ | Locale-aware age gate (legal drinking age table with sources), responsible-drinking footer with local help links; answering "No" gives a zero-proof-only session (no alcoholic recipes or ingredients), not a dead end; needs-human sign-off on copy, table and that behaviour (legal check) |
 
 ## M2 · My Bar
 
