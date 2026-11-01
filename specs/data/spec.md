@@ -39,6 +39,14 @@
   with children is a category, a childless root is placed under a named category (salt under
   pantry), a node with a producer is a brand; ABV is the ingredient's own strength, and the
   result is a valid engine taxonomy.
+- **Scenario: only accepted stand-ins.** A source parent that would let an ingredient stand in
+  where a bartender would refuse it is overridden: tequila does not satisfy mezcal, orgeat or
+  honey syrup does not satisfy simple syrup (demerara does), sloe gin does not satisfy gin,
+  flavoured rum or vodka does not satisfy rum or vodka, Cocchi Americano does not satisfy dry
+  vermouth.
+- **Scenario: no 0% spirits.** A recipe line whose ingredient sits under spirits, liqueurs,
+  aperitifs, bitters, fortified wine or wine at 0% ABV fails the import; the rules give such an
+  ingredient its usual label strength, erring high (rum 40%, crème de banane 25%, fino 15%).
 - **Scenario: canonical amounts.** 1.5 oz is stored as 44.360 ml and 1 tsp as 4.929 ml; dashes
   stay dashes, "top up" is top 1, leaves, slices and wedges are pieces, and a range keeps its
   maximum.
