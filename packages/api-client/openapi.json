@@ -1030,13 +1030,33 @@
                           },
                           "name": {
                             "type": "string"
+                          },
+                          "swaps": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "for": {
+                                  "type": "string"
+                                },
+                                "using": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "for",
+                                "using"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
                           }
                         },
                         "required": [
                           "id",
                           "name",
                           "method",
-                          "missing"
+                          "missing",
+                          "swaps"
                         ],
                         "type": "object"
                       },
@@ -1552,6 +1572,12 @@
                                 ],
                                 "type": "object"
                               },
+                              "exact": {
+                                "enum": [
+                                  true
+                                ],
+                                "type": "boolean"
+                              },
                               "ingredient": {
                                 "additionalProperties": false,
                                 "properties": {
@@ -1739,6 +1765,12 @@
                                     "unit"
                                   ],
                                   "type": "object"
+                                },
+                                "exact": {
+                                  "enum": [
+                                    true
+                                  ],
+                                  "type": "boolean"
                                 },
                                 "ingredient": {
                                   "additionalProperties": false,
@@ -2406,6 +2438,12 @@
                             ],
                             "type": "object"
                           },
+                          "exact": {
+                            "enum": [
+                              true
+                            ],
+                            "type": "boolean"
+                          },
                           "ingredient": {
                             "additionalProperties": false,
                             "properties": {
@@ -2744,13 +2782,33 @@
                           },
                           "name": {
                             "type": "string"
+                          },
+                          "swaps": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "for": {
+                                  "type": "string"
+                                },
+                                "using": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "for",
+                                "using"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
                           }
                         },
                         "required": [
                           "id",
                           "name",
                           "method",
-                          "missing"
+                          "missing",
+                          "swaps"
                         ],
                         "type": "object"
                       },
@@ -2769,6 +2827,168 @@
             "description": "Default Response"
           },
           "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/substitutions": {
+      "get": {
+        "operationId": "listSubstitutions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "allowed": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "type": "string"
+                          },
+                          "replaces": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "substitute": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "substitute",
+                          "replaces",
+                          "reason",
+                          "allowed"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/substitutions/{substitute}/{replaces}": {
+      "put": {
+        "operationId": "setSubstitution",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "substitute",
+            "required": true,
+            "schema": {
+              "maxLength": 120,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "replaces",
+            "required": true,
+            "schema": {
+              "maxLength": 120,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "allowed": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "allowed"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "404": {
             "content": {
               "application/json": {
                 "schema": {

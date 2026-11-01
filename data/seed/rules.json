@@ -1093,5 +1093,139 @@
       ],
       "method": "shaken"
     }
+  },
+  "_substitutionsNote": "One-way swaps a bartender would accept, on for everyone until a user turns one off (M2-05). `exact` names the lines a drink is named for: no swap stands in there.",
+  "substitutions": [
+    {
+      "substitute": "rye-whiskey",
+      "replaces": "bourbon-whiskey",
+      "reason": "Both American whiskeys; rye makes it drier and spicier."
+    },
+    {
+      "substitute": "bourbon-whiskey",
+      "replaces": "rye-whiskey",
+      "reason": "The usual swap in a Manhattan or an Old Pal; a little sweeter."
+    },
+    {
+      "substitute": "tennessee-whiskey",
+      "replaces": "bourbon-whiskey",
+      "reason": "Made the bourbon way, then filtered through charcoal."
+    },
+    {
+      "substitute": "armagnac",
+      "replaces": "cognac",
+      "reason": "Both aged French grape brandies."
+    },
+    {
+      "substitute": "brandy",
+      "replaces": "cognac",
+      "reason": "A good grape brandy does a cognac's job."
+    },
+    {
+      "substitute": "tequila-reposado",
+      "replaces": "tequila-blanco",
+      "reason": "The same agave spirit, rested in oak, so a little rounder."
+    },
+    {
+      "substitute": "tequila-blanco",
+      "replaces": "tequila-reposado",
+      "reason": "The same agave spirit, unrested, so a little brighter."
+    },
+    {
+      "substitute": "tequila-anejo",
+      "replaces": "tequila-reposado",
+      "reason": "The same agave spirit, aged longer."
+    },
+    {
+      "substitute": "triple-sec",
+      "replaces": "cointreau",
+      "reason": "Cointreau is a triple sec; any good one works."
+    },
+    {
+      "substitute": "cointreau",
+      "replaces": "triple-sec",
+      "reason": "Cointreau is a triple sec."
+    },
+    {
+      "substitute": "cocchi-aperitivo-americano",
+      "replaces": "lillet-blanc",
+      "reason": "Both quinine aperitif wines; Cocchi is a touch more bitter."
+    },
+    {
+      "substitute": "lillet-blanc",
+      "replaces": "cocchi-aperitivo-americano",
+      "reason": "Both quinine aperitif wines; Lillet is a touch softer."
+    },
+    {
+      "substitute": "prosecco",
+      "replaces": "champagne",
+      "reason": "Both dry sparkling wines; prosecco is fruitier."
+    },
+    {
+      "substitute": "champagne",
+      "replaces": "prosecco",
+      "reason": "Both dry sparkling wines; champagne is drier."
+    },
+    {
+      "substitute": "sparkling-wine",
+      "replaces": "champagne",
+      "reason": "Any dry sparkling wine works."
+    },
+    {
+      "substitute": "sparkling-wine",
+      "replaces": "prosecco",
+      "reason": "Any dry sparkling wine works."
+    },
+    {
+      "substitute": "simple-syrup",
+      "replaces": "sugar",
+      "reason": "A barspoon of syrup for each cube or teaspoon of sugar."
+    },
+    {
+      "substitute": "sugar",
+      "replaces": "simple-syrup",
+      "reason": "Stir sugar into the same weight of warm water."
+    },
+    {
+      "substitute": "simple-syrup",
+      "replaces": "demerara-syrup",
+      "reason": "Plain syrup for the richer demerara; a little less depth."
+    },
+    {
+      "substitute": "honey",
+      "replaces": "honey-syrup",
+      "reason": "Loosen honey with the same amount of warm water."
+    },
+    {
+      "substitute": "pernod",
+      "replaces": "absinthe",
+      "reason": "Another anise spirit; fine for a rinse or a dash."
+    }
+  ],
+  "exact": {
+    "bourbon-lift": {
+      "bourbon-whiskey": "The drink is named for its bourbon."
+    },
+    "bourbon-renewal": {
+      "bourbon-whiskey": "The drink is named for its bourbon."
+    },
+    "bourbon-stone-sour": {
+      "bourbon-whiskey": "The drink is named for its bourbon."
+    },
+    "champagne-cocktail": {
+      "champagne": "The drink is named for its champagne."
+    },
+    "grasshopper-blanco": {
+      "tequila-blanco": "The drink is named for its blanco tequila."
+    },
+    "absinthe-colada": {
+      "absinthe": "The drink is named for its absinthe."
+    },
+    "absinthe-frappe": {
+      "absinthe": "The drink is named for its absinthe."
+    },
+    "absinthe-old-fashioned": {
+      "absinthe": "The drink is named for its absinthe."
+    }
   }
 }

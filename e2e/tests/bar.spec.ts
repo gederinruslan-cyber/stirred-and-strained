@@ -45,7 +45,7 @@ test("a signed-out shelf: add by name, a category at once, remove, then it moves
 
   // Signing up moves the shelf into the new account and drops the cookie.
   const email = freshEmail("bar");
-  await page.getByRole("link", { name: "Create an account" }).click();
+  await page.getByRole("link", { name: "Create an account", exact: true }).click();
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password").fill("negroni-1919");
   await page.getByRole("button", { name: "Create account" }).click();
@@ -123,6 +123,17 @@ test.describe("without JavaScript", () => {
     await expect(make.getByRole("link", { name: "Boulevardier", exact: true })).toBeAttached();
   });
 
+  test("a swap turns off with a plain form post", async ({ page }) => {
+    await signedInWith(page, ["Rye whiskey"]);
+    await page.locator(".swaps__fold summary").click();
+    await ryeRow(page)
+      .getByRole("button", { name: /Turn off/ })
+      .click();
+    await expect(status(page)).toContainText("won't stand in for Bourbon Whiskey any more.");
+    await expect(page.locator(".swaps__fold")).toHaveAttribute("open", "");
+    await expect(ryeRow(page).locator(".swap__state")).toHaveText("Off");
+  });
+
   test("a name that is not exact offers suggestions to pick from", async ({ page }) => {
     await page.goto("/bar");
     await addByName(page, "whisk");
@@ -138,6 +149,65 @@ test.describe("without JavaScript", () => {
   });
 });
 
+/** A new signed-in account whose bar holds these (the sign-up path moves the shelf in). */
+const signedInWith = async (page: Page, names: string[]) => {
+  for (const name of names) {
+    await page.goto("/bar");
+    await addByName(page, name);
+  }
+  const email = freshEmail("swaps");
+  await page.goto("/sign-up?back=/bar");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password").fill("negroni-1919");
+  await page.getByRole("button", { name: "Create account" }).click();
+  await page.goto(await mailedLink(email, /Confirm/));
+  await page.getByLabel("Password").fill("negroni-1919");
+  await page.getByRole("button", { name: "Confirm and sign in" }).click();
+  await expect(page).toHaveURL("/");
+  await page.goto("/bar");
+};
+const ryeRow = (page: Page) =>
+  page.locator(".swap").filter({ hasText: /Rye whiskey\s*for\s*Bourbon Whiskey/ });
+
+test("a swap counts until you turn it off, and the results say which they used", async ({
+  page,
+}) => {
+  await signedInWith(page, ["Rye whiskey", "Sweet Vermouth", "Campari"]);
+  const make = results(page).locator("section", { has: page.locator("#make-h") });
+  await expect(make.locator(".result").filter({ hasText: "Boulevardier" })).toContainText(
+    "using Rye whiskey for Bourbon Whiskey",
+  );
+
+  await page.locator(".swaps__fold summary").click();
+  await expect(ryeRow(page)).toContainText("You have Rye whiskey");
+  await ryeRow(page)
+    .getByRole("button", { name: "Turn off Rye whiskey for Bourbon Whiskey" })
+    .click();
+  await expect(status(page)).toContainText(
+    "Rye whiskey won't stand in for Bourbon Whiskey any more.",
+  );
+  await expect(ryeRow(page).locator(".swap__state")).toHaveText("Off");
+  await expect(page.locator(".swaps__fold summary")).toContainText("1 off");
+  const away = results(page).locator("section", { has: page.locator("#away-h") });
+  await expect(away.locator(".result").filter({ hasText: "Boulevardier" })).toContainText(
+    "Bourbon Whiskey",
+  );
+
+  await ryeRow(page)
+    .getByRole("button", { name: "Turn on Rye whiskey for Bourbon Whiskey" })
+    .click();
+  await expect(status(page)).toContainText("Rye whiskey can stand in for Bourbon Whiskey again.");
+  await expect(make.getByRole("link", { name: "Boulevardier", exact: true })).toBeAttached();
+});
+
+test("signed out, the swaps are listed read-only with a way to sign in", async ({ page }) => {
+  await page.goto("/bar");
+  await page.locator(".swaps__fold summary").click();
+  await expect(ryeRow(page).locator(".swap__state")).toHaveText("✓ On");
+  await expect(page.locator(".swaps__fold").getByRole("button")).toHaveCount(0);
+  await expect(page.getByText("These all count for now.")).toBeVisible();
+});
+
 for (const scheme of ["light", "dark"] as const) {
   for (const width of [1440, 360]) {
     test(`My Bar passes axe, ${scheme} at ${width}`, async ({ page }) => {
@@ -147,6 +217,7 @@ for (const scheme of ["light", "dark"] as const) {
       await page.locator(".matches__more summary").first().click();
       await addByName(page, "whisk");
       await page.locator("summary", { hasText: "Spirits" }).click();
+      await page.locator(".swaps__fold summary").click();
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
         .analyze();

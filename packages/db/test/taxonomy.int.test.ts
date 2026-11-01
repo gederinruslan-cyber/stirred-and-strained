@@ -28,7 +28,7 @@ const FIXTURE = `
     ('t-rye', 'Rye', 'type', 't-whiskey', 45),
     ('t-pantry', 'Pantry', 'category', null, 0),
     ('t-soda', 'Soda water', 'type', 't-pantry', 0);
-  insert into ingredient_substitution (substitute, replaces) values ('t-rye', 't-bourbon');`;
+  insert into ingredient_substitution (substitute, replaces, reason) values ('t-rye', 't-bourbon', 'drier');`;
 
 beforeAll(() => asOwner(FIXTURE));
 afterAll(async () => {
@@ -57,7 +57,11 @@ describe("ingredient taxonomy tables", () => {
       abv: 0,
     });
     expect(ours.map((n) => n.id)).toEqual([...ours.map((n) => n.id)].sort());
-    expect(substitutions).toContainEqual({ substitute: "t-rye", replaces: "t-bourbon" });
+    expect(substitutions).toContainEqual({
+      substitute: "t-rye",
+      replaces: "t-bourbon",
+      reason: "drier",
+    });
     expect(() => createTaxonomy(nodes, substitutions)).not.toThrow();
   });
 
@@ -75,12 +79,12 @@ describe("ingredient taxonomy tables", () => {
   });
 
   it.each([
-    ["an unknown node", "('t-nope', 't-bourbon')"],
-    ["a node replacing itself", "('t-rye', 't-rye')"],
-    ["a duplicate edge", "('t-rye', 't-bourbon')"],
+    ["an unknown node", "('t-nope', 't-bourbon', 'r')"],
+    ["a node replacing itself", "('t-rye', 't-rye', 'r')"],
+    ["a duplicate edge", "('t-rye', 't-bourbon', 'r')"],
   ])("refuses a substitution with %s", async (_, row) => {
     await expect(
-      asOwner(`insert into ingredient_substitution (substitute, replaces) values ${row}`),
+      asOwner(`insert into ingredient_substitution (substitute, replaces, reason) values ${row}`),
     ).rejects.toThrow();
   });
 

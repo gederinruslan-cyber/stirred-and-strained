@@ -1,15 +1,17 @@
 // My Bar (M2-03, docs/design/my-bar.md): what's on your shelf, added by name or a category at a
-// time, kept in the account or (signed out) on this device. What it makes (M2-04) sits beside it.
+// time, kept in the account or (signed out) on this device. What it makes (M2-04) sits beside it;
+// the swaps it counts (M2-05) close the shelf column.
 import type { IngredientEntry } from "@stirred/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
 import { api } from "../../lib/api.ts";
-import { allIngredients, barMatches, currentBar } from "../../lib/bar.ts";
+import { allIngredients, barMatches, barSwaps, currentBar } from "../../lib/bar.ts";
 import "../recipes/search.css";
 import { addByName, addTicked, removeItem } from "./actions.ts";
 import "./bar.css";
 import { Matches } from "./matches.tsx";
+import { Swaps } from "./swaps.tsx";
 
 export const metadata: Metadata = { title: "My Bar · Stirred & Strained" };
 
@@ -46,6 +48,14 @@ function statusText(sp: Search, nameOf: (id: string) => string): string | null {
   const already = many(sp.already).map(nameOf);
   const removed = one(sp.removed);
   const gone = one(sp.gone);
+  const swap = one(sp.swap);
+  if (swap === "gone") return "That swap isn't on the list any more.";
+  if (swap) {
+    const [substitute = "", replaces = ""] = swap.split(">").map(nameOf);
+    return one(sp.turned) === "on"
+      ? `${substitute} can stand in for ${replaces} again.`
+      : `${substitute} won't stand in for ${replaces} any more.`;
+  }
   if (removed) return `${nameOf(removed)} removed.`;
   if (gone) return `${nameOf(gone)} wasn't on your bar any more.`;
   if (added.length === 0 && already.length === 0) return null;
@@ -113,7 +123,10 @@ export default async function BarPage({ searchParams }: { searchParams: Promise<
   const items = bar === "down" ? [] : bar.ids.flatMap((id) => byId.get(id) ?? []);
   const kept = new Set(items.map((i) => i.id));
   const signedIn = bar !== "down" && bar.signedIn;
-  const matches = bar === "down" ? "down" : await barMatches(bar);
+  const [matches, swaps] =
+    bar === "down"
+      ? (["down", "down"] as const)
+      : await Promise.all([barMatches(bar), barSwaps(bar)]);
   const makes =
     matches === "down"
       ? ""
@@ -320,6 +333,15 @@ export default async function BarPage({ searchParams }: { searchParams: Promise<
               ))}
             </form>
           </section>
+          {bar !== "down" && (
+            <Swaps
+              items={swaps}
+              signedIn={signedIn}
+              owns={(id, name) => items.some((i) => i.id === id || i.path.includes(name))}
+              open={one(sp.swap) !== undefined || error === "swap"}
+              failed={error === "swap"}
+            />
+          )}
         </div>
         {bar !== "down" && <Matches matches={matches} />}
       </div>

@@ -9,7 +9,8 @@ export type TaxonomyNode = {
   parentId: string | null;
   abv: number;
 };
-export type TaxonomyEdge = { substitute: string; replaces: string };
+/** A house swap: `substitute` can stand in for `replaces`, and why a bartender accepts it. */
+export type TaxonomyEdge = { substitute: string; replaces: string; reason: string };
 
 /** The whole house taxonomy, ordered by id. House data: no user scope. */
 export async function loadTaxonomy(
@@ -19,7 +20,7 @@ export async function loadTaxonomy(
     sql`select id, name, kind, parent_id as "parentId", abv::float8 as abv from ingredient_node order by id`,
   );
   const edges = await db.execute<TaxonomyEdge>(
-    sql`select substitute, replaces from ingredient_substitution order by substitute, replaces`,
+    sql`select substitute, replaces, reason from ingredient_substitution order by substitute, replaces`,
   );
   return { nodes: nodes.rows, substitutions: edges.rows };
 }

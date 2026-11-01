@@ -1,6 +1,6 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { buyNext, createTaxonomy, makeNow, matchLine, oneAway } from "../src/index.ts";
+import { buyNext, createTaxonomy, makeNow, matchLine, oneAway, refuse } from "../src/index.ts";
 import type { IngredientNode, Substitution } from "../src/index.ts";
 import { NODES, RECIPES, SUBSTITUTIONS } from "./fixtures/taxonomy.ts";
 
@@ -84,6 +84,14 @@ describe("makeNow, oneAway, buyNext", () => {
     ]);
   });
 
+  it("lists the swaps a one-away recipe relies on", () => {
+    const away = oneAway(tax, ["rittenhouse", "sweet-vermouth"], RECIPES);
+    expect(away.find((r) => r.recipe.id === "boulevardier")).toMatchObject({
+      missing: { ingredient: "bitter-aperitivo" },
+      swaps: [{ line: { ingredient: "bourbon" }, using: "rittenhouse" }],
+    });
+  });
+
   it("ranks bottles to buy by how many one-away recipes they complete", () => {
     const next = buyNext(tax, ["gin", "sweet-vermouth", "soda-water"], RECIPES);
     expect(next.map((b) => [b.ingredient.id, b.unlocks.map((r) => r.id)])).toEqual([
@@ -114,6 +122,31 @@ describe("makeNow, oneAway, buyNext", () => {
           expect(buyNext(tax, reversed, shuffledRecipes)).toEqual(buyNext(tax, picked, RECIPES));
         },
       ),
+    );
+  });
+});
+
+describe("refuse", () => {
+  const ryeForBourbon = { substitute: "rye", replaces: "bourbon" };
+
+  it("drops a refused edge and keeps the rest", () => {
+    const strict = refuse(tax, [ryeForBourbon]);
+    expect(matchLine(strict, ["rittenhouse"], { ingredient: "bourbon" })).toBeNull();
+    expect(matchLine(strict, ["buffalo-trace"], { ingredient: "bourbon" })?.kind).toBe("direct");
+    expect(ids(oneAway(strict, ["rittenhouse", "sweet-vermouth", "campari"], RECIPES))).toContain(
+      "boulevardier",
+    );
+    expect(matchLine(tax, ["rittenhouse"], { ingredient: "bourbon" })?.kind).toBe("swap");
+  });
+
+  it("never lets a bar make more than it could with every swap", () => {
+    const owned = NODES.map((x) => x.id);
+    fc.assert(
+      fc.property(fc.subarray(owned), fc.subarray([...SUBSTITUTIONS]), (bar, refused) => {
+        const all = new Set(ids(makeNow(tax, bar, RECIPES)));
+        for (const id of ids(makeNow(refuse(tax, refused), bar, RECIPES)))
+          expect(all.has(id)).toBe(true);
+      }),
     );
   });
 });

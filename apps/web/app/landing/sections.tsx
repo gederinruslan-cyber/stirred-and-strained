@@ -136,6 +136,12 @@ export function Hero({
                       <li key={r.id}>
                         <Link href={`/recipes/${r.id}`}>{r.name}</Link>{" "}
                         <span className="muted">· {r.method}</span>
+                        {r.swaps.length > 0 && (
+                          <span className="muted">
+                            {" "}
+                            · using {r.swaps.map((s) => `${s.using} for ${s.for}`).join(", ")}
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -199,8 +205,9 @@ export function WhyDifferent() {
           own words.
         </StickyNote>
         <StickyNote colour="white" number="2." title="We know bourbon is whiskey." tilt={0.8}>
-          Got bourbon? It counts as whiskey. But a recipe that asks for bourbon wants bourbon, and a
-          Last Word still needs its Chartreuse, no fudging.
+          Got bourbon? It counts as whiskey. Rye can stand in for it, and we&apos;ll say so; turn
+          off any swap you&apos;d rather not. A drink named for its bottle needs that bottle, and
+          nothing stands in for Chartreuse.
         </StickyNote>
         <StickyNote colour="green" number="3." title="How strong is it, really?" tilt={-0.6}>
           Every drink shows how strong it ends up once it&apos;s shaken or stirred, plus standard

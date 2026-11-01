@@ -92,6 +92,7 @@ export default async function RecipePage({ params }: Params) {
                 <span>
                   {l.ingredient.name}
                   {l.optional && <span className="muted"> (optional)</span>}
+                  {l.exact && <span className="muted"> (this one, no swaps)</span>}
                 </span>
                 <span className="amount">{amountText(l, unit)}</span>
               </li>

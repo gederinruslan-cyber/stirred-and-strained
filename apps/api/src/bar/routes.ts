@@ -1,8 +1,18 @@
 // My Bar (M2-03): list, add, remove the ingredients a signed-in user keeps. Every query runs
 // scoped to that user (ADR 0003); an item the user does not keep answers 404. What it makes
-// (M2-04) is the engine over that bar, or over a signed-out shelf's ids.
-import { addToBar, createDb, listBar, removeFromBar, withUser, type Pool } from "@stirred/db";
-import { buyNext, makeNow, oneAway } from "@stirred/engine";
+// (M2-04) is the engine over that bar, or over a signed-out shelf's ids. House swaps (M2-05)
+// count until the signed-in user turns one off; a signed-out shelf gets them all.
+import {
+  addToBar,
+  createDb,
+  listBar,
+  listRefusals,
+  removeFromBar,
+  setSwapAllowed,
+  withUser,
+  type Pool,
+} from "@stirred/db";
+import { buyNext, makeNow, oneAway, refuse, type Taxonomy } from "@stirred/engine";
 import {
   BarAddBody,
   BarItemParams,
@@ -10,6 +20,9 @@ import {
   BarResponse,
   ErrorBody,
   ShelfMatchesQuery,
+  SubstitutionList,
+  SwapBody,
+  SwapParams,
 } from "@stirred/schema";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
@@ -22,25 +35,25 @@ import { nameOf, ref, summary, type Library } from "../recipes/library.ts";
 const ALWAYS = ["water"];
 const BUY_NEXT = 10;
 
-function matches(lib: Library, ids: string[]): BarMatches {
+function matches(lib: Library, ids: string[], tax: Taxonomy = lib.tax): BarMatches {
   if (ids.length === 0) return { makeNow: [], oneAway: [], buyNext: [] };
   const bar = [...ids, ...ALWAYS];
+  const used = (swaps: { line: { ingredient: string }; using: string }[]) =>
+    swaps.map((s) => ({ for: nameOf(lib, s.line.ingredient), using: nameOf(lib, s.using) }));
   return {
-    makeNow: makeNow(lib.tax, bar, lib.recipes).map(({ recipe, swaps }) => ({
+    makeNow: makeNow(tax, bar, lib.recipes).map(({ recipe, swaps }) => ({
       ...summary(lib, recipe),
-      swaps: swaps.map((s) => ({
-        for: nameOf(lib, s.line.ingredient),
-        using: nameOf(lib, s.using),
-      })),
+      swaps: used(swaps),
     })),
-    oneAway: oneAway(lib.tax, bar, lib.recipes).map(({ recipe, missing }) => ({
+    oneAway: oneAway(tax, bar, lib.recipes).map(({ recipe, missing, swaps }) => ({
       id: recipe.id,
       name: recipe.name,
       method: recipe.method,
       ...(recipe.glass ? { glass: summary(lib, recipe).glass } : {}),
       missing: ref(lib, missing.ingredient),
+      swaps: used(swaps),
     })),
-    buyNext: buyNext(lib.tax, bar, lib.recipes)
+    buyNext: buyNext(tax, bar, lib.recipes)
       .slice(0, BUY_NEXT)
       .map((b) => ({
         ingredient: ref(lib, b.ingredient.id),
@@ -82,10 +95,13 @@ export function barRoutes(app: FastifyInstance, { pool, lib }: { pool: Pool; lib
     async (req, reply) => {
       const userId = await requestUser(db, req);
       if (!userId) return signedOut(reply);
-      const ids = await withUser(db, userId, listBar);
+      const [ids, refused] = await withUser(db, userId, (s) =>
+        Promise.all([listBar(s), listRefusals(s)]),
+      );
       return matches(
         lib,
         ids.filter((id) => lib.tax.nodes.has(id)),
+        refuse(lib.tax, refused),
       );
     },
   );
@@ -147,6 +163,51 @@ export function barRoutes(app: FastifyInstance, { pool, lib }: { pool: Pool; lib
       if (!userId) return signedOut(reply);
       const removed = await withUser(db, userId, (s) => removeFromBar(s, req.params.ingredientId));
       if (removed === 0) return reply.code(404).send({ error: "not_found" });
+      return reply.code(204).send(null);
+    },
+  );
+
+  r.get(
+    "/substitutions",
+    { schema: { operationId: "listSubstitutions", response: { 200: SubstitutionList } } },
+    async (req) => {
+      const userId = await requestUser(db, req);
+      const refused = userId ? await withUser(db, userId, listRefusals) : [];
+      const off = new Set(refused.map((e) => `${e.substitute}>${e.replaces}`));
+      return {
+        items: lib.substitutions
+          .map((e) => ({
+            substitute: ref(lib, e.substitute),
+            replaces: ref(lib, e.replaces),
+            reason: e.reason,
+            allowed: !off.has(`${e.substitute}>${e.replaces}`),
+          }))
+          .sort(
+            (a, b) =>
+              a.replaces.name.localeCompare(b.replaces.name) ||
+              a.substitute.name.localeCompare(b.substitute.name),
+          ),
+      };
+    },
+  );
+
+  r.put(
+    "/substitutions/:substitute/:replaces",
+    {
+      schema: {
+        operationId: "setSubstitution",
+        params: SwapParams,
+        body: SwapBody,
+        response: { 204: z.null(), 401: ErrorBody, 404: ErrorBody },
+      },
+    },
+    async (req, reply) => {
+      const userId = await requestUser(db, req);
+      if (!userId) return signedOut(reply);
+      const found = await withUser(db, userId, (s) =>
+        setSwapAllowed(s, req.params, req.body.allowed),
+      );
+      if (!found) return reply.code(404).send({ error: "not_found" });
       return reply.code(204).send(null);
     },
   );

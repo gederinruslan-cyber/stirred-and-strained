@@ -336,3 +336,120 @@
     min-height: 56px;
   }
 }
+
+/* Swaps we count (docs/design/substitutions.md): Toggle list. */
+.swaps__fold {
+  background: var(--card);
+  border-radius: 6px;
+  box-shadow: 0 8px 18px var(--shadow);
+}
+.swaps__fold summary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  padding: 0 24px;
+  font-weight: 500;
+  cursor: pointer;
+  list-style-position: inside;
+}
+.swaps__fold summary::marker,
+.swaps__fold summary::-webkit-details-marker {
+  color: var(--accent);
+}
+.swaps__hide,
+.swaps__fold[open] .swaps__show {
+  display: none;
+}
+.swaps__fold[open] .swaps__hide {
+  display: inline;
+}
+.swaps .form-error {
+  margin: 0 24px 12px;
+}
+.swaps__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1.5px dashed var(--dash);
+}
+.swap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 16px;
+  min-height: 64px;
+  padding: 16px 24px;
+  border-bottom: 1.5px dashed var(--dash);
+}
+.swap:last-child {
+  border-bottom: none;
+  border-radius: 0 0 6px 6px;
+}
+.swap--yours {
+  background: var(--rowhl);
+}
+.swap__text {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.swap__text p {
+  margin: 0;
+}
+.swap__pair {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--ink);
+}
+.swap__pair strong {
+  font-weight: 700;
+}
+.swap__yours,
+.swap__reason {
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--muted);
+}
+.swap__ctl {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.swap__state {
+  padding: 2px 8px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+.swap__state--off {
+  background: var(--card);
+  color: var(--ink);
+}
+.swap__btn {
+  min-height: 32px;
+  font-weight: 500;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.swap__btn:hover {
+  color: var(--accent-hover);
+}
+
+@media (max-width: 900px) {
+  .swap__btn,
+  .swaps__fold summary {
+    min-height: 44px;
+  }
+}
+@media (max-width: 600px) {
+  .swap__ctl {
+    flex-basis: 100%;
+  }
+}

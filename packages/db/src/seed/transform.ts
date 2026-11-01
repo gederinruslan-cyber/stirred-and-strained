@@ -12,6 +12,8 @@ export type SeedLine = {
   unit: Unit | null;
   max: number | null;
   optional: boolean;
+  /** Only this ingredient will do: no substitution stands in (the drink is named for it). */
+  exact: boolean;
 };
 export type SeedRecipe = {
   id: string;
@@ -43,7 +45,12 @@ export type Rules = {
   /** Recipes sourced to iba-world.com whose amounts were checked against the page and match. */
   ibaChecked: string[];
   corrections: Record<string, Correction>;
+  /** One-way swaps a bartender would accept, each with the reason the user sees. */
+  substitutions: SeedSubstitution[];
+  /** recipe → ingredient → why only that bottle will do. */
+  exact: Record<string, Record<string, string>>;
 };
+export type SeedSubstitution = { substitute: string; replaces: string; reason: string };
 
 export const LICENCE = "Bar Assistant open data, MIT";
 /** IBA specs are facts checked entry by entry; the IBA publishes no licence (data/SOURCES.md). */
@@ -127,7 +134,12 @@ export function transform(snapshot: Snapshot, rules: Rules) {
       abv: rules.abv[i.id] ?? i.abv,
     });
   }
-  const tax = createTaxonomy(nodes, []);
+  const tax = createTaxonomy(nodes, rules.substitutions);
+  for (const { substitute, replaces, reason } of rules.substitutions) {
+    if (isWithin(tax, substitute, replaces))
+      throw new Error(`substitution "${substitute}" already counts as "${replaces}"`);
+    if (!reason.trim()) throw new Error(`substitution ${substitute} → ${replaces} has no reason`);
+  }
   const abvOf = new Map(nodes.map((n) => [n.id, n.abv]));
 
   const recipes: SeedRecipe[] = [];
@@ -143,6 +155,7 @@ export function transform(snapshot: Snapshot, rules: Rules) {
     if (!fix && c.source?.includes("iba-world.com") && !rules.ibaChecked.includes(c.id)) {
       throw new Error(`${where} is sourced to the IBA but not checked against its page`);
     }
+    const exactHere = rules.exact[c.id] ?? {};
     const method = fix?.method ?? (c.method ? METHODS[c.method] : undefined);
     if (!method) throw new Error(`${where} has no known method ("${c.method}")`);
     const lines: SeedLine[] = fix
@@ -152,12 +165,19 @@ export function transform(snapshot: Snapshot, rules: Rules) {
           unit: l.unit,
           max: null,
           optional: l.optional ?? false,
+          exact: l.ingredient in exactHere,
         }))
       : c.lines.map((l) => ({
           ingredient: l.ingredient,
           optional: l.optional,
           ...amount(l, where),
+          exact: l.ingredient in exactHere,
         }));
+    for (const id of Object.keys(exactHere)) {
+      if (!lines.some((l) => l.ingredient === id)) throw new Error(`${where} has no "${id}" line`);
+      if (!tax.substitutesFor.has(id))
+        throw new Error(`${where}: exact "${id}" has no swap to refuse`);
+    }
     for (const l of lines) {
       if (!tax.nodes.has(l.ingredient))
         throw new Error(`${where}: ingredient "${l.ingredient}" is not in the taxonomy`);
@@ -182,5 +202,8 @@ export function transform(snapshot: Snapshot, rules: Rules) {
       lines,
     });
   }
-  return { nodes, recipes, excluded };
+  for (const id of Object.keys(rules.exact)) {
+    if (!recipes.some((r) => r.id === id)) throw new Error(`exact: recipe "${id}" is not imported`);
+  }
+  return { nodes, recipes, excluded, substitutions: rules.substitutions };
 }

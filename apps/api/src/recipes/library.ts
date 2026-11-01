@@ -17,6 +17,8 @@ import { glassName, stepsFor } from "./steps.ts";
 
 export type Library = {
   tax: Taxonomy;
+  /** The house swaps with their reasons, as imported. */
+  substitutions: TaxonomyEdge[];
   recipes: HouseRecipe[];
   byId: Map<string, HouseRecipe>;
   abv: Map<string, number>;
@@ -56,6 +58,7 @@ export function createLibrary(
 ): Library {
   return {
     tax: createTaxonomy(nodes, substitutions),
+    substitutions,
     recipes,
     byId: new Map(recipes.map((r) => [r.id, r])),
     abv: new Map(nodes.map((n) => [n.id, n.abv])),
@@ -123,6 +126,7 @@ export function detail(lib: Library, r: HouseRecipe, country = "ZZ"): RecipeDeta
       ...(l.value !== null && l.unit !== null ? { amount: { value: l.value, unit: l.unit } } : {}),
       ...(l.max !== null ? { max: l.max } : {}),
       optional: l.optional,
+      ...(l.exact ? { exact: true as const } : {}),
     })),
     variations: (lib.variations.get(r.id) ?? []).map((v) => ({ id: v.id, name: v.name })),
     ...(lib.variationOf.has(r.id)

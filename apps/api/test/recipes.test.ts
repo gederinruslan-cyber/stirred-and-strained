@@ -40,6 +40,14 @@ describe("GET /recipes/:id", () => {
     expect((await get("/recipes/negroni")).body.strength.drinks.measure).toBe("grams");
   });
 
+  it("marks a line the drink is named for as exact", async () => {
+    const { body } = await get("/recipes/bourbon-renewal");
+    const exact = body.lines.filter((l: { exact?: boolean }) => l.exact);
+    expect(exact.map((l: { ingredient: { id: string } }) => l.ingredient.id)).toEqual([
+      "bourbon-whiskey",
+    ]);
+  });
+
   it("answers an unknown recipe with 404", async () => {
     expect(await get("/recipes/no-such-drink")).toEqual({
       status: 404,

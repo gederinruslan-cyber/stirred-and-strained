@@ -18,7 +18,7 @@ afterAll(() => pool.end());
 const mailer = memoryMailer();
 const app = buildApp({ pool, publicOrigin: "http://127.0.0.1:3300", library: house, mailer });
 const call = (
-  method: "GET" | "POST" | "DELETE",
+  method: "GET" | "POST" | "PUT" | "DELETE",
   path: string,
   session?: string,
   payload?: object,
@@ -120,5 +120,46 @@ describe("what you can make from your bar (M2-04)", () => {
     expect(ids).toContain("daiquiri");
     expect(ids).not.toContain("negroni");
     expect((await makes()).status).toBe(401);
+  });
+});
+
+describe("turning a swap off (M2-05)", () => {
+  const RYE = "/substitutions/rye-whiskey/bourbon-whiskey";
+  const boulevardier = async (session: string) => {
+    const body = (await call("GET", "/bar/matches", session)).json();
+    if (body.makeNow.some((r: { id: string }) => r.id === "boulevardier")) return "makes";
+    const away = body.oneAway.find((r: { id: string }) => r.id === "boulevardier");
+    return away ? `away: ${away.missing.id}` : "neither";
+  };
+  const allowed = async (session?: string) =>
+    (await call("GET", "/substitutions", session))
+      .json()
+      .items.find((i: { substitute: { id: string } }) => i.substitute.id === "rye-whiskey").allowed;
+
+  it("applies only to the user who turned it off, until they turn it back on", async () => {
+    const [ana, bob] = [await account(), await account()];
+    for (const s of [ana, bob])
+      await call("POST", "/bar/items", s, {
+        ingredients: ["rye-whiskey", "sweet-vermouth", "campari"],
+      });
+    expect(await boulevardier(ana)).toBe("makes");
+
+    expect((await call("PUT", RYE, ana, { allowed: false })).statusCode).toBe(204);
+    expect(await boulevardier(ana)).toBe("away: bourbon-whiskey");
+    expect(await allowed(ana)).toBe(false);
+    expect(await boulevardier(bob)).toBe("makes");
+    expect(await allowed(bob)).toBe(true);
+    expect(await allowed()).toBe(true);
+
+    expect((await call("PUT", RYE, ana, { allowed: true })).statusCode).toBe(204);
+    expect(await boulevardier(ana)).toBe("makes");
+  });
+
+  it("refuses a visitor and a swap that is not on the list", async () => {
+    expect((await call("PUT", RYE, undefined, { allowed: false })).statusCode).toBe(401);
+    const ana = await account();
+    const res = await call("PUT", "/substitutions/gin/vodka", ana, { allowed: false });
+    expect(res.statusCode).toBe(404);
+    expect(res.json()).toEqual({ error: "not_found" });
   });
 });

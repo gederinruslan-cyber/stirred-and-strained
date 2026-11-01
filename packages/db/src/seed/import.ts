@@ -57,8 +57,8 @@ export async function importSeed(migrationUrl: string, seed: ReturnType<typeof t
     );
     await c.query("delete from recipe_line where recipe_id = any($1)", [col(recipes, "id")]);
     await c.query(
-      `insert into recipe_line (recipe_id, position, ingredient_id, amount_value, amount_unit, amount_max, optional)
-       select * from unnest($1::text[], $2::int[], $3::text[], $4::numeric[], $5::text[], $6::numeric[], $7::bool[])`,
+      `insert into recipe_line (recipe_id, position, ingredient_id, amount_value, amount_unit, amount_max, optional, exact)
+       select * from unnest($1::text[], $2::int[], $3::text[], $4::numeric[], $5::text[], $6::numeric[], $7::bool[], $8::bool[])`,
       [
         col(lines, "recipe"),
         col(lines, "position"),
@@ -67,12 +67,28 @@ export async function importSeed(migrationUrl: string, seed: ReturnType<typeof t
         col(lines, "unit"),
         col(lines, "max"),
         col(lines, "optional"),
+        col(lines, "exact"),
       ],
     );
     await c.query("delete from recipe where id <> all($1)", [col(recipes, "id")]);
+    const { substitutions } = seed;
+    // Edges the seed no longer lists go, and users' refusals of them with them (cascade).
     await c.query(
-      "delete from ingredient_substitution where substitute <> all($1) or replaces <> all($1)",
-      [col(nodes, "id")],
+      `delete from ingredient_substitution s where not exists (
+         select 1 from unnest($1::text[], $2::text[]) as t(substitute, replaces)
+         where t.substitute = s.substitute and t.replaces = s.replaces)`,
+      [col(substitutions, "substitute"), col(substitutions, "replaces")],
+    );
+    await c.query(
+      `insert into ingredient_substitution (substitute, replaces, reason)
+       select * from unnest($1::text[], $2::text[], $3::text[])
+       on conflict (substitute, replaces) do update set reason = excluded.reason
+       where ingredient_substitution.reason is distinct from excluded.reason`,
+      [
+        col(substitutions, "substitute"),
+        col(substitutions, "replaces"),
+        col(substitutions, "reason"),
+      ],
     );
     await c.query("delete from ingredient_node where id <> all($1)", [col(nodes, "id")]);
     await c.query("commit");

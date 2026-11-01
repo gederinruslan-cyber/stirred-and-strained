@@ -304,6 +304,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/substitutions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSubstitutions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/substitutions/{substitute}/{replaces}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["setSubstitution"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -853,6 +885,10 @@ export interface operations {
                                 name: string;
                             };
                             name: string;
+                            swaps: {
+                                for: string;
+                                using: string;
+                            }[];
                         }[];
                     };
                 };
@@ -1051,6 +1087,8 @@ export interface operations {
                                     unit: "ml" | "dash" | "barspoon" | "drop" | "piece" | "top";
                                     value: number;
                                 };
+                                /** @enum {boolean} */
+                                exact?: true;
                                 ingredient: {
                                     id: string;
                                     name: string;
@@ -1092,6 +1130,8 @@ export interface operations {
                                     unit: "ml" | "dash" | "barspoon" | "drop" | "piece" | "top";
                                     value: number;
                                 };
+                                /** @enum {boolean} */
+                                exact?: true;
                                 ingredient: {
                                     id: string;
                                     name: string;
@@ -1240,6 +1280,8 @@ export interface operations {
                                 unit: "ml" | "dash" | "barspoon" | "drop" | "piece" | "top";
                                 value: number;
                             };
+                            /** @enum {boolean} */
+                            exact?: true;
                             ingredient: {
                                 id: string;
                                 name: string;
@@ -1334,12 +1376,98 @@ export interface operations {
                                 name: string;
                             };
                             name: string;
+                            swaps: {
+                                for: string;
+                                using: string;
+                            }[];
                         }[];
                     };
                 };
             };
             /** @description Default Response */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    listSubstitutions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: {
+                            allowed: boolean;
+                            reason: string;
+                            replaces: {
+                                id: string;
+                                name: string;
+                            };
+                            substitute: {
+                                id: string;
+                                name: string;
+                            };
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    setSubstitution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                substitute: string;
+                replaces: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    allowed: boolean;
+                };
+            };
+        };
+        responses: {
+            /** @description Default Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+            /** @description Default Response */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

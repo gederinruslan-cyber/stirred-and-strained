@@ -14,7 +14,8 @@ export async function loadRecipes(db: Db): Promise<HouseRecipe[]> {
         'value', l.amount_value::float8,
         'unit', l.amount_unit,
         'max', l.amount_max::float8,
-        'optional', l.optional
+        'optional', l.optional,
+        'exact', l.exact
       ) order by l.position) filter (where l.recipe_id is not null), '[]') as lines
     from recipe r left join recipe_line l on l.recipe_id = r.id
     group by r.id

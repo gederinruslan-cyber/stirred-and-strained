@@ -46,6 +46,13 @@ test.describe("without JavaScript", () => {
   });
 });
 
+test("a line the drink is named for says no swap counts", async ({ page }) => {
+  await page.goto("/recipes/bourbon-renewal");
+  await expect(page.locator(".lines li").filter({ hasText: "Bourbon Whiskey" })).toContainText(
+    "Bourbon Whiskey (this one, no swaps)",
+  );
+});
+
 test("an unknown recipe answers 404 with a way back", async ({ page }) => {
   const res = await page.goto("/recipes/no-such-drink");
   expect(res?.status()).toBe(404);

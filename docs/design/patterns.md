@@ -177,6 +177,13 @@ position only; 0 ms under `prefers-reduced-motion`.
   touch, 32 px ≥900). Over 15 rows: the first 12, then a native `details` in the same panel,
   `summary` "Show the other [m]" / "Hide the other [m]" (CSS-swapped), and the rest in
   `ol[start=13]`. Never truncated: every row is in the DOM. Works without JS.
+- **Toggle list (M2-05):** a Shelf list whose rows switch a rule on or off. Row: the thing in
+  words (DM Sans 500 18/28), a `--muted` 15/22 reason, then right a state tag pill (on = `--ink`
+  fill, `--paper` text, `aria-hidden` tick + "On"; off = 1.5 px `--ink` outline, `--card` fill,
+  "Off") and a `button.linkish` "Turn off" / "Turn on" with a `.vh` name, whose `name` carries
+  the wanted state. Stable order; long lists fold into a closed `details` showing "[k] off" in
+  its summary, opened after a toggle. Read-only (signed out): tags only, no buttons. A row that
+  touches the user's bar: `--rowhl` plus words. Never colour alone; never submit-on-change.
 - **Jump link (M2-04):** below 900 px only, a plain in-page link "[what] ↓" under the page lead
   to a section that stacking pushed far down; hidden when that section has nothing to show.
 

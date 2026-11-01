@@ -6,6 +6,6 @@ import { createLibrary } from "../src/recipes/library.ts";
 const seed = readSeed(new URL("../../../data/seed", import.meta.url).pathname);
 export const house = createLibrary(
   seed.nodes,
-  [],
+  seed.substitutions,
   seed.recipes.map((r) => ({ ...r, steps: null })),
 );

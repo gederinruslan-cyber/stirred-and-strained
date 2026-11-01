@@ -24,3 +24,5 @@ export {
 } from "./auth.ts";
 export type { TokenPurpose } from "./auth.ts";
 export { addToBar, listBar, removeFromBar } from "./bar.ts";
+export { listRefusals, setSwapAllowed } from "./swaps.ts";
+export type { Swap } from "./swaps.ts";

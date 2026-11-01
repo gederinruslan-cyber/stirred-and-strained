@@ -71,3 +71,55 @@ describe("GET /shelf/matches (M2-04)", () => {
     expect(bad.body).toEqual({ error: "unknown_ingredient" });
   });
 });
+
+describe("house swaps (M2-05)", () => {
+  it("count by default and say which they used, in make now and one away", async () => {
+    const { body } = await shelf(["rye-whiskey", "sweet-vermouth", "campari"]);
+    expect(body.makeNow).toContainEqual(
+      expect.objectContaining({
+        id: "boulevardier",
+        swaps: [{ for: "Bourbon Whiskey", using: "Rye whiskey" }],
+      }),
+    );
+    const away = (await shelf(["rye-whiskey", "sweet-vermouth"])).body.oneAway;
+    expect(away).toContainEqual(
+      expect.objectContaining({
+        id: "boulevardier",
+        missing: { id: "campari", name: "Campari" },
+        swaps: [{ for: "Bourbon Whiskey", using: "Rye whiskey" }],
+      }),
+    );
+  });
+
+  it("never stand in on a line the drink is named for", async () => {
+    const { body } = await shelf([
+      "rye-whiskey",
+      "lemon-juice",
+      "creme-de-cassis",
+      "simple-syrup",
+      "angostura-aromatic-bitters",
+    ]);
+    expect(body.makeNow.map((r: { id: string }) => r.id)).not.toContain("bourbon-renewal");
+    expect(body.oneAway).toContainEqual(
+      expect.objectContaining({
+        id: "bourbon-renewal",
+        missing: expect.objectContaining({ id: "bourbon-whiskey" }),
+      }),
+    );
+  });
+
+  it("are listed with their reasons, all on for a visitor", async () => {
+    const res = await app.inject({ method: "GET", url: "/substitutions" });
+    expect(res.statusCode).toBe(200);
+    const { items } = res.json();
+    expect(items).toHaveLength(21);
+    expect(items).toContainEqual({
+      substitute: { id: "rye-whiskey", name: "Rye whiskey" },
+      replaces: { id: "bourbon-whiskey", name: "Bourbon Whiskey" },
+      reason: "Both American whiskeys; rye makes it drier and spicier.",
+      allowed: true,
+    });
+    const replaced = items.map((i: { replaces: { name: string } }) => i.replaces.name);
+    expect(replaced).toEqual([...replaced].sort((a, b) => a.localeCompare(b)));
+  });
+});

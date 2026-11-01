@@ -51,6 +51,29 @@ export async function addTicked(form: FormData) {
   return keep(ids);
 }
 
+/** Turns a house swap on or off (M2-05). The button's name is the state wanted, so a stale tab
+ * does what its label says. Only a signed-in bar has the form. */
+export async function toggleSwap(form: FormData) {
+  const on = form.get("on");
+  const value = String(on ?? form.get("off") ?? "");
+  const [substitute, replaces] = value.split(">");
+  if (!substitute || !replaces) return back([["error", "swap"]]);
+  const res = await ask(
+    api.PUT("/substitutions/{substitute}/{replaces}", {
+      params: { path: { substitute, replaces } },
+      body: { allowed: on !== null },
+      headers: await apiHeaders(),
+    }),
+  );
+  if (res === "down") return back([["error", "swap"]]);
+  if (res.response.status === 404) return back([["swap", "gone"]]);
+  if (!res.response.ok) return back([["error", "swap"]]);
+  return back([
+    ["swap", value],
+    ["turned", on !== null ? "on" : "off"],
+  ]);
+}
+
 export async function removeItem(form: FormData) {
   const id = String(form.get("remove") ?? "");
   const bar = await currentBar();

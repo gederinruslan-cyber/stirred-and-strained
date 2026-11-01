@@ -24,6 +24,8 @@ export const RecipeLine = z.object({
   /** The top of a range ("2–3 dashes"), in the amount's unit. */
   max: z.number().nonnegative().optional(),
   optional: z.boolean(),
+  /** Present when only this ingredient will do: the drink is named for it, so no swap counts. */
+  exact: z.literal(true).optional(),
 });
 
 export const Strength = z.object({
@@ -185,14 +187,33 @@ export const BarItemParams = z.object({ ingredientId: z.string().max(120) });
 export const ShelfMatchesQuery = z.object({
   ingredient: z.union([z.string().max(120), z.array(z.string().max(120)).max(400)]).optional(),
 });
+/** A swap a result relies on: `using` (on the bar) stands in `for` (what the recipe asks). */
+const UsedSwaps = z.array(z.object({ for: z.string(), using: z.string() }));
 export const BarMatches = z.object({
-  makeNow: z.array(
-    RecipeSummary.extend({ swaps: z.array(z.object({ for: z.string(), using: z.string() })) }),
+  makeNow: z.array(RecipeSummary.extend({ swaps: UsedSwaps })),
+  oneAway: z.array(
+    RecipeSummary.omit({ abv: true }).extend({ missing: IngredientRef, swaps: UsedSwaps }),
   ),
-  oneAway: z.array(RecipeSummary.omit({ abv: true }).extend({ missing: IngredientRef })),
   /** At most 10, most drinks completed first. */
   buyNext: z.array(
     z.object({ ingredient: IngredientRef, count: z.number().int(), recipes: z.array(RecipeRef) }),
   ),
 });
 export type BarMatches = z.infer<typeof BarMatches>;
+
+// Substitutions (M2-05): the house swaps, each on until the signed-in user turns it off.
+export const Substitution = z.object({
+  substitute: IngredientRef,
+  replaces: IngredientRef,
+  /** Why a bartender accepts it, in our words. */
+  reason: z.string(),
+  allowed: z.boolean(),
+});
+export type Substitution = z.infer<typeof Substitution>;
+/** Every house swap, by what it replaces, then the substitute. */
+export const SubstitutionList = z.object({ items: z.array(Substitution) });
+export const SwapParams = z.object({
+  substitute: z.string().max(120),
+  replaces: z.string().max(120),
+});
+export const SwapBody = z.object({ allowed: z.boolean() });

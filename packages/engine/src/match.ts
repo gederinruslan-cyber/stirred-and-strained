@@ -36,6 +36,14 @@ function missingLines(tax: Taxonomy, bar: readonly string[], recipe: RecipeLike)
   return recipe.lines.filter((l) => !l.optional && matchLine(tax, bar, l) === null);
 }
 
+/** The lines the bar covers only through a substitution, with the bottle it uses. */
+function swapsFor(tax: Taxonomy, bar: readonly string[], recipe: RecipeLike) {
+  return recipe.lines.flatMap((line) => {
+    const m = matchLine(tax, bar, line);
+    return m?.kind === "swap" ? [{ line, using: m.using }] : [];
+  });
+}
+
 /** Recipes the bar can make now, each with the swaps it relies on; ordered by name, then id. */
 export function makeNow<T extends RecipeLike>(
   tax: Taxonomy,
@@ -46,16 +54,13 @@ export function makeNow<T extends RecipeLike>(
   return [...recipes]
     .sort(byRecipe)
     .filter((r) => missingLines(tax, owned, r).length === 0)
-    .map((recipe) => ({
-      recipe,
-      swaps: recipe.lines.flatMap((line) => {
-        const m = matchLine(tax, owned, line);
-        return m?.kind === "swap" ? [{ line, using: m.using }] : [];
-      }),
-    }));
+    .map((recipe) => ({ recipe, swaps: swapsFor(tax, owned, recipe) }));
 }
 
-/** Recipes missing exactly one required line, naming it; ordered by name, then id. */
+/**
+ * Recipes missing exactly one required line, naming it, with the swaps the rest relies on;
+ * ordered by name, then id.
+ */
 export function oneAway<T extends RecipeLike>(
   tax: Taxonomy,
   bar: Iterable<string>,
@@ -64,7 +69,9 @@ export function oneAway<T extends RecipeLike>(
   const owned = [...bar];
   return [...recipes].sort(byRecipe).flatMap((recipe) => {
     const missing = missingLines(tax, owned, recipe);
-    return missing.length === 1 ? [{ recipe, missing: missing[0]! }] : [];
+    return missing.length === 1
+      ? [{ recipe, missing: missing[0]!, swaps: swapsFor(tax, owned, recipe) }]
+      : [];
   });
 }
 

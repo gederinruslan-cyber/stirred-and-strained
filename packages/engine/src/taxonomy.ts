@@ -44,6 +44,18 @@ export function createTaxonomy(
   return { nodes: byId, substitutesFor };
 }
 
+/** The same taxonomy without the refused edges (a user's "don't swap these"). */
+export function refuse(tax: Taxonomy, refused: readonly Substitution[]): Taxonomy {
+  const substitutesFor = new Map<string, string[]>();
+  for (const [replaces, subs] of tax.substitutesFor) {
+    const kept = subs.filter(
+      (s) => !refused.some((r) => r.substitute === s && r.replaces === replaces),
+    );
+    if (kept.length > 0) substitutesFor.set(replaces, kept);
+  }
+  return { nodes: tax.nodes, substitutesFor };
+}
+
 /** True when `id` is `ancestor` or sits anywhere under it. */
 export function isWithin(tax: Taxonomy, id: string, ancestor: string): boolean {
   for (let at: string | null = id; at !== null; at = tax.nodes.get(at)?.parentId ?? null) {

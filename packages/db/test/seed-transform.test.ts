@@ -37,6 +37,7 @@ const snapshot = (cocktails: Cocktail[]): Snapshot => ({
     { id: "spirits", name: "Spirits", parent: null, abv: 40, brand: false },
     { id: "whiskey", name: "Whiskey", parent: "spirits", abv: 40, brand: false },
     { id: "bourbon", name: "Bourbon", parent: "whiskey", abv: 45, brand: false },
+    { id: "rye", name: "Rye", parent: "whiskey", abv: 45, brand: false },
     { id: "makers", name: "Maker's Mark", parent: "bourbon", abv: 45, brand: true },
     { id: "juices", name: "Juices", parent: null, abv: 0, brand: false },
     { id: "lemon-juice", name: "Lemon juice", parent: "juices", abv: 0, brand: false },
@@ -54,6 +55,8 @@ const rules = (over: Partial<Rules> = {}): Rules => ({
   exclusions: {},
   ibaChecked: [],
   corrections: {},
+  substitutions: [],
+  exact: {},
   ...over,
 });
 
@@ -73,9 +76,16 @@ describe("seed transform", () => {
   it("stores canonical amounts: oz to ml unrounded at 3 places, dashes counted with their range", () => {
     const [r] = transform(snapshot([cocktail()]), rules()).recipes;
     expect(r!.lines).toEqual([
-      { ingredient: "bourbon", value: 44.36, unit: "ml", max: null, optional: false },
-      { ingredient: "lemon-juice", value: 22.5, unit: "ml", max: null, optional: false },
-      { ingredient: "angostura", value: 2, unit: "dash", max: 3, optional: false },
+      { ingredient: "bourbon", value: 44.36, unit: "ml", max: null, optional: false, exact: false },
+      {
+        ingredient: "lemon-juice",
+        value: 22.5,
+        unit: "ml",
+        max: null,
+        optional: false,
+        exact: false,
+      },
+      { ingredient: "angostura", value: 2, unit: "dash", max: 3, optional: false, exact: false },
     ]);
     const [t] = transform(
       snapshot([
@@ -153,6 +163,50 @@ describe("seed transform", () => {
   it("corrects an ingredient's ABV from the rules", () => {
     const { nodes } = transform(snapshot([]), rules({ abv: { whiskey: 43 } }));
     expect(nodes.find((n) => n.id === "whiskey")?.abv).toBe(43);
+  });
+
+  it("imports substitutions with their reason, and marks the lines a drink is named for exact", () => {
+    const ryeForBourbon = { substitute: "rye", replaces: "bourbon", reason: "drier, spicier" };
+    const out = transform(
+      snapshot([cocktail()]),
+      rules({ substitutions: [ryeForBourbon], exact: { sour: { bourbon: "named for it" } } }),
+    );
+    expect(out.substitutions).toEqual([ryeForBourbon]);
+    expect(out.recipes[0]!.lines.map((l) => [l.ingredient, l.exact])).toEqual([
+      ["bourbon", true],
+      ["lemon-juice", false],
+      ["angostura", false],
+    ]);
+  });
+
+  it.each<[string, Partial<Rules>, RegExp]>([
+    [
+      "an edge to an unknown ingredient",
+      { substitutions: [{ substitute: "rye", replaces: "unicorn", reason: "r" }] },
+      /names an unknown ingredient/,
+    ],
+    [
+      "a redundant edge",
+      { substitutions: [{ substitute: "makers", replaces: "bourbon", reason: "r" }] },
+      /"makers" already counts as "bourbon"/,
+    ],
+    [
+      "an edge with no reason",
+      { substitutions: [{ substitute: "rye", replaces: "bourbon", reason: " " }] },
+      /rye → bourbon has no reason/,
+    ],
+    ["an exact line on a recipe not imported", { exact: { fizz: { bourbon: "r" } } }, /"fizz"/],
+    [
+      "an exact line the recipe lacks",
+      {
+        substitutions: [{ substitute: "bourbon", replaces: "rye", reason: "r" }],
+        exact: { sour: { rye: "r" } },
+      },
+      /"sour" has no "rye" line/,
+    ],
+    ["an exact line no swap targets", { exact: { sour: { bourbon: "r" } } }, /no swap/],
+  ])("fails on %s", (_, over, error) => {
+    expect(() => transform(snapshot([cocktail()]), rules(over))).toThrow(error);
   });
 
   it("fails on a recipe using a 0% ingredient that sits under an alcoholic category", () => {
