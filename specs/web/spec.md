@@ -51,6 +51,8 @@
   the ice, counted like a stirred drink (our assumption)" (shaken and stirred drinks name Arnold's
   model, blended ones "like a shaken drink", layered ones "no ice, so no dilution"), the steps, and "Spec via iba-world.com" linking to the
   source with the licence. The id in the URL is the recipe's stable slug.
+- **Scenario: exact lines.** A line the drink is named for reads "Bourbon Whiskey (this one, no
+  swaps)" (Bourbon Renewal); "(optional)" comes first when both apply.
 - **Scenario: units remembered.** Choosing oz shows "1 oz" on every measured line, and the choice
   holds on the next recipe and on the landing, also without JavaScript. Counted units stay
   counted, a range keeps one unit ("2–3 dashes"), a top reads "top up".

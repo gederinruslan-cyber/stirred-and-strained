@@ -66,3 +66,10 @@
 - **Scenario: idempotent.** Importing twice leaves identical rows; a recipe dropped from the
   source is removed.
 - **Scenario: read-only at runtime.** The api role can read recipes and cannot write them.
+- **Scenario: swaps and exact lines (M2-05).** `rules.json` `substitutions` (with a reason each)
+  and `exact` (recipe → ingredient: the drink is named for it) import with the seed; an edge to an
+  unknown ingredient, an edge whose substitute already counts as what it replaces, an edge with no
+  reason, or an exact line on a recipe not imported, a line it lacks or an ingredient no swap
+  targets fails the import. Re-import keeps users' refusals; an edge the seed drops takes its
+  refusals with it.
+

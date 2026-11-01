@@ -20,6 +20,9 @@
 - **Scenario: without JavaScript.** The shelf is a form; submitting it renders the results for the
   ticked bottles (Light Rum → Daiquiri).
 - **Scenario: unknown bottle.** Asking the demo about a bottle it does not offer is refused.
+- **Scenario: swaps on the demo.** A makeable row that relies on a swap adds "· using [X] for
+  [Y]"; sticky note 2 says rye can stand in for bourbon and we say so, any swap can be turned off,
+  a drink named for its bottle needs it, and nothing stands in for Chartreuse.
 
 ## Requirement: Featured recipes and units
 - **Scenario: house recipes.** The featured cards are Negroni, Old Fashioned, Margarita and

@@ -28,6 +28,10 @@ Ingredients form a tree: category > type > brand, where a type may sit under ano
   completed (most first), then ingredient name, then id. The order in which the bar and recipes
   arrive never changes the result.
 
+- **Scenario: refused swaps.** `refuse(tax, edges)` drops a user's refused edges and keeps the
+  rest; refusing never lets a bar make more than it could with every swap.
+- **Scenario: one away with swaps.** A one-away recipe lists the swaps its covered lines use.
+
 ## Requirement: The taxonomy is checked when it is built
 - **Scenario: bad taxonomy.** An unknown parent, a duplicate id, a parent cycle or a substitution
   naming an unknown ingredient is refused.

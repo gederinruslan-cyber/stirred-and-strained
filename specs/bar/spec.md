@@ -59,3 +59,24 @@
 - **Scenario: without JavaScript.** "Add [bottle]" is a form post to the add action; the page
   comes back with the recipe it completed under make now.
 
+## Requirement: House swaps count until you turn one off (M2-05)
+- **Scenario: the swaps.** 21 one-way swaps a bartender would accept, each with its reason (rye ↔
+  bourbon, Tennessee → bourbon; armagnac and brandy → cognac; tequila blanco ↔ reposado, añejo →
+  reposado; triple sec ↔ Cointreau; Lillet Blanc ↔ Cocchi Americano; champagne ↔ prosecco,
+  sparkling wine → either; simple syrup ↔ sugar, simple → demerara syrup, honey → honey syrup;
+  Pernod → absinthe). None for Chartreuse, citrus, mezcal or rum styles.
+- **Scenario: on by default.** With rye, sweet vermouth and Campari (signed in or out), Boulevardier
+  is makeable "using Rye whiskey for Bourbon Whiskey"; a one-away result lists the swaps it relies
+  on the same way.
+- **Scenario: turn one off.** "Swaps we count" closes the shelf column: a closed fold "Show all 21
+  swaps" (" · [k] off" when any are off), rows by what they replace, "[X] for [Y]", the reason, an
+  On/Off tag and "Turn off" / "Turn on". Turning rye → bourbon off moves Boulevardier to one bottle
+  away (+ Bourbon Whiskey) for that user only; status "Rye whiskey won't stand in for Bourbon
+  Whiskey any more." / "… can stand in for Bourbon Whiskey again."; a row whose substitute is on the
+  bar says "You have [X]". Works as a plain form post.
+- **Scenario: signed out.** The list is read-only, every swap on, with "Sign in or create an
+  account to turn any of them off."
+- **Scenario: isolation and errors.** `substitution_refusal` rows are the owner's alone (RLS); `PUT
+  /substitutions/{substitute}/{replaces}` `{allowed}` answers 204, 401 signed out, 404 for a swap
+  not on the list; `GET /substitutions` gives the caller's on/off (signed out: all on).
+
