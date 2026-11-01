@@ -20,3 +20,25 @@
   Recipes, My Bar, the zero-proof switch, search ("Find a drink…"), the theme button, Sign in and
   Start my bar; the footer has The app, Behind the bar, The small print, the responsible-drinking
   line and the theme control.
+
+## Requirement: A locale-aware age gate comes before any alcoholic content
+- **Scenario: country from the browser.** Given a first visit with the browser language en-GB,
+  when any page is requested, then the gate asks "Are you 18 or over?" naming the United Kingdom
+  before any recipe is shown; given en-US it asks for 21; given an unknown region, 21. The
+  country never comes from the visitor's IP address.
+- **Scenario: highest age applies.** Where the age differs inside a country, the gate asks for
+  the highest one (Canada 19, India 25).
+- **Scenario: change country.** Choosing another country on the gate asks again with that
+  country's age, also without JavaScript.
+- **Scenario: yes.** "Yes" returns to the page asked for (local pages only) and the gate is not
+  shown again for a year.
+- **Scenario: no.** "No" returns to the page with zero-proof mode on and locked: the switch shows
+  on and cannot be turned off, and only zero-proof recipes and bottles are shown.
+- **Scenario: always reachable.** The cookie, privacy and terms pages open without the gate.
+- **Scenario: accessible.** The gate passes WCAG 2.2 AA in light and dark at 1440 and 360 px,
+  and the keyboard reaches both answers and the country picker.
+
+## Requirement: The footer points to local help
+- **Scenario: help line.** The footer names the visitor's country help line (United Kingdom:
+  Drinkline, 0300 123 1110) from a government service, with a general helpline finder for
+  anywhere else; no footer copy encourages drinking more.
