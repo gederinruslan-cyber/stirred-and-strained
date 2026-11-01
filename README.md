@@ -9,4 +9,11 @@ recipes and zero-proof parity. Working name.
 - Architecture: [`docs/architecture.md`](docs/architecture.md), [`docs/adr/`](docs/adr/)
 - Research: [`docs/research/`](docs/research/)
 
-Code arrives with M0-01 (`/next M0`).
+## Getting started
+Node from `.nvmrc` (24 LTS) and pnpm from `packageManager` (`corepack enable`).
+
+```bash
+pnpm install
+pnpm check     # lint · typecheck · unit
+pnpm verify    # check + format · build
+```

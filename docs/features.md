@@ -27,7 +27,7 @@ strength logic, or auth change). `⚖️` items need a human sign-off before the
 
 | ID | Feature | Status | Depends | Marks | Acceptance |
 |---|---|---|---|---|---|
-| M0-01 | bootstrap-monorepo | ready | — | | pnpm + Turborepo workspace with `apps/web`, `apps/api`, `packages/{engine,units,schema,db,ui,api-client}`, `e2e`; strict TS; ESLint with the boundary rule (web never imports engine, db or api); Prettier; Vitest; `pnpm check` and `pnpm verify` green on a fresh clone; CI runs `pnpm verify` on push to `main` |
+| M0-01 | bootstrap-monorepo | in-progress | — | | pnpm + Turborepo workspace with `apps/web`, `apps/api`, `packages/{engine,units,schema,db,ui,api-client}`, `e2e`; strict TS; ESLint with the boundary rule (web never imports engine, db or api); Prettier; Vitest; `pnpm check` and `pnpm verify` green on a fresh clone; CI runs `pnpm verify` on push to `main` |
 | M0-02 | local-stack-and-gates | todo | M0-01 | | `docker-compose.yml` with postgres, api, web; api `GET /health` 200 with db status; web `GET /` 200; `pnpm verify:quick` (verify + postgres container + integration tests) and `pnpm verify:full` (full stack + Playwright smoke) both green and tear down |
 | M0-03 | db-foundation | todo | M0-02 | 🔒 | Drizzle + plain SQL migrations with a down each; runtime role is not a superuser; scoped data-access helper that requires a user id; an isolation test harness (user A cannot read or change user B's row, answers 404) proven on a throwaway table |
 | M0-04 | api-contract-and-client | todo | M0-02 | 🔒 | Zod schemas in `packages/schema` generate the OpenAPI contract; `packages/api-client` generated from it; `contract:check` in `verify`; origin and content-type gate on every mutating route; web reaches the api only from server code |

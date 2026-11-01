@@ -1,0 +1,32 @@
+{
+  "name": "stirred-and-strained",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.1.2",
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "turbo run typecheck",
+    "test:unit": "turbo run test:unit",
+    "build": "turbo run build",
+    "check": "export NEXT_TELEMETRY_DISABLED=1 TURBO_TELEMETRY_DISABLED=1 && pnpm lint && pnpm typecheck && pnpm test:unit",
+    "verify": "export NEXT_TELEMETRY_DISABLED=1 TURBO_TELEMETRY_DISABLED=1 && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:unit && pnpm build",
+    "verify:quick": "pnpm verify",
+    "ship": "bash scripts/ship.sh"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "eslint-config-next": "^16.4.2",
+    "globals": "^17.13.0",
+    "next": "catalog:",
+    "prettier": "catalog:",
+    "turbo": "^2.11.9",
+    "typescript": "catalog:",
+    "typescript-eslint": "^8.71.2"
+  }
+}
