@@ -34,3 +34,28 @@
   dropped; if the api cannot take it, the shelf waits for the next sign-in.
 - **Scenario: without JavaScript.** Add, pick a suggestion, bulk add and remove are plain form
   posts; each lands back on /bar with one status line.
+
+## Requirement: Beside the bar, what it makes (M2-04)
+- **Scenario: make now, all of it.** With Gin, Sweet Vermouth, Campari, Lemon juice, Lime juice,
+  Sugar, Simple Syrup and Club soda, "You can make 7" lists every one by name (Americano,
+  Electric Current Fizz, Gimlet, Gin Rickey, John Collins, Negroni, Tom Macy's Gimlet), each with
+  its thumbnail, a link to its recipe, "[method] · [glass]" and the finished ABV from the same
+  model as its recipe page (Negroni 19.8%); a swap it relies on reads "using [X] for [Y]".
+  Water is always assumed. Lists over 15 show 12 and fold the rest into "Show the other [n]".
+- **Scenario: one bottle away.** The same bar lists Boulevardier "+ Bourbon Whiskey" and Daiquiri
+  "+ Light Rum" among every recipe missing exactly one required line, each with "Add [bottle]".
+- **Scenario: buy next.** Up to 10 bottles ranked by how many one-away recipes each completes
+  ("[n] more recipes"), then by name, each naming those recipes and offering "Add [bottle]";
+  owning the top bottle moves every recipe it names to make now.
+- **Scenario: a kind of bottle.** Bourbon Whiskey makes a recipe that asks for any whiskey; a bar
+  with only "Whiskey" does not make Boulevardier, which asks for bourbon.
+- **Scenario: states.** Empty bar: "Add a few bottles and we'll show what you can make." Nothing
+  makeable: "Nothing you can make yet" with one away and buy next below. Every status line ends
+  " You can make [n] now." ("Nothing you can make yet." at 0).
+- **Scenario: signed out.** The shelf cookie's ids give the same results (`GET /shelf/matches`,
+  public, an unknown id answers 400 `unknown_ingredient`).
+- **Scenario: isolation.** `GET /bar/matches` reads only the caller's bar: Bob (Light Rum and the
+  basics) sees Daiquiri, never Ana's Negroni; without a session it answers 401.
+- **Scenario: without JavaScript.** "Add [bottle]" is a form post to the add action; the page
+  comes back with the recipe it completed under make now.
+

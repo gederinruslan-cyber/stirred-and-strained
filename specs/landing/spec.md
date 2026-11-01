@@ -5,7 +5,9 @@
   (lemon and lime juice, sugar, simple syrup, club soda). "You can make" lists up to five recipes
   (name · method), IBA classics first and then by name: Americano, John Collins, Negroni; "one
   bottle away" lists up to three with the missing bottle, starting with Boulevardier + Bourbon
-  Whiskey. One live summary announces the counts.
+  Whiskey. One live summary announces the counts. When it can make more than it lists, "+ [n]
+  more" follows (first visit: "+ 2 more") and the foot reads "Start my bar with these to see them
+  all and keep them."
 - **Scenario: ticking a bottle.** Ticking Bourbon Whiskey updates the lists without a reload or a
   scroll jump, and Boulevardier moves to "you can make".
 - **Scenario: opening a result.** Every recipe name in both lists links to its recipe page;
