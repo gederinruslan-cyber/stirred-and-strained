@@ -30,3 +30,4 @@
 - 2026-11-01 · M1-05 `seed-sources` merged (a70fd23); local verify:quick.
 - 2026-11-01 · M1-05 report: merged a7bb195; verify:quick green; review not needed (docs only); no tests (docs); open: NH-3 final look before M1-06 ships; EU database right to confirm with counsel (M3-02).
 - 2026-11-01 · M1-01 `strength-model-adr` merged (7d927d0); local verify:quick.
+- 2026-11-01 · M1-01 report: ADR 0004 merged as proposed (39878ed); row blocked on NH-4 (sign-off); worked examples recomputed (Thai Basil Daiquiri 15.0% vs published 15%); M1-02 waits.
