@@ -4,3 +4,4 @@
 
 - 2026-10-31 · M0-00 process setup: CLAUDE.md, .claude (rules, agents, /next with milestone mode, /review), ADRs 0001–0002, features.md, workflow, ship script.
 - 2026-11-01 · Design approved: Bar Napkin system (light + dark), landing spec and mockup in docs/design; landing page (M0-08) and engine matching (M0-07, moved from M1-04) added to M0; photo licence rule removed.
+- 2026-11-01 · M0-01 `bootstrap-monorepo` merged (9466194); local verify:quick.
