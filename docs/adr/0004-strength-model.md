@@ -1,6 +1,6 @@
 # 0004 — Strength model: dilution, finished ABV and standard drinks
 
-- **Status:** proposed (needs-human sign-off, NH-4)
+- **Status:** accepted 2026-11-01 (NH-4 sign-off)
 - **Date:** 2026-11-01
 - **Feature:** M1-01
 
