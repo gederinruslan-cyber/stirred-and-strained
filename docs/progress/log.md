@@ -56,4 +56,4 @@
 - 2026-11-01 · M0-08 `demo-recipe-links` merged (adb2f6d); local verify:quick.
 - 2026-11-01 · M1-08 `recipe-photos` merged (b414c62); local verify:quick.
 - 2026-11-01 · M1 demo accepted by the human; NH-7 closed. After the demo: demo results link to their recipes (`adb2f6d`), a photo on every recipe and search result (`b414c62`).
-- 2026-11-01 · M2-01 `auth-core` merged (e60211c); local verify:quick.
+- 2026-11-01 · M2-01 `auth-core` merged (e60211c); verify:quick and verify:full green (46 int, 33 e2e); review BLOCK (confirm link could set the owner's password) fixed in dafd3e2, then APPROVE; test 403 vs prod 545 lines; ADR 0005; Mailpit added to compose; NH-8 (production email provider) open; host `pnpm dev` needs MAIL_URL=http://127.0.0.1:8325 in .env.
