@@ -29,6 +29,8 @@ details that do not fit there.*
   deleted at the fold.
 
 ## Design
+- Every screen uses the approved Bar Napkin system (`docs/design/patterns.md`, mockup in
+  `docs/design/mockups/`) in both themes.
 - Screen features start with a `ui-ux-designer` pass on the scenarios. The result (layout,
   components, copy, states) goes into `docs/design/patterns.md`, which later features reuse.
 

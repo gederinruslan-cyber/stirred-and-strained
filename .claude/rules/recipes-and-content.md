@@ -12,8 +12,7 @@ paths:
 - Every house recipe carries `source` (name and URL), `attribution` (creator, bar, year where
   known) and `licence`. Recipe text (method, notes) is written by us; quantities and
   ingredient lists are facts and may be taken from open sources with attribution.
-- Images: none without a licence record (`own`, a named licence with its URL, or a contract
-  reference). Never hotlink or copy images from another site.
+- Images: serve our own copy (never hotlink). No photo credits.
 - The seed import fails, not warns, on a recipe without provenance, an ingredient that does not
   resolve in the taxonomy, or a quantity without a canonical unit.
 - A variation links to its canonical spec (`variation_of`); it never overwrites it.

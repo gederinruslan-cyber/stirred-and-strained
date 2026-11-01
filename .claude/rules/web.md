@@ -21,5 +21,7 @@ paths:
 - Accessibility: WCAG 2.2 AA; real buttons, links and labels; 4.5:1 contrast; 24 px minimum
   targets (44 px on touch layouts); keyboard and screen reader usable; light and dark; reduced
   motion; colour is never the only signal.
-- Patterns and copy live in `docs/design/patterns.md`; reuse before inventing. A new component
-  or token is a decision to call out, not to slip in.
+- Every screen uses the approved **Bar Napkin** design system (`docs/design/patterns.md`,
+  mockup `docs/design/mockups/landing.dc.html`): its tokens in both themes (no literal colours),
+  its components and its casual voice with exact facts. Reuse before inventing; a new component
+  or token extends the system and is called out in the plan, never slipped in.

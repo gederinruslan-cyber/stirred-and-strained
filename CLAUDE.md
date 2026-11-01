@@ -22,7 +22,7 @@ data, web and dependencies load from `.claude/rules/` when you touch those files
   "make now", "one away", "buy next" and substitutions read only from that graph, in
   `packages/engine`, which is pure (no database, no HTTP).
 - **Every recipe has provenance.** House recipes carry source, attribution and licence; text is
-  our own; no photo without a licence record. An import without them fails.
+  our own. An import without them fails.
 - **User recipes are never lost.** Soft delete with undo, change history, export always
   available. Custom recipes are searchable and match inventory like house recipes.
 - **User isolation below HTTP.** Every user-owned query is scoped in the data layer; another
@@ -31,6 +31,8 @@ data, web and dependencies load from `.claude/rules/` when you touch those files
   same strength maths, never a separate code path.
 - **AI is labelled and never authoritative.** It never invents a spec shown as tested, goes only
   through `packages/ai-providers` with a fallback, and the app works with AI off.
+- **One design system.** Every screen uses Bar Napkin (`docs/design/patterns.md`) in light and
+  dark, through its tokens and components; a new pattern extends it, never replaces it.
 - **Responsible by default.** Locale-aware age gate, finished ABV and standard drinks on every
   alcoholic recipe, no copy that encourages excess. Accessibility is WCAG 2.2 AA.
 - **Privacy.** No personal data in logs, analytics or error reports. Export and delete always
@@ -44,7 +46,8 @@ One feature at a time from `docs/features.md`, end to end:
    you will touch. Write the plan as scenarios (Given/When/Then, real quantities, the isolation
    case, the strength or matching edge case) plus the end-to-end check that proves it, into
    `docs/plans/<ID>-<name>.md`. Under 60 lines. A decision with a real alternative gets a short
-   ADR first. Screen features get a `ui-ux-designer` pass recorded in `docs/design/patterns.md`.
+   ADR first. Screen features get a `ui-ux-designer` pass that works inside the approved Bar Napkin
+   design system and records any new pattern in `docs/design/patterns.md`.
 2. **Build** on a `change/<name>` branch, test-first for new behaviour, smallest change that
    satisfies the scenarios. Commit per coherent step with explicit paths. Run `pnpm check`
    often and `pnpm verify` before pushing.

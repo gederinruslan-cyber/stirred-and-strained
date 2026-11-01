@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stirred &amp; Strained: what can you make tonight?</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Fraunces:ital,opsz,wght,SOFT@0,9..144,600,100;1,9..144,500,100&amp;display=swap">
+<style>
+body{margin:0}
+a{color:var(--accent,#C23B22)}a:hover{color:var(--accent-hover,#9E2C17)}
+.na :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.na .vh{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.na label:focus-within{outline:2px solid var(--accent);outline-offset:3px}
+.na .btn-p:hover{background:var(--accent-hover)!important}
+.na .btn-s:hover{background:var(--ink)!important;color:var(--paper)!important}
+.na .ft a{color:var(--ft-ink)}.na .ft a:hover{color:var(--ft-accent)}
+@media (max-width: 900px){.na .hand{display:none!important}.na .tilt{transform:none!important}}
+@media (prefers-reduced-motion: reduce){.na *{transition:none!important}}
+</style>
+</helmet>
+<div class="na" style="--paper: {{t.paper}}; --card: {{t.card}}; --ink: {{t.ink}}; --muted: {{t.muted}}; --note: {{t.note}}; --accent: {{t.accent}}; --accent-hover: {{t.accentHover}}; --on-accent: {{t.onAccent}}; --hl: {{t.hl}}; --tape: {{t.tape}}; --dots: {{t.dots}}; --dash: {{t.dash}}; --sticky-y: {{t.stickyY}}; --sticky-g: {{t.stickyG}}; --zero: {{t.zero}}; --zero-text: {{t.zeroText}}; --seg: {{t.seg}}; --rowhl: {{t.rowhl}}; --shadow: {{t.shadow}}; --ft-bg: {{t.ftBg}}; --ft-ink: {{t.ftInk}}; --ft-muted: {{t.ftMuted}}; --ft-accent: {{t.ftAccent}}; --ft-dash: {{t.ftDash}}; background: var(--paper); color: var(--ink); font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 28px; overflow-x: hidden; transition: background 150ms, color 150ms;">
+
+<a href="#main" class="vh">Skip to content</a>
+
+<header style="max-width: 1200px; margin: 0 auto; padding: 20px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px;">
+<a href="#main" style="font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; color: var(--ink); text-decoration: none;">Stirred <span style="font-family: 'Caveat', cursive; font-size: 30px; color: var(--accent);">&amp;</span> Strained</a>
+<nav aria-label="Main" style="display: flex; gap: 22px; font-size: 16px; font-weight: 500;">
+<a href="#card" style="color: var(--ink); text-decoration: none;">Recipes</a>
+<a href="#demo" style="color: var(--ink); text-decoration: none;">My Bar</a>
+</nav>
+<button type="button" role="switch" aria-checked="{{zeroAria}}" onClick="{{toggleZero}}" style="display: flex; align-items: center; gap: 8px; background: none; border: none; color: var(--ink); font: inherit; font-size: 16px; font-weight: 500; cursor: pointer; padding: 6px 0;">
+<span style="width: 38px; height: 22px; border-radius: 999px; border: 1.5px solid var(--ink); background: {{switchBg}}; position: relative; display: inline-block; transition: background 150ms; box-sizing: border-box;"><span style="position: absolute; top: 2px; left: {{switchKnob}}; width: 15px; height: 15px; border-radius: 50%; background: {{switchKnobBg}}; transition: left 150ms;"></span></span>
+Zero-proof
+</button>
+<div style="flex: 1 1 180px; display: flex; justify-content: flex-end; min-width: 160px;">
+<label style="display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--ink); border-radius: 999px; padding: 0 14px; height: 40px; width: 100%; max-width: 280px; background: var(--card); box-sizing: border-box;">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<span class="vh">Find a drink</span>
+<input type="search" placeholder="Find a drink…" style="border: none; background: transparent; color: var(--ink); font: inherit; font-size: 15px; flex: 1; min-width: 0; outline: none;">
+</label>
+</div>
+<button type="button" aria-label="{{themeLabel}}" title="{{themeLabel}}" onClick="{{toggleTheme}}" style="width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--ink); background: var(--card); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;">
+<sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"></path></svg></sc-if>
+<sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if>
+</button>
+<a href="#demo" style="color: var(--ink); font-size: 16px; font-weight: 500;">Sign in</a>
+<a href="#demo" class="btn-p" style="background: var(--accent); color: var(--on-accent); text-decoration: none; font-weight: 700; font-size: 16px; padding: 10px 20px; border-radius: 999px; transition: background 150ms;">Start my bar</a>
+</header>
+
+<main id="main">
+
+<section aria-labelledby="hero-h" style="max-width: 1200px; margin: 0 auto; padding: 48px 16px 120px; display: flex; flex-wrap: wrap; gap: 56px 72px; align-items: flex-start;">
+<div style="flex: 1 1 420px; min-width: 0; padding-top: 16px;">
+<p class="tilt" style="margin: 0 0 14px; font-family: 'Caveat', cursive; font-size: 30px; line-height: 32px; color: var(--accent); transform: rotate(-2deg); transform-origin: left;">your home bar, sorted</p>
+<h1 id="hero-h" style="margin: 0 0 28px; font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(48px, 6vw, 80px); line-height: 0.98; letter-spacing: -0.02em;">What can you make <span style="position: relative; display: inline-block;"><span style="position: relative; z-index: 1;">tonight?</span><svg aria-hidden="true" viewBox="0 0 300 34" fill="none" preserveAspectRatio="none" style="position: absolute; left: -4%; bottom: -0.18em; width: 108%; height: 0.42em; z-index: 0;"><path d="M4 20 C 60 6, 140 4, 220 12 S 290 22, 296 14" stroke="{{t.hl}}" stroke-width="16" stroke-linecap="round"></path></svg></span></h1>
+<p style="margin: 0 0 34px; max-width: 520px; color: var(--muted); font-size: 19px; line-height: 30px;">Tell us what's on your shelf. We'll show you what you can mix right now, what you're one bottle away from, and which bottle to grab next. Real recipes, properly credited.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center;">
+<a href="#demo" class="btn-p" style="background: var(--accent); color: var(--on-accent); text-decoration: none; font-weight: 700; padding: 15px 28px; border-radius: 999px; font-size: 17px; transition: background 150ms;">Start my bar</a>
+<a href="#card" class="btn-s" style="color: var(--ink); text-decoration: none; font-weight: 700; padding: 13px 26px; border-radius: 999px; border: 2px solid var(--ink); font-size: 17px; transition: background 150ms;">Just browse</a>
+</div>
+<p style="margin: 18px 0 0; font-family: 'Caveat', cursive; font-size: 25px; line-height: 28px; color: var(--muted);">free · no ads · your recipes stay yours</p>
+</div>
+
+<div id="demo" style="flex: 1.15 1 500px; min-width: 0; position: relative; padding-top: 8px;">
+<div aria-hidden="true" style="position: absolute; top: -6px; left: 50%; width: 120px; height: 30px; background: var(--tape); transform: translateX(-50%) rotate(-3deg); z-index: 2;"></div>
+<div class="tilt" style="background-color: var(--card); border-radius: 6px; padding: 36px 32px 26px; transform: rotate(1deg); box-shadow: 0 14px 30px var(--shadow); background-image: radial-gradient(var(--dots) 1px, transparent 1px); background-size: 14px 14px;">
+<h2 style="margin: 0 0 4px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 28px; line-height: 34px;">What's on your shelf?</h2>
+<p style="margin: 0 0 18px; font-size: 15px; line-height: 22px; color: var(--muted);">{{demoHint}}</p>
+<fieldset style="border: none; padding: 0; margin: 0;">
+<legend class="vh">Bottles you have</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 9px;">
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="12">
+<label style="position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 15px; border-radius: 999px; border: 1.5px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 150ms; box-sizing: border-box;">
+<input type="checkbox" class="vh" checked="{{c.checked}}" onChange="{{c.toggle}}">
+<sc-if value="{{c.checked}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6.5l2.5 2.5L10 3.5"></path></svg></sc-if>
+{{c.label}}
+</label>
+</sc-for>
+</div>
+<label style="display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 15px; cursor: pointer; width: fit-content;">
+<input type="checkbox" checked="{{basics}}" onChange="{{toggleBasics}}" style="width: 18px; height: 18px; accent-color: {{t.ink}}; margin: 0;">
+Plus the usual: lemons, limes, sugar, soda water
+</label>
+</fieldset>
+<p class="vh" aria-live="polite">{{liveSummary}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 20px 32px; margin-top: 24px;">
+<div style="flex: 1 1 200px; min-width: 0;">
+<h3 style="margin: 0 0 6px; font-family: 'Caveat', cursive; font-weight: 700; font-size: 28px; line-height: 30px; color: var(--accent);">{{makeTitle}}</h3>
+<sc-if value="{{noneMake}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 15px; line-height: 22px; color: var(--muted);">{{emptyMake}}</p></sc-if>
+<ul style="margin: 0; padding: 0; list-style: none; font-size: 16px; line-height: 24px;">
+<sc-for list="{{make}}" as="r" hint-placeholder-count="4">
+<li style="padding: 8px 0; border-bottom: 1.5px dashed var(--dash);"><a href="#card" style="color: var(--ink); font-weight: 700; text-decoration: none;">{{r.name}}</a> <span style="color: var(--muted);">· {{r.method}}</span></li>
+</sc-for>
+</ul>
+</div>
+<div style="flex: 1 1 200px; min-width: 0;">
+<h3 style="margin: 0 0 6px; font-family: 'Caveat', cursive; font-weight: 700; font-size: 28px; line-height: 30px;">one bottle away…</h3>
+<ul style="margin: 0; padding: 0; list-style: none; font-size: 16px; line-height: 24px;">
+<sc-for list="{{away}}" as="r" hint-placeholder-count="3">
+<li style="padding: 8px 0; border-bottom: 1.5px dashed var(--dash);"><strong>{{r.name}}</strong> <span style="color: var(--muted);">+ {{r.missing}}</span></li>
+</sc-for>
+</ul>
+</div>
+</div>
+<p style="margin: 20px 0 0; font-size: 15px; line-height: 22px; color: var(--muted);">Nothing's saved yet. <a href="#demo">Start my bar</a> to keep it.</p>
+</div>
+<div class="hand" aria-hidden="true" style="position: absolute; left: -110px; bottom: -78px; display: flex; align-items: flex-start; gap: 6px; transform: rotate(-4deg); color: var(--ink);">
+<svg width="70" height="50" viewBox="0 0 70 50" fill="none"><path d="M6 44 C 20 40, 44 30, 60 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M48 10 L61 8 L58 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span style="font-family: 'Caveat', cursive; font-size: 26px; line-height: 28px; padding-top: 30px;">tick a few, it updates live</span>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="why-h" style="max-width: 1200px; margin: 0 auto; padding: 0 16px 112px;">
+<h2 id="why-h" style="margin: 0 0 36px; font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.1;">Why it's different</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px;">
+<div class="tilt" style="background: var(--sticky-y); padding: 28px 28px 30px; border-radius: 4px; transform: rotate(-1.2deg); box-shadow: 0 8px 18px var(--shadow);">
+<p style="margin: 0 0 8px; font-family: 'Caveat', cursive; font-size: 30px; line-height: 30px; color: var(--accent);">1.</p>
+<h3 style="margin: 0 0 8px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; line-height: 30px;">Recipes with receipts.</h3>
+<p style="margin: 0; color: var(--note);">Every house recipe says who came up with it and where we found it. The how-to is in our own words.</p>
+</div>
+<div class="tilt" style="background: var(--card); padding: 28px 28px 30px; border-radius: 4px; transform: rotate(0.8deg); box-shadow: 0 8px 18px var(--shadow);">
+<p style="margin: 0 0 8px; font-family: 'Caveat', cursive; font-size: 30px; line-height: 30px; color: var(--accent);">2.</p>
+<h3 style="margin: 0 0 8px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; line-height: 30px;">We know bourbon is whiskey.</h3>
+<p style="margin: 0; color: var(--note);">Got bourbon? It counts as whiskey. Rye can stand in for bourbon. But a Last Word still needs its Chartreuse, no fudging.</p>
+</div>
+<div class="tilt" style="background: var(--sticky-g); padding: 28px 28px 30px; border-radius: 4px; transform: rotate(-0.6deg); box-shadow: 0 8px 18px var(--shadow);">
+<p style="margin: 0 0 8px; font-family: 'Caveat', cursive; font-size: 30px; line-height: 30px; color: var(--accent);">3.</p>
+<h3 style="margin: 0 0 8px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; line-height: 30px;">How strong is it, really?</h3>
+<p style="margin: 0; color: var(--note);">Every drink shows how strong it ends up once it's shaken or stirred, plus standard drinks for where you live.</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="picks-h" style="max-width: 1200px; margin: 0 auto; padding: 0 16px 112px;">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 32px; margin-bottom: 36px;">
+<div style="min-width: 0;">
+<p class="tilt" style="margin: 0 0 6px; font-family: 'Caveat', cursive; font-size: 28px; line-height: 30px; color: var(--accent); transform: rotate(-2deg); transform-origin: left;">start here</p>
+<h2 id="picks-h" style="margin: 0 0 10px; font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.1;">A few to get you going</h2>
+<p style="margin: 0; color: var(--muted); max-width: 560px;">Four favourites, written up properly. Pick your units and every amount follows.</p>
+</div>
+<div role="radiogroup" aria-label="Units for these recipes" style="display: flex; gap: 4px; background: var(--seg); border-radius: 999px; padding: 4px;">
+<sc-for list="{{unitsPicks}}" as="u" hint-placeholder-count="3">
+<label style="position: relative; padding: 4px 14px; border-radius: 999px; font-size: 14px; font-weight: 700; line-height: 22px; cursor: pointer; background: {{u.bg}}; color: {{u.fg}};">
+<input type="radio" name="unitPicks" class="vh" checked="{{u.checked}}" onChange="{{u.pick}}">{{u.label}}
+</label>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px 28px;">
+<sc-for list="{{picks}}" as="p" hint-placeholder-count="4">
+<article aria-labelledby="{{p.id}}" class="tilt" style="position: relative; background: var(--card); border-radius: 6px; padding: 12px 12px 22px; transform: rotate({{p.rot}}); box-shadow: 0 14px 30px var(--shadow); display: flex; flex-direction: column;">
+<div aria-hidden="true" style="position: absolute; top: -10px; left: 50%; width: 84px; height: 24px; background: var(--tape); transform: translateX(-50%) rotate({{p.tapeRot}}); z-index: 2;"></div>
+<div style="background: {{p.tint}}; border-radius: 3px; height: 240px; position: relative; overflow: hidden;">
+<img src="{{p.photo}}" alt="{{p.alt}}" style="width: 100%; height: 100%; object-fit: cover; object-position: {{p.focus}}; display: block;"><sc-if value="{{p.isZero}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 4px; background: var(--card); border: 1.5px solid var(--zero); color: var(--zero); border-radius: 999px; padding: 0 9px; font-size: 12px; line-height: 22px; font-weight: 700;"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h12l-2 17H8L6 3z"></path><path d="M4 21L20 3"></path></svg>zero-proof</span></sc-if>
+</div>
+<div style="padding: 16px 8px 0; display: flex; flex-direction: column; flex: 1;">
+<h3 id="{{p.id}}" style="margin: 0; font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; line-height: 30px;">{{p.name}}</h3>
+<p style="margin: 2px 0 12px; font-family: 'Caveat', cursive; font-size: 23px; line-height: 26px; color: var(--accent);">{{p.blurb}}</p>
+<ul style="list-style: none; margin: 0 0 12px; padding: 0; font-size: 15px; line-height: 22px;">
+<sc-for list="{{p.lines}}" as="l" hint-placeholder-count="3">
+<li style="display: flex; gap: 10px; padding: 6px 0; border-bottom: 1.5px dashed var(--dash);"><span style="flex: 1; min-width: 0;">{{l.name}}</span><span style="font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap;">{{l.qty}}</span></li>
+</sc-for>
+</ul>
+<p style="margin: 0 0 12px; font-size: 15px; line-height: 22px; color: var(--muted);">{{p.method}}</p>
+<p style="margin: 0 0 6px; font-size: 14px; line-height: 20px;"><strong>{{p.strength}}</strong></p>
+<p style="margin: 0 0 14px; font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; line-height: 20px; color: var(--muted);">{{p.credit}}</p>
+<a href="#card" style="margin-top: auto; font-weight: 700; font-size: 15px;">Full recipe →</a>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section aria-labelledby="buy-h"style="max-width: 1200px; margin: 0 auto; padding: 0 16px 112px; display: flex; flex-wrap: wrap; gap: 40px 72px; align-items: center;">
+<div style="flex: 1 1 340px; min-width: 0;">
+<h2 id="buy-h" style="margin: 0 0 18px; font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.1;">Which bottle should you buy next?</h2>
+<p style="margin: 0 0 18px; color: var(--muted);">We look at what you've already got and tell you which single bottle opens up the most new recipes. Not what's trending. Not behind a paywall.</p>
+<a href="#buy-h" style="font-weight: 700;">How we work it out →</a>
+<p class="hand tilt" style="margin: 22px 0 0; font-family: 'Caveat', cursive; font-size: 26px; line-height: 28px; color: var(--accent); transform: rotate(-2deg);">(this is the bit other apps charge for)</p>
+</div>
+<div class="tilt" style="flex: 1.5 1 520px; min-width: 0; background-color: var(--card); border-radius: 6px; padding: 28px 30px; transform: rotate(-0.8deg); box-shadow: 0 14px 30px var(--shadow); background-image: repeating-linear-gradient(transparent 0px, transparent 47px, var(--seg) 47px, var(--seg) 48px); overflow-x: auto;">
+<table style="width: 100%; border-collapse: collapse; font-size: 16px; line-height: 24px;">
+<caption style="text-align: left; padding: 0 0 14px; font-family: 'Caveat', cursive; font-size: 24px; line-height: 26px; color: var(--muted);">say you've got gin, bourbon, sweet vermouth, Angostura &amp; the usual…</caption>
+<thead>
+<tr>
+<th scope="col" style="text-align: left; padding: 6px 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--muted);">BUY THIS</th>
+<th scope="col" style="text-align: right; padding: 6px 16px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--muted);">NEW RECIPES</th>
+<th scope="col" style="text-align: left; padding: 6px 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--muted);">LIKE</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{buyNext}}" as="b" hint-placeholder-count="4">
+<tr>
+<th scope="row" style="text-align: left; padding: 11px 0; font-weight: 700;">{{b.bottle}}</th>
+<td style="text-align: right; padding: 11px 16px;"><span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 28px; color: var(--accent);">{{b.count}}</span></td>
+<td style="padding: 11px 0; color: var(--muted);">{{b.examples}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="card" aria-labelledby="card-h" style="max-width: 1200px; margin: 0 auto; padding: 0 16px 112px;">
+<h2 id="card-h" style="margin: 0 0 40px; font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.1;">Every recipe, the way a bartender would jot it down</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 40px 64px; align-items: flex-start;">
+<article aria-labelledby="dq-h" class="tilt" style="flex: 1 1 440px; min-width: 0; max-width: 560px; background: var(--card); border-radius: 6px; padding: 32px; transform: rotate(0.6deg); box-shadow: 0 14px 30px var(--shadow);">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px;">
+<div>
+<h3 id="dq-h" style="margin: 0; font-family: 'Fraunces', serif; font-weight: 600; font-size: 36px; line-height: 40px;">Daiquiri</h3>
+<p style="margin: 6px 0 0; font-size: 15px; color: var(--muted);">a sour · shaken · coupe</p>
+</div>
+<div role="radiogroup" aria-label="Units" style="display: flex; gap: 4px; background: var(--seg); border-radius: 999px; padding: 4px;">
+<sc-for list="{{units}}" as="u" hint-placeholder-count="3">
+<label style="position: relative; padding: 4px 14px; border-radius: 999px; font-size: 14px; font-weight: 700; line-height: 22px; cursor: pointer; background: {{u.bg}}; color: {{u.fg}};">
+<input type="radio" name="unitA" class="vh" checked="{{u.checked}}" onChange="{{u.pick}}">{{u.label}}
+</label>
+</sc-for>
+</div>
+</div>
+<ul style="list-style: none; margin: 22px 0 0; padding: 0;">
+<sc-for list="{{lines}}" as="l" hint-placeholder-count="3">
+<li style="display: flex; align-items: baseline; gap: 12px; padding: 11px 0; border-bottom: 1.5px dashed var(--dash);">
+<span style="flex: 1; min-width: 0;">{{l.name}}<sc-if value="{{l.hasNote}}" hint-placeholder-val="{{ false }}"><span style="display: block; font-family: 'Caveat', cursive; font-size: 21px; line-height: 22px; color: var(--zero);">{{l.note}}</span></sc-if></span>
+<span style="font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; min-width: 72px;">{{l.qty}}</span>
+</li>
+</sc-for>
+</ul>
+<p style="margin: 16px 0 0; padding: 10px 14px; background: var(--sticky-y); border-radius: 4px; font-size: 16px;"><strong>[x.x]% ABV</strong> once shaken · <strong>[x.x]</strong> standard drinks ([locale])</p>
+<p style="margin: 14px 0 0; font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; line-height: 24px; color: var(--muted);">An IBA official cocktail. Found on the IBA list, [revision]. Method written by us.</p>
+<p style="margin: 14px 0 0; font-size: 16px;"><a href="#card" style="font-weight: 700;">See the full recipe →</a></p>
+</article>
+<ul style="flex: 1 1 300px; min-width: 0; list-style: none; margin: 0; padding: 12px 0 0; display: flex; flex-direction: column; gap: 22px;">
+<li style="display: flex; gap: 14px; align-items: baseline;"><span aria-hidden="true" style="font-family: 'Caveat', cursive; font-size: 30px; color: var(--accent); line-height: 24px;">←</span><span><strong style="font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; display: block; line-height: 30px;">who made it</strong><span style="color: var(--muted);">And where we found it. Credit where it's due.</span></span></li>
+<li style="display: flex; gap: 14px; align-items: baseline;"><span aria-hidden="true" style="font-family: 'Caveat', cursive; font-size: 30px; color: var(--accent); line-height: 24px;">←</span><span><strong style="font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; display: block; line-height: 30px;">ml, cl or oz</strong><span style="color: var(--muted);">Your call. Flip it and every amount follows.</span></span></li>
+<li style="display: flex; gap: 14px; align-items: baseline;"><span aria-hidden="true" style="font-family: 'Caveat', cursive; font-size: 30px; color: var(--accent); line-height: 24px;">←</span><span><strong style="font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; display: block; line-height: 30px;">how strong, after the ice</strong><span style="color: var(--muted);">Shaking and stirring water a drink down. We do the maths.</span></span></li>
+<li style="display: flex; gap: 14px; align-items: baseline;"><span aria-hidden="true" style="font-family: 'Caveat', cursive; font-size: 30px; color: var(--accent); line-height: 24px;">←</span><span><strong style="font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; display: block; line-height: 30px;">swaps that actually work</strong><span style="color: var(--muted);">And a heads-up when only the real bottle will do.</span></span></li>
+</ul>
+</div>
+</section>
+
+<section aria-labelledby="zero-h" style="background: var(--sticky-g); padding: 96px 0;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 16px; display: flex; flex-wrap: wrap; gap: 40px 72px; align-items: center;">
+<div style="flex: 1 1 340px; min-width: 0;">
+<h2 id="zero-h" style="margin: 0 0 18px; font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.1;">Not drinking? Same great drinks.</h2>
+<p style="margin: 0 0 26px; color: var(--zero-text);">Flip on zero-proof and the whole site follows: lists, matches, swaps, everything. Same care, same detail. 0% ABV, nothing to count.</p>
+<button type="button" onClick="{{toggleZero}}" class="btn-s" style="font: inherit; font-weight: 700; font-size: 17px; color: var(--ink); background: transparent; border: 2px solid var(--ink); border-radius: 999px; padding: 13px 26px; cursor: pointer; transition: background 150ms;">{{zeroButton}}</button>
+</div>
+<div style="flex: 1.5 1 520px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
+<article class="tilt" style="background: var(--card); border-radius: 6px; padding: 24px; transform: rotate(-1deg); box-shadow: 0 10px 22px var(--shadow);">
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; line-height: 30px;">Gin Buck</h3>
+<p style="margin: 4px 0 14px; font-size: 14px; color: var(--muted);">highball · built · [x.x]% ABV</p>
+<p style="margin: 0; font-size: 16px; line-height: 30px;">London dry gin <span style="float: right; font-weight: 700;">[ml]</span><br>Lemon juice <span style="float: right; font-weight: 700;">[ml]</span><br>Ginger beer <span style="float: right; font-weight: 700;">top up</span></p>
+</article>
+<article class="tilt" style="background: var(--card); border-radius: 6px; padding: 24px; transform: rotate(1deg); box-shadow: 0 10px 22px var(--shadow);">
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; line-height: 30px;">Zero-proof Gin Buck</h3>
+<p style="margin: 4px 0 14px; font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">highball · built · 0% ABV <span style="display: inline-flex; align-items: center; gap: 4px; border: 1.5px solid var(--zero); color: var(--zero); border-radius: 999px; padding: 0 8px; font-size: 12px; line-height: 20px; font-weight: 700;"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h12l-2 17H8L6 3z"></path><path d="M4 21L20 3"></path></svg>zero-proof</span></p>
+<p style="margin: 0; font-size: 16px; line-height: 30px;">Zero-proof gin <span style="float: right; font-weight: 700;">[ml]</span><br>Lemon juice <span style="float: right; font-weight: 700;">[ml]</span><br>Ginger beer <span style="float: right; font-weight: 700;">top up</span></p>
+</article>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="yours-h" style="max-width: 1200px; margin: 0 auto; padding: 112px 16px; display: flex; flex-wrap: wrap-reverse; gap: 40px 72px; align-items: center;">
+<div class="tilt" style="flex: 1.3 1 480px; min-width: 0; background: var(--card); border-radius: 6px; transform: rotate(-0.6deg); box-shadow: 0 14px 30px var(--shadow); overflow: hidden;">
+<div style="padding: 14px 20px; border-bottom: 1.5px dashed var(--dash); display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 15px;"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><span style="color: var(--ink);">daiquiri</span></div>
+<ul style="list-style: none; margin: 0; padding: 0; font-size: 16px; line-height: 24px;">
+<li style="display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1.5px dashed var(--dash);"><span style="flex: 1; font-weight: 700;">Daiquiri</span><span style="font-size: 13px; color: var(--muted); border: 1.5px solid var(--dash); border-radius: 999px; padding: 0 10px;">house</span><span style="font-size: 14px; color: var(--zero); font-weight: 700; width: 110px; text-align: right;">✓ make now</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1.5px dashed var(--dash); background: var(--rowhl);"><span style="flex: 1; font-weight: 700;">My Daiquiri #2</span><span style="font-family: 'Caveat', cursive; font-size: 22px; line-height: 20px; color: var(--accent); font-weight: 700;">yours!</span><span style="font-size: 14px; color: var(--zero); font-weight: 700; width: 110px; text-align: right;">✓ make now</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 14px 20px;"><span style="flex: 1; font-weight: 700;">Hemingway Daiquiri</span><span style="font-size: 13px; color: var(--muted); border: 1.5px solid var(--dash); border-radius: 999px; padding: 0 10px;">house</span><span style="font-size: 14px; color: var(--muted); width: 110px; text-align: right;">one away</span></li>
+</ul>
+</div>
+<div style="flex: 1 1 340px; min-width: 0;">
+<h2 id="yours-h" style="margin: 0 0 18px; font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.1;">Your recipes live right next to ours.</h2>
+<p style="margin: 0 0 16px; color: var(--muted);">Your own twists show up in search and work with your bar, just like ours. Deleted something by accident? Undo. Every edit is kept, and you can download the whole lot whenever you like.</p>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 25px; line-height: 28px; color: var(--muted);">private unless you say otherwise</p>
+</div>
+</section>
+
+<section aria-labelledby="straight-h" style="max-width: 1200px; margin: 0 auto; padding: 0 16px 112px;">
+<div style="border: 2px dashed var(--ink); border-radius: 10px; padding: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px 56px;">
+<h2 id="straight-h" style="grid-column: 1 / -1; margin: 0; font-family: 'Caveat', cursive; font-weight: 700; font-size: 36px; line-height: 36px; color: var(--accent);">straight talk</h2>
+<div>
+<h3 style="margin: 0 0 8px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; line-height: 32px;">The good stuff is free.</h3>
+<p style="margin: 0; color: var(--muted);">What can I make, one bottle away and what to buy next don't cost a thing. [PLACEHOLDER: paid plan, if any, and its one price.]</p>
+</div>
+<div>
+<h3 style="margin: 0 0 8px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; line-height: 32px;">No robots wrote these recipes.</h3>
+<p style="margin: 0; color: var(--muted);">If we ever add AI bits, they'll be clearly labelled, and you can switch them off. Everything else works without them.</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="close-h" style="max-width: 760px; margin: 0 auto; padding: 0 16px 120px; text-align: center;">
+<h2 id="close-h" style="margin: 0 0 14px; font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05;">So… what's on your shelf?</h2>
+<p style="margin: 0 0 30px; color: var(--muted);">Tick a few bottles and see what tonight could look like.</p>
+<a href="#demo" class="btn-p" style="display: inline-block; background: var(--accent); color: var(--on-accent); text-decoration: none; font-weight: 700; padding: 16px 32px; border-radius: 999px; font-size: 18px; transition: background 150ms;">Start my bar</a>
+<p style="margin: 16px 0 0; font-family: 'Caveat', cursive; font-size: 25px; color: var(--muted);">takes a couple of minutes</p>
+</section>
+</main>
+
+<footer class="ft" style="background: var(--ft-bg); color: var(--ft-ink); font-size: 15px; line-height: 22px;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 56px 16px 36px;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;">
+<div>
+<p style="margin: 0 0 8px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px;">Stirred <span style="font-family: 'Caveat', cursive; color: var(--ft-accent);">&amp;</span> Strained</p>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; line-height: 26px; color: var(--ft-muted);">good drinks from what you've got</p>
+</div>
+<nav aria-label="The app">
+<p style="margin: 0 0 12px; font-weight: 700; color: var(--ft-accent);">The app</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+<li><a href="#card">Recipes</a></li>
+<li><a href="#demo">My Bar</a></li>
+<li><a href="#zero-h">Zero-proof</a></li>
+<li><a href="#yours-h">Download your data</a></li>
+</ul>
+</nav>
+<nav aria-label="Behind the bar">
+<p style="margin: 0 0 12px; font-weight: 700; color: var(--ft-accent);">Behind the bar</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+<li><a href="#card">Where our recipes come from</a></li>
+<li><a href="#card">How we work out strength</a></li>
+<li><span style="color: var(--ft-muted);">[PLACEHOLDER: contact]</span></li>
+</ul>
+</nav>
+<nav aria-label="The small print">
+<p style="margin: 0 0 12px; font-weight: 700; color: var(--ft-accent);">The small print</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+<li><a href="#main">Terms</a></li>
+<li><a href="#main">Privacy</a></li>
+<li><a href="#main">Cookies</a></li>
+</ul>
+</nav>
+</div>
+<div style="margin-top: 40px; padding-top: 22px; border-top: 1.5px dashed var(--ft-dash); display: flex; flex-direction: column; gap: 8px; color: var(--ft-muted);">
+<p style="margin: 0; color: var(--ft-ink);">Drink well, not a lot. Every recipe shows how strong it is so you can choose. Only for people of legal drinking age. <a href="#main" style="color: var(--ft-accent);">[Local help service]</a></p>
+<p style="margin: 0;">Recipe data thanks to: [sources from data/SOURCES.md]</p><div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;">
+<p style="margin: 0;">© 2026 [PLACEHOLDER: entity]</p>
+<p style="margin: 0;">Theme: <button type="button" onClick="{{setLight}}" aria-pressed="{{lightPressed}}" style="font: inherit; background: none; border: none; padding: 0 4px; cursor: pointer; color: var(--ft-ink); text-decoration: {{lightDeco}};">Light</button> · <button type="button" onClick="{{setDark}}" aria-pressed="{{darkPressed}}" style="font: inherit; background: none; border: none; padding: 0 4px; cursor: pointer; color: var(--ft-ink); text-decoration: {{darkDeco}};">Dark</button></p>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"$preview":{"width":1440,"height":6700}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { owned: { gin: true, swv: true, bitter: true }, basics: true, zero: false, unit: 'ml', theme: null };
+  }
+  renderVals() {
+    var self = this;
+    var theme = this.state.theme || this.props.theme || 'light';
+    var dark = theme === 'dark';
+    var LIGHT = {
+      paper: '#FBF5E9', card: '#FFFFFF', ink: '#2A211A', muted: '#5E5145', note: '#4A3F35',
+      accent: '#C23B22', accentHover: '#9E2C17', onAccent: '#FFFFFF', hl: '#FFD84D',
+      tape: 'rgba(255, 216, 77, 0.75)', dots: '#F1E8D6', dash: '#D9CCB4',
+      stickyY: '#FFF3C4', stickyG: '#E4F0E6', zero: '#2E6B4F', zeroText: '#3E4A40',
+      seg: '#F4ECDD', rowhl: '#FFFAE6', shadow: 'rgba(42, 33, 26, 0.12)',
+      ftBg: '#2A211A', ftInk: '#F1E8D6', ftMuted: '#D9CCB4', ftAccent: '#FFD84D', ftDash: '#5E5145'
+    };
+    // Dark: the napkin after closing time. Warm charcoal paper, cream ink, coral accent.
+    var DARK = {
+      paper: '#1B1612', card: '#26201A', ink: '#F3EADB', muted: '#C2B4A2', note: '#D6C9B8',
+      accent: '#FF8A6B', accentHover: '#FFA68D', onAccent: '#1B1612', hl: '#6E5410',
+      tape: 'rgba(255, 216, 77, 0.30)', dots: '#2F2821', dash: '#4A3F33',
+      stickyY: '#382F1C', stickyG: '#1E2A22', zero: '#8FD1AE', zeroText: '#C5D6C8',
+      seg: '#332B23', rowhl: '#30281A', shadow: 'rgba(0, 0, 0, 0.40)',
+      ftBg: '#110D0A', ftInk: '#F1E8D6', ftMuted: '#BFB09C', ftAccent: '#FFD84D', ftDash: '#3A3129'
+    };
+    var t = dark ? DARK : LIGHT;
+    var INK = t.ink, PAPER = t.paper, ZERO = t.zero;
+    var BOTTLES = [
+      ['gin', 'London dry gin'], ['bourbon', 'Bourbon'], ['rye', 'Rye whiskey'],
+      ['rum', 'White rum'], ['tequila', 'Blanco tequila'], ['swv', 'Sweet vermouth'],
+      ['dryv', 'Dry vermouth'], ['bitter', 'Bitter aperitivo'], ['orange', 'Orange liqueur'],
+      ['ango', 'Angostura'], ['nagin', 'Zero-proof gin'], ['gbeer', 'Ginger beer']
+    ];
+    var NAMES = { lemon: 'lemons', lime: 'limes', sugar: 'sugar syrup', soda: 'soda water' };
+    BOTTLES.forEach(function (b) { NAMES[b[0]] = b[1].toLowerCase(); });
+    var BASICS = ['lemon', 'lime', 'sugar', 'soda'];
+    // Sample library for the mockup only; the build uses the real engine and house library.
+    var RECIPES = [
+      { name: 'Americano', method: 'built', req: [['bitter'], ['swv'], ['soda']] },
+      { name: 'Boulevardier', method: 'stirred', req: [['bourbon', 'rye'], ['bitter'], ['swv']] },
+      { name: 'Daiquiri', method: 'shaken', req: [['rum'], ['lime'], ['sugar']] },
+      { name: 'Gimlet', method: 'shaken', req: [['gin'], ['lime'], ['sugar']] },
+      { name: 'Gin Buck', method: 'built', req: [['gin'], ['gbeer'], ['lemon']] },
+      { name: 'Manhattan', method: 'stirred', req: [['rye', 'bourbon'], ['swv'], ['ango']] },
+      { name: 'Margarita', method: 'shaken', req: [['tequila'], ['orange'], ['lime']] },
+      { name: 'Martini', method: 'stirred', req: [['gin'], ['dryv']] },
+      { name: 'Mexican Mule', method: 'built', req: [['tequila'], ['gbeer'], ['lime']] },
+      { name: 'Negroni', method: 'stirred', req: [['gin'], ['bitter'], ['swv']] },
+      { name: 'Old Fashioned', method: 'stirred', req: [['bourbon', 'rye'], ['ango'], ['sugar']] },
+      { name: 'Tom Collins', method: 'built', req: [['gin'], ['lemon'], ['sugar'], ['soda']] },
+      { name: 'Whiskey Sour', method: 'shaken', req: [['bourbon', 'rye'], ['lemon'], ['sugar']] },
+      { name: 'Zero-proof Collins', method: 'built', na: true, req: [['nagin'], ['lemon'], ['sugar'], ['soda']] },
+      { name: 'Zero-proof Gimlet', method: 'shaken', na: true, req: [['nagin'], ['lime'], ['sugar']] },
+      { name: 'Zero-proof Gin Buck', method: 'built', na: true, req: [['nagin'], ['gbeer'], ['lemon']] }
+    ];
+    function missingOf(r, owned) {
+      return r.req.filter(function (opts) { return !opts.some(function (o) { return !!owned[o]; }); });
+    }
+    var s = this.state;
+    var owned = Object.assign({}, s.owned);
+    if (s.basics) BASICS.forEach(function (b) { owned[b] = true; });
+    var pool = RECIPES.filter(function (r) { return s.zero ? r.na : true; });
+    var make = [], away = [];
+    pool.forEach(function (r) {
+      var m = missingOf(r, owned);
+      if (m.length === 0) make.push({ name: r.name, method: r.method });
+      else if (m.length === 1) away.push({ name: r.name, missing: NAMES[m[0][0]] });
+    });
+    var anyTicked = BOTTLES.some(function (b) { return s.owned[b[0]]; });
+    var chips = BOTTLES.map(function (b) {
+      var on = !!s.owned[b[0]];
+      var isZero = b[0] === 'nagin';
+      return {
+        label: b[1], checked: on,
+        bg: on ? (isZero ? ZERO : INK) : 'transparent', fg: on ? PAPER : (isZero ? ZERO : INK),
+        border: isZero ? ZERO : INK,
+        toggle: function () { var o = Object.assign({}, self.state.owned); o[b[0]] = !o[b[0]]; self.setState({ owned: o }); }
+      };
+    });
+    var ex = { gin: true, bourbon: true, swv: true, ango: true, lemon: true, lime: true, sugar: true, soda: true };
+    var buy = BOTTLES.filter(function (b) { return !ex[b[0]]; }).map(function (b) {
+      var o = Object.assign({}, ex); o[b[0]] = true;
+      var unlocked = RECIPES.filter(function (r) { return !r.na && missingOf(r, ex).length > 0 && missingOf(r, o).length === 0; });
+      return { bottle: b[1], count: unlocked.length, examples: unlocked.map(function (r) { return r.name; }).join(', ') };
+    }).filter(function (b) { return b.count > 0; })
+      .sort(function (a, b) { return b.count - a.count || a.bottle.localeCompare(b.bottle); })
+      .slice(0, 4);
+    var LINES = [
+      { name: 'White rum', ml: 60, note: 'aged rum works too' },
+      { name: 'Fresh lime juice', ml: 20, note: '' },
+      { name: 'Sugar syrup (1:1)', ml: 15, note: '' }
+    ];
+    function fmt(ml, unit) {
+      if (unit === 'cl') return (Math.round(ml) / 10) + ' cl';
+      if (unit === 'oz') {
+        var q = Math.round(ml / 29.5735 * 4) / 4, w = Math.floor(q), f = q - w;
+        var fr = f === 0.25 ? '¼' : f === 0.5 ? '½' : f === 0.75 ? '¾' : '';
+        return (w > 0 ? w : '') + fr + ' oz';
+      }
+      return Math.round(ml) + ' ml';
+    }
+    var lines = LINES.map(function (l) { return { name: l.name, qty: fmt(l.ml, s.unit), note: l.note, hasNote: !!l.note }; });
+
+    // Landing picks. Classic specs follow the IBA list (check against the source before ship);
+    // the zero-proof spec is a house recipe still to be written, so its amounts stay placeholders.
+    var ROCKS = 'M58 46 L65 140 Q66 147 73 147 L127 147 Q134 147 135 140 L142 46';
+    var ROCKS_LIQ = 'M61 78 L65 139 Q66 144 73 144 L127 144 Q134 144 135 139 L139 78 Z';
+    var COUPE = 'M40 50 Q100 122 160 50 M100 104 L100 142 M72 146 L128 146';
+    var COUPE_LIQ = 'M50 60 Q100 112 150 60 Z';
+    var HIGH = 'M68 14 L73 144 Q73 150 80 150 L120 150 Q127 150 127 144 L132 14';
+    var HIGH_LIQ = 'M69 36 L73 143 Q73 147 80 147 L120 147 Q127 147 127 143 L131 36 Z';
+    function spokes(x, y, r) { return 'M' + (x - r) + ' ' + y + ' L' + (x + r) + ' ' + y + ' M' + x + ' ' + (y - r) + ' L' + x + ' ' + (y + r); }
+    var PICKS = [
+      { id: 'pk-negroni', name: 'Negroni', blurb: 'bitter, boozy, gorgeous', alt: 'Drawing of a Negroni on the rocks with an orange slice',
+        tint: dark ? '#3A1F1E' : '#FBE1DA', liquid: '#B8282E', glassD: ROCKS, liquidD: ROCKS_LIQ, ice: [78, 64, 44, 40], salt: 0, bubbles: 0,
+        g: [136, 52, 17, '#F28C28', '#FFC07A'], rot: '-1.4deg', tapeRot: '-4deg',
+        lines: [{ name: 'London dry gin', ml: 30 }, { name: 'Bitter aperitivo', ml: 30 }, { name: 'Sweet vermouth', ml: 30 }],
+        method: 'Stir over ice, strain onto one big cube, add a slice of orange.', strength: '[x.x]% ABV · [x.x] standard drinks', credit: 'IBA official cocktail' },
+      { id: 'pk-oldfashioned', name: 'Old Fashioned', blurb: 'the original, still the best', alt: 'Drawing of an Old Fashioned with a big ice cube and a cherry',
+        tint: dark ? '#33281A' : '#F8E8CF', liquid: '#C9782A', glassD: ROCKS, liquidD: ROCKS_LIQ, ice: [76, 70, 48, 46], salt: 0, bubbles: 0,
+        g: [118, 66, 9, '#9B1B30', '#C2354B'], rot: '1deg', tapeRot: '3deg',
+        lines: [{ name: 'Bourbon or rye', ml: 45 }, { name: 'Sugar cube', text: '1' }, { name: 'Angostura bitters', text: '2 dashes' }, { name: 'Water', text: 'a splash' }],
+        method: 'Soak the sugar with the bitters and a splash of water, add whiskey and ice, stir, finish with orange peel.', strength: '[x.x]% ABV · [x.x] standard drinks', credit: 'IBA official cocktail' },
+      { id: 'pk-margarita', name: 'Margarita', blurb: 'sour, salty, bright', alt: 'Drawing of a Margarita in a salt-rimmed glass with a lime wheel',
+        tint: dark ? '#2B3020' : '#EEF3D6', liquid: '#EAD97A', glassD: COUPE, liquidD: COUPE_LIQ, ice: [0, 0, 0, 0], salt: 1, bubbles: 0,
+        g: [156, 46, 15, '#7FA83A', '#CFE59A'], rot: '-0.6deg', tapeRot: '-2deg',
+        lines: [{ name: 'Blanco tequila', ml: 50 }, { name: 'Orange liqueur', ml: 20 }, { name: 'Fresh lime juice', ml: 15 }],
+        method: 'Shake hard with ice and strain into a glass with a salted rim.', strength: '[x.x]% ABV · [x.x] standard drinks', credit: 'IBA official cocktail' },
+      { id: 'pk-zerobuck', name: 'Zero-proof Gin Buck', blurb: 'all the zing, none of the proof', alt: 'Drawing of a tall zero-proof Gin Buck with bubbles and a lemon wheel',
+        tint: dark ? '#1E2A22' : '#E4F0E6', liquid: '#EADFA8', glassD: HIGH, liquidD: HIGH_LIQ, ice: [82, 46, 36, 30], salt: 0, bubbles: 1, zero: true,
+        g: [130, 26, 15, '#E8C33A', '#F8E59A'], rot: '1.4deg', tapeRot: '4deg',
+        lines: [{ name: 'Zero-proof gin', text: '[ml]' }, { name: 'Fresh lemon juice', text: '[ml]' }, { name: 'Ginger beer', text: 'top up' }],
+        method: 'Build over ice in a tall glass, top with ginger beer, give it one gentle stir.', strength: '0% ABV · nothing to count', credit: 'House recipe · [credit]' }
+    ];
+    // Photos from Wikimedia Commons; credit and licence travel with each one.
+    var PHOTOS = {
+      'pk-negroni': { src: '/_blob/286610fb9a308c43fd59f008942f2b95', focus: '45% 50%', alt: 'A Negroni on ice with an orange slice, on a dark wooden bar',
+        credit: 'Geoff Peters, CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Negroni_served_in_Vancouver_BC.jpg' },
+      'pk-oldfashioned': { src: '/_blob/66eebf95f27046609c27a7e021126c30', focus: '50% 60%', alt: 'An Old Fashioned with two big ice cubes and an orange wheel on a wooden board',
+        credit: 'Personal Creations, CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:Old_fashioned_orange_slice_cocktail_ice_cubes_straw_on_table_(18063379523).jpg' },
+      'pk-margarita': { src: '/_blob/73feb4d8737b88ce5de2f098e0832d0f', focus: '50% 30%', alt: 'A Margarita with a salted rim and a lime wedge',
+        credit: 'Akke Monasso, CC BY-SA 3.0', page: 'https://commons.wikimedia.org/wiki/File:MargaritaReal.jpg' },
+      'pk-zerobuck': { src: '/_blob/b21fc7680831d539f15e1842f2a1956a', focus: '50% 62%', alt: 'A tall, pale golden zero-proof highball over ice with a dried citrus wheel',
+        credit: 'Andy Li, CC0', page: 'https://commons.wikimedia.org/wiki/File:Apple_%26_Elderflower_Fizz_-_Petit_Pois_Restaurant_2024-07-11.jpg' }
+    };
+    var picks = PICKS.map(function (p) {
+      var ph = PHOTOS[p.id];
+      return {
+        photo: ph.src, focus: ph.focus, photoCredit: ph.credit, photoPage: ph.page, alt: ph.alt,
+        id: p.id, name: p.name, blurb: p.blurb, tint: p.tint, liquid: p.liquid,
+        glassD: p.glassD, liquidD: p.liquidD,
+        iceX: p.ice[0], iceY: p.ice[1], iceW: p.ice[2], iceH: p.ice[3], iceOn: p.ice[2] ? 1 : 0,
+        saltOn: p.salt, bubblesOn: p.bubbles, isZero: !!p.zero,
+        gx: p.g[0], gy: p.g[1], gr: p.g[2], gr2: Math.round(p.g[2] * 0.72), gOuter: p.g[3], gInner: p.g[4],
+        gSpokes: spokes(p.g[0], p.g[1], Math.round(p.g[2] * 0.72)),
+        rot: p.rot, tapeRot: p.tapeRot,
+        lines: p.lines.map(function (l) { return { name: l.name, qty: l.text || fmt(l.ml, s.unit) }; }),
+        method: p.method, strength: p.strength, credit: p.credit
+      };
+    });
+    var units = ['ml', 'cl', 'oz'].map(function (u) {
+      var on = s.unit === u;
+      return { label: u, checked: on, bg: on ? INK : 'transparent', fg: on ? PAPER : INK, pick: function () { self.setState({ unit: u }); } };
+    });
+    return {
+      t: t, isDark: dark, isLight: !dark,
+      themeLabel: dark ? 'Switch to light theme' : 'Switch to dark theme',
+      toggleTheme: function () { self.setState({ theme: dark ? 'light' : 'dark' }); },
+      setLight: function () { self.setState({ theme: 'light' }); },
+      setDark: function () { self.setState({ theme: 'dark' }); },
+      lightPressed: dark ? 'false' : 'true', darkPressed: dark ? 'true' : 'false',
+      lightDeco: dark ? 'none' : 'underline', darkDeco: dark ? 'underline' : 'none',
+      chips: chips, basics: s.basics,
+      toggleBasics: function () { self.setState({ basics: !self.state.basics }); },
+      make: make.slice(0, 5), away: away.slice(0, 3),
+      makeTitle: make.length === 0 ? 'you can make…' : 'you can make ' + make.length + '!',
+      noneMake: make.length === 0,
+      emptyMake: anyTicked ? "Nothing yet with just these, but check the right-hand list." : "Tick a bottle or two and we'll show you.",
+      liveSummary: make.length + ' recipes you can make, ' + away.length + ' one bottle away',
+      demoHint: s.zero ? "Zero-proof is on, so we're only showing zero-proof drinks." : "Tick what you have. No sign-up needed.",
+      zeroAria: s.zero ? 'true' : 'false',
+      switchBg: s.zero ? ZERO : 'transparent', switchKnob: s.zero ? '18px' : '2px', switchKnobBg: s.zero ? PAPER : INK,
+      toggleZero: function () { self.setState({ zero: !self.state.zero }); },
+      zeroButton: s.zero ? 'Show everything' : 'Try zero-proof',
+      buyNext: buy, lines: lines, units: units, unitsPicks: units, picks: picks
+    };
+  }
+}
+</script>
+</body>
+</html>

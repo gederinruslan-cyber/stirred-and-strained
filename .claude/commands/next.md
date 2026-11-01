@@ -20,8 +20,8 @@ starting.
    item in `docs/progress/needs-human.md`. Mark the row `in-progress` (commit it with the plan).
 2. Plan: read the acceptance criteria, related specs, ADRs and the code you will touch. Write
    the scenarios plus the end-to-end check, under 60 lines, into `docs/plans/<ID>-<name>.md`.
-   Screen features: run the `ui-ux-designer` agent on the scenarios first and record the
-   chosen patterns in `docs/design/patterns.md`. A real architecture decision gets an ADR
+   Screen features: run the `ui-ux-designer` agent on the scenarios first, inside the approved
+   Bar Napkin system, and record any new pattern in `docs/design/patterns.md`. A real architecture decision gets an ADR
    first; stop for the human only if it costs money, locks in a vendor or touches legal,
    licensing or privacy. In single-feature mode, use plan mode and wait for approval.
 3. Branch `change/<name>` from `main`. Build test-first against the scenarios; commit per
