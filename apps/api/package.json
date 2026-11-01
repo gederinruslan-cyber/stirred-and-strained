@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --watch src/server.ts",
+    "dev": "node --env-file-if-exists=../../.env --watch src/server.ts",
     "start": "node src/server.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "test:unit": "vitest run --passWithNoTests"
+    "test:unit": "vitest run --passWithNoTests --exclude \"**/*.int.test.ts\""
   },
   "dependencies": {
-    "fastify": "catalog:"
+    "fastify": "catalog:",
+    "@stirred/db": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

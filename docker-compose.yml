@@ -1,0 +1,63 @@
+# Local stack: postgres, api, web. `docker compose up` needs no .env: every variable has a
+# local-only default (documented in .env.example). Published ports bind to 127.0.0.1 only.
+# Day-to-day: `docker compose up -d postgres` and `pnpm dev` on the host. `pnpm verify:quick`
+# and `pnpm verify:full` run this file as their own project `stirred-verify` on other ports.
+name: stirred
+
+x-db-url: &db-url postgres://${POSTGRES_USER:-stirred}:${POSTGRES_PASSWORD:-stirred_local_only}@postgres:5432/${POSTGRES_DB:-stirred}
+
+services:
+  postgres:
+    image: postgres:18.6-trixie
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-stirred}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-stirred_local_only}
+      POSTGRES_DB: ${POSTGRES_DB:-stirred}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", 'pg_isready -h 127.0.0.1 -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: { context: ., target: api }
+    environment:
+      DATABASE_URL: *db-url
+    ports:
+      - "127.0.0.1:${API_PORT:-4300}:4000"
+    depends_on:
+      postgres: { condition: service_healthy }
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:4000/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build: { context: ., target: web }
+    environment:
+      API_URL: http://api:4000
+    ports:
+      - "127.0.0.1:${WEB_PORT:-3300}:3000"
+    depends_on:
+      api: { condition: service_healthy }
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"
+      interval: 3s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  postgres-data:

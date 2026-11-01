@@ -1,6 +1,7 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "tasks": {
+    "dev": { "cache": false, "persistent": true },
     "typecheck": { "outputs": [] },
     "test:unit": { "outputs": [] },
     "build": {

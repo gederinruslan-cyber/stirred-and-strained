@@ -10,13 +10,16 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "turbo run typecheck",
+    "typecheck": "turbo run typecheck && tsc -p tsconfig.json",
     "test:unit": "turbo run test:unit",
     "build": "turbo run build",
     "check": "export NEXT_TELEMETRY_DISABLED=1 TURBO_TELEMETRY_DISABLED=1 && pnpm lint && pnpm typecheck && pnpm test:unit",
     "verify": "export NEXT_TELEMETRY_DISABLED=1 TURBO_TELEMETRY_DISABLED=1 && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:unit && pnpm build",
-    "verify:quick": "pnpm verify",
-    "ship": "bash scripts/ship.sh"
+    "verify:quick": "bash scripts/verify-quick.sh",
+    "ship": "bash scripts/ship.sh",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "verify:full": "bash scripts/verify-full.sh",
+    "dev": "turbo run dev --parallel"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -27,6 +30,8 @@
     "prettier": "catalog:",
     "turbo": "^2.11.9",
     "typescript": "catalog:",
-    "typescript-eslint": "^8.71.2"
+    "typescript-eslint": "^8.71.2",
+    "vitest": "catalog:",
+    "@types/node": "catalog:"
   }
 }
