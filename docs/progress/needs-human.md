@@ -25,3 +25,11 @@ Template:
 - **Options:** decide at deploy with the hosting choice; local and verify stacks use Mailpit
   (free, catches mail) until then.
 - **Why a human:** money (and a vendor holding users' email addresses: privacy)
+
+## NH-9 · Milestone M2 demo · blocking
+- **Feature:** M2 (all features merged, tag `m2`)
+- **Question:** Walk the demo checklist in `docs/progress/milestone-M2.md` and accept M2, or
+  name what to change.
+- **Also:** keep or drop the four loose swaps (brandy → cognac, sparkling wine → champagne,
+  sparkling wine → prosecco, simple syrup → demerara syrup).
+- **Why a human:** demo
