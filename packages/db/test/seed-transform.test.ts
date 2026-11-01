@@ -48,6 +48,8 @@ const snapshot = (cocktails: Cocktail[]): Snapshot => ({
 const rules = (over: Partial<Rules> = {}): Rules => ({
   categories: { pantry: "Pantry", bitters: "Bitters" },
   moveUnder: {},
+  abv: {},
+  alcoholicCategories: ["spirits", "bitters"],
   placements: { angostura: "bitters", salt: "pantry" },
   exclusions: {},
   ibaChecked: [],
@@ -131,5 +133,21 @@ describe("seed transform", () => {
     const iba = cocktail({ source: "https://iba-world.com/sour/" });
     expect(() => transform(snapshot([iba]), rules())).toThrow(/not checked against its page/);
     expect(transform(snapshot([iba]), rules({ ibaChecked: ["sour"] })).recipes).toHaveLength(1);
+  });
+
+  it("moves a node under the parent the rules name, overriding the source's parent", () => {
+    const { nodes } = transform(snapshot([]), rules({ moveUnder: { bourbon: "spirits" } }));
+    expect(nodes.find((n) => n.id === "bourbon")?.parentId).toBe("spirits");
+  });
+
+  it("corrects an ingredient's ABV from the rules", () => {
+    const { nodes } = transform(snapshot([]), rules({ abv: { whiskey: 43 } }));
+    expect(nodes.find((n) => n.id === "whiskey")?.abv).toBe(43);
+  });
+
+  it("fails on a recipe using a 0% ingredient that sits under an alcoholic category", () => {
+    const snap = snapshot([cocktail()]);
+    snap.ingredients.find((i) => i.id === "bourbon")!.abv = 0;
+    expect(() => transform(snap, rules())).toThrow(/recipe "sour".*"bourbon".*0% ABV/);
   });
 });

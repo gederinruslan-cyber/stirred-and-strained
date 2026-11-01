@@ -1,6 +1,6 @@
 // Turns the facts-only snapshot plus data/seed/rules.json into house taxonomy and recipes. Pure:
 // every problem not excused in the rules throws, naming the recipe or ingredient.
-import { createTaxonomy } from "@stirred/engine";
+import { createTaxonomy, isWithin } from "@stirred/engine";
 import { ML_PER_CL, ML_PER_US_FL_OZ, ML_PER_US_TBSP, ML_PER_US_TSP } from "@stirred/units";
 import type { TaxonomyNode } from "../taxonomy.ts";
 import type { Snapshot } from "./snapshot.ts";
@@ -32,7 +32,12 @@ export type Correction = {
 };
 export type Rules = {
   categories: Record<string, string>;
+  /** A parent that overrides the source's, where its hierarchy would make a bad match. */
   moveUnder: Record<string, string>;
+  /** The ingredient's ABV where the source has none (0) for an alcoholic ingredient. */
+  abv: Record<string, number>;
+  /** A recipe line under one of these at 0% ABV fails the import. */
+  alcoholicCategories: string[];
   placements: Record<string, string>;
   exclusions: Record<string, string>;
   /** Recipes sourced to iba-world.com whose amounts were checked against the page and match. */
@@ -109,14 +114,21 @@ export function transform(snapshot: Snapshot, rules: Rules) {
   }));
   for (const i of snapshot.ingredients) {
     const parentId =
-      i.parent ?? rules.moveUnder[i.id] ?? (hasChildren.has(i.id) ? null : rules.placements[i.id]);
+      rules.moveUnder[i.id] ?? i.parent ?? (hasChildren.has(i.id) ? null : rules.placements[i.id]);
     if (i.parent === null && !hasChildren.has(i.id) && !parentId) {
       throw new Error(`ingredient "${i.id}" needs a placement in rules.json`);
     }
     const kind = parentId === null ? "category" : i.brand ? "brand" : "type";
-    nodes.push({ id: i.id, name: i.name, kind, parentId: parentId ?? null, abv: i.abv });
+    nodes.push({
+      id: i.id,
+      name: i.name,
+      kind,
+      parentId: parentId ?? null,
+      abv: rules.abv[i.id] ?? i.abv,
+    });
   }
   const tax = createTaxonomy(nodes, []);
+  const abvOf = new Map(nodes.map((n) => [n.id, n.abv]));
 
   const recipes: SeedRecipe[] = [];
   const excluded: string[] = [];
@@ -149,6 +161,9 @@ export function transform(snapshot: Snapshot, rules: Rules) {
     for (const l of lines) {
       if (!tax.nodes.has(l.ingredient))
         throw new Error(`${where}: ingredient "${l.ingredient}" is not in the taxonomy`);
+      const alcoholic = rules.alcoholicCategories.find((c) => isWithin(tax, l.ingredient, c));
+      if (alcoholic && abvOf.get(l.ingredient) === 0)
+        throw new Error(`${where}: "${l.ingredient}" is under ${alcoholic} but 0% ABV`);
     }
     const source = fix?.source ?? c.source!;
     recipes.push({

@@ -4,8 +4,48 @@
     "pantry": "Pantry"
   },
   "moveUnder": {
-    "creme-de": "liqueurs"
+    "creme-de": "liqueurs",
+    "tequila": "spirits",
+    "fruit-brandy": "spirits",
+    "bacon-fat-infused-bourbon": "spirits",
+    "fig-infused-mezcal": "spirits",
+    "sage-infused-vodka": "spirits",
+    "vanilla-vodka": "spirits",
+    "vodka-citron": "spirits",
+    "coconut-rum": "spirits",
+    "pineapple-rum": "spirits",
+    "sloe-gin": "liqueurs",
+    "cocchi-aperitivo-americano": "fortified-wine",
+    "agave-syrup": "syrups",
+    "cinnamon-syrup": "syrups",
+    "honey-syrup": "syrups",
+    "hot-honey-clove-syrup": "syrups",
+    "orgeat-syrup": "syrups",
+    "spiced-brown-nectar": "syrups",
+    "vanilla-syrup": "syrups"
   },
+  "_abvNote": "ABV where the source gives 0% for an alcoholic ingredient: the usual label strength, erring high (ADR 0004 errs toward the stronger drink).",
+  "abv": {
+    "rum": 40,
+    "bitters": 44.7,
+    "bouquet-bitters": 44.7,
+    "creme-de-banane": 25,
+    "gentian-liqueur": 16,
+    "fino": 15,
+    "sparkling-wine": 12,
+    "bacon-fat-infused-bourbon": 40,
+    "fig-infused-mezcal": 40,
+    "sage-infused-vodka": 40,
+    "sloe-gin": 26
+  },
+  "alcoholicCategories": [
+    "spirits",
+    "liqueurs",
+    "aperitif",
+    "bitters",
+    "fortified-wine",
+    "wines"
+  ],
   "placements": {
     "activated-charcoal": "pantry",
     "apple-cider-vinegar": "pantry",
