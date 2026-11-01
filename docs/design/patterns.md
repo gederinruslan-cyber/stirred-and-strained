@@ -171,6 +171,14 @@ position only; 0 ms under `prefers-reduced-motion`.
 - **Shelf list (M2-03):** the Result list panel with `h3` group heads; row = name (DM Sans 500
   18/28), path under it (`--muted` 15/22), a link-styled `button` "Remove" with a `.vh` name. Paths
   render "A › B" with `›` `aria-hidden` and a `.vh` comma.
+- **Match list (M2-04):** a Result list that can be long (hundreds). Rows as Result list with
+  the 56 × 70 thumbnail; an optional `--muted` 15/22 note under the meta ("using [X] for [Y]");
+  the right slot holds strength or one link-styled POST `button.linkish` "Add [name]" (44 px
+  touch, 32 px ≥900). Over 15 rows: the first 12, then a native `details` in the same panel,
+  `summary` "Show the other [m]" / "Hide the other [m]" (CSS-swapped), and the rest in
+  `ol[start=13]`. Never truncated: every row is in the DOM. Works without JS.
+- **Jump link (M2-04):** below 900 px only, a plain in-page link "[what] ↓" under the page lead
+  to a section that stacking pushed far down; hidden when that section has nothing to show.
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.

@@ -10,6 +10,7 @@ Shelf list. [BRACKETS] come from the api (`GET /bar`, `GET /ingredients`), never
   make, one bottle away, buy next) arrive as the second child `section.bar-page__results`
   (`1 1 560px`) to the right, like results beside filters. Not designed here, not rendered in M2-03;
   until then the shelf column caps at 640 px, left-aligned.
+  **M2-04 slot is designed in `what-can-i-make.md`.**
 - **360 px** (below 900): one column in DOM order; 16 px gutter; every button and row 44 px; no
   tilt, no Caveat. M2-04's results go below the shelf column.
 - Head: `p.hand.bar-page__aside[aria-hidden]` "your shelf, written down" (hidden below 900) ·

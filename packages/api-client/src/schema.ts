@@ -176,6 +176,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/bar/matches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getBarMatches"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/demo": {
         parameters: {
             query?: never;
@@ -264,6 +280,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getRecipe"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/shelf/matches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getShelfMatches"];
         put?: never;
         post?: never;
         delete?: never;
@@ -774,6 +806,70 @@ export interface operations {
             };
         };
     };
+    getBarMatches: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        buyNext: {
+                            count: number;
+                            ingredient: {
+                                id: string;
+                                name: string;
+                            };
+                            recipes: {
+                                id: string;
+                                name: string;
+                            }[];
+                        }[];
+                        makeNow: {
+                            abv: number;
+                            glass?: string;
+                            id: string;
+                            method: string;
+                            name: string;
+                            swaps: {
+                                for: string;
+                                using: string;
+                            }[];
+                        }[];
+                        oneAway: {
+                            glass?: string;
+                            id: string;
+                            method: string;
+                            missing: {
+                                id: string;
+                                name: string;
+                            };
+                            name: string;
+                        }[];
+                    };
+                };
+            };
+            /** @description Default Response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
     getDemo: {
         parameters: {
             query?: {
@@ -1178,6 +1274,72 @@ export interface operations {
             };
             /** @description Default Response */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    getShelfMatches: {
+        parameters: {
+            query?: {
+                ingredient?: string | string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        buyNext: {
+                            count: number;
+                            ingredient: {
+                                id: string;
+                                name: string;
+                            };
+                            recipes: {
+                                id: string;
+                                name: string;
+                            }[];
+                        }[];
+                        makeNow: {
+                            abv: number;
+                            glass?: string;
+                            id: string;
+                            method: string;
+                            name: string;
+                            swaps: {
+                                for: string;
+                                using: string;
+                            }[];
+                        }[];
+                        oneAway: {
+                            glass?: string;
+                            id: string;
+                            method: string;
+                            missing: {
+                                id: string;
+                                name: string;
+                            };
+                            name: string;
+                        }[];
+                    };
+                };
+            };
+            /** @description Default Response */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };

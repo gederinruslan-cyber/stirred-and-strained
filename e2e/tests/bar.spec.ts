@@ -24,7 +24,7 @@ test("a signed-out shelf: add by name, a category at once, remove, then it moves
   await expect(page.getByText("Nothing on your shelf yet.")).toBeVisible();
 
   await addByName(page, "bourbon whiskey");
-  await expect(status(page)).toHaveText("Added Bourbon Whiskey.");
+  await expect(status(page)).toContainText("Added Bourbon Whiskey.");
   await expect(shelf(page).locator(".shelf__item")).toHaveText([
     /^Bourbon WhiskeySpirits ›.*Whiskey/,
   ]);
@@ -35,12 +35,12 @@ test("a signed-out shelf: add by name, a category at once, remove, then it moves
   await spirits.getByLabel("Light Rum", { exact: true }).check();
   await spirits.getByRole("checkbox", { name: "Bourbon Whiskey on your bar" }).check();
   await spirits.getByRole("button", { name: "Add ticked" }).click();
-  await expect(status(page)).toHaveText(
+  await expect(status(page)).toContainText(
     "Added 2: Gin and Light Rum. Bourbon Whiskey was already there.",
   );
 
   await page.getByRole("button", { name: "Remove Gin" }).click();
-  await expect(status(page)).toHaveText("Gin removed.");
+  await expect(status(page)).toContainText("Gin removed.");
   await expect(page.getByRole("heading", { name: /On your shelf/ })).toContainText("2 ingredients");
 
   // Signing up moves the shelf into the new account and drops the cookie.
@@ -60,7 +60,7 @@ test("a signed-out shelf: add by name, a category at once, remove, then it moves
 
   // Signed in, the bar lives in the account.
   await page.getByRole("button", { name: "Remove Light Rum" }).click();
-  await expect(status(page)).toHaveText("Light Rum removed.");
+  await expect(status(page)).toContainText("Light Rum removed.");
   await page.reload();
   await expect(shelf(page).locator(".shelf__name")).toHaveText(["Bourbon Whiskey"]);
 });
@@ -69,14 +69,59 @@ test("the landing demo's bottles start the bar", async ({ page }) => {
   await page.goto("/");
   await page.locator("#demo").getByRole("button", { name: "Start my bar" }).click();
   await expect(page).toHaveURL(/\/bar\?/);
-  await expect(status(page)).toHaveText(/^Added \d+ to your bar\.$/);
+  await expect(status(page)).toHaveText(/^Added \d+ to your bar\. You can make \d+ now\.$/);
   for (const name of ["Gin", "Sweet Vermouth", "Campari", "Lemon juice"]) {
     await expect(shelf(page).locator(".shelf__name", { hasText: name })).toBeVisible();
   }
 });
 
+const results = (page: Page) => page.locator("#results");
+const startFromDemo = async (page: Page) => {
+  await page.goto("/");
+  await page.locator("#demo").getByRole("button", { name: "Start my bar" }).click();
+  await expect(page).toHaveURL(/\/bar\?/);
+};
+
+test("beside the bar: every recipe it makes, what's one bottle away and what to buy next", async ({
+  page,
+}) => {
+  // Gin, Sweet Vermouth, Campari and the usual (the demo's default shelf).
+  await startFromDemo(page);
+  await expect(status(page)).toContainText("You can make 7 now.");
+  const make = results(page).locator("section", { has: page.locator("#make-h") });
+  await expect(page.locator("#make-h")).toHaveText("You can make 7 recipes");
+  await expect(make.locator(".result__name")).toHaveCount(7);
+  await expect(make.locator(".result").filter({ hasText: "Negroni" })).toContainText("19.8% ABV");
+  const away = results(page).locator("section", { has: page.locator("#away-h") });
+  await expect(away.locator(".result").filter({ hasText: "Boulevardier" })).toContainText(
+    "Bourbon Whiskey",
+  );
+  await expect(results(page).locator("#buy-h")).toBeVisible();
+  await expect(results(page).locator(".table-card tbody tr").first()).toContainText(
+    /\d+ more recipes?/,
+  );
+
+  await make.getByRole("link", { name: "Negroni", exact: true }).click();
+  await expect(page).toHaveURL("/recipes/negroni");
+});
+
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
+
+  test("adding the missing bottle from the results moves its recipe to make now", async ({
+    page,
+  }) => {
+    await startFromDemo(page);
+    const away = results(page).locator("section", { has: page.locator("#away-h") });
+    await away
+      .locator(".result")
+      .filter({ hasText: "Boulevardier" })
+      .getByRole("button", { name: "Add Bourbon Whiskey" })
+      .click();
+    await expect(status(page)).toContainText("Added Bourbon Whiskey. You can make");
+    const make = results(page).locator("section", { has: page.locator("#make-h") });
+    await expect(make.getByRole("link", { name: "Boulevardier", exact: true })).toBeAttached();
+  });
 
   test("a name that is not exact offers suggestions to pick from", async ({ page }) => {
     await page.goto("/bar");
@@ -86,7 +131,7 @@ test.describe("without JavaScript", () => {
     );
     await expect(page.getByLabel("Bottle or ingredient")).toHaveValue("whisk");
     await page.getByRole("button", { name: "Add Rye whiskey" }).click();
-    await expect(status(page)).toHaveText("Added Rye whiskey.");
+    await expect(status(page)).toContainText("Added Rye whiskey.");
 
     await addByName(page, "unobtainium");
     await expect(page.locator("#add-error")).toContainText("We don't have “unobtainium”");
@@ -98,9 +143,8 @@ for (const scheme of ["light", "dark"] as const) {
     test(`My Bar passes axe, ${scheme} at ${width}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: scheme });
       await page.setViewportSize({ width, height: 900 });
-      await page.goto("/bar");
-      await addByName(page, "gin");
-      await expect(status(page)).toBeVisible();
+      await startFromDemo(page);
+      await page.locator(".matches__more summary").first().click();
       await addByName(page, "whisk");
       await page.locator("summary", { hasText: "Spirits" }).click();
       const { violations } = await new AxeBuilder({ page })

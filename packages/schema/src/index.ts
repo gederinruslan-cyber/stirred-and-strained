@@ -180,3 +180,19 @@ export type MeResponse = z.infer<typeof MeResponse>;
 export const BarResponse = z.object({ items: z.array(IngredientEntry) });
 export const BarAddBody = z.object({ ingredients: z.array(z.string().max(120)).min(1).max(400) });
 export const BarItemParams = z.object({ ingredientId: z.string().max(120) });
+
+// What can I make (M2-04): the engine over one bar. Every list is complete except buy next.
+export const ShelfMatchesQuery = z.object({
+  ingredient: z.union([z.string().max(120), z.array(z.string().max(120)).max(400)]).optional(),
+});
+export const BarMatches = z.object({
+  makeNow: z.array(
+    RecipeSummary.extend({ swaps: z.array(z.object({ for: z.string(), using: z.string() })) }),
+  ),
+  oneAway: z.array(RecipeSummary.omit({ abv: true }).extend({ missing: IngredientRef })),
+  /** At most 10, most drinks completed first. */
+  buyNext: z.array(
+    z.object({ ingredient: IngredientRef, count: z.number().int(), recipes: z.array(RecipeRef) }),
+  ),
+});
+export type BarMatches = z.infer<typeof BarMatches>;

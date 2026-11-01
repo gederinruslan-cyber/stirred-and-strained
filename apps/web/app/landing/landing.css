@@ -153,6 +153,9 @@
   color: var(--accent);
   text-decoration-color: currentColor;
 }
+.demo__more {
+  margin: 4px 0 0;
+}
 .demo__foot {
   margin: 16px 0 0;
   font-size: 15px;

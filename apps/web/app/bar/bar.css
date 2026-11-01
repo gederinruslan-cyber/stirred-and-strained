@@ -25,7 +25,7 @@
   align-items: flex-start;
 }
 .bar-page__shelf {
-  flex: 0 1 640px;
+  flex: 1 1 560px;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -242,9 +242,86 @@
   color: var(--muted);
 }
 
+/* What you can make (docs/design/what-can-i-make.md): Match list, Jump link. */
+.bar-page__results {
+  flex: 1 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.matches__aside {
+  margin: 0 0 -40px;
+  font-size: 26px;
+  transform: rotate(-2deg);
+  transform-origin: left;
+}
+.matches__panel,
+.matches__more {
+  background: var(--card);
+  border-radius: 6px;
+  box-shadow: 0 8px 18px var(--shadow);
+}
+.matches__panel .results,
+.matches__more .results {
+  box-shadow: none;
+}
+.matches__more {
+  margin-top: -6px;
+  border-top: 1.5px dashed var(--dash);
+  border-radius: 0 0 6px 6px;
+}
+.matches__panel:has(+ .matches__more),
+.matches__panel > .results:has(+ .matches__more) {
+  border-radius: 6px 6px 0 0;
+}
+.matches__more summary {
+  min-height: 48px;
+  padding: 12px 24px;
+  font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+}
+.matches__hide,
+.matches__more[open] .matches__show {
+  display: none;
+}
+.matches__more[open] .matches__hide {
+  display: inline;
+}
+.result__swap {
+  margin: 2px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--muted);
+}
+.matches__btn {
+  min-height: 32px;
+  font-weight: 500;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.matches__btn:hover {
+  color: var(--accent-hover);
+}
+.bar-page__jump {
+  display: none;
+}
+
 @media (max-width: 900px) {
-  .bar-page__aside {
+  .bar-page__aside,
+  .matches__aside {
     display: none;
+  }
+  .bar-page__jump {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 8px;
+  }
+  .matches__btn,
+  .matches__more summary {
+    min-height: 44px;
   }
   .bar-add__row .btn {
     width: 100%;

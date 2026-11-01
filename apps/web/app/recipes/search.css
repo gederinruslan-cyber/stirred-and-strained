@@ -222,9 +222,18 @@
   }
 }
 @media (max-width: 600px) {
+  /* Thumbnail on the left; name, meta and the right-hand slot stack beside it. */
   .result {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: start;
+    gap: 4px 16px;
+  }
+  .result__photo {
+    grid-row: span 2;
+  }
+  .result > :last-child {
+    grid-column: 2;
+    justify-self: start;
   }
 }

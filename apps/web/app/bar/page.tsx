@@ -1,13 +1,15 @@
 // My Bar (M2-03, docs/design/my-bar.md): what's on your shelf, added by name or a category at a
-// time, kept in the account or (signed out) on this device. M2-04's results go beside it.
+// time, kept in the account or (signed out) on this device. What it makes (M2-04) sits beside it.
 import type { IngredientEntry } from "@stirred/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
 import { api } from "../../lib/api.ts";
-import { allIngredients, currentBar } from "../../lib/bar.ts";
+import { allIngredients, barMatches, currentBar } from "../../lib/bar.ts";
+import "../recipes/search.css";
 import { addByName, addTicked, removeItem } from "./actions.ts";
 import "./bar.css";
+import { Matches } from "./matches.tsx";
 
 export const metadata: Metadata = { title: "My Bar · Stirred & Strained" };
 
@@ -111,8 +113,16 @@ export default async function BarPage({ searchParams }: { searchParams: Promise<
   const items = bar === "down" ? [] : bar.ids.flatMap((id) => byId.get(id) ?? []);
   const kept = new Set(items.map((i) => i.id));
   const signedIn = bar !== "down" && bar.signedIn;
+  const matches = bar === "down" ? "down" : await barMatches(bar);
+  const makes =
+    matches === "down"
+      ? ""
+      : matches.makeNow.length === 0
+        ? " Nothing you can make yet."
+        : ` You can make ${matches.makeNow.length} now.`;
 
-  const status = statusText(sp, nameOf);
+  const said = statusText(sp, nameOf);
+  const status = said && said + makes;
   const error = one(sp.error);
   const typed = one(sp.name);
   const suggestions = typed
@@ -144,6 +154,11 @@ export default async function BarPage({ searchParams }: { searchParams: Promise<
         <p className="bar-page__lead">
           Add what you&apos;ve got. Type a name, or open a category and tick a few.
         </p>
+        {items.length > 0 && (
+          <a href="#results" className="bar-page__jump">
+            See what you can make ↓
+          </a>
+        )}
       </div>
       <div className="bar-page">
         <div className="bar-page__shelf">
@@ -306,6 +321,7 @@ export default async function BarPage({ searchParams }: { searchParams: Promise<
             </form>
           </section>
         </div>
+        {bar !== "down" && <Matches matches={matches} />}
       </div>
     </div>
   );

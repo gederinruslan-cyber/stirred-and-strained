@@ -7,6 +7,8 @@ test("the demo runs on the engine and updates live as bottles are ticked", async
   await page.goto("/");
   await expect(makeList(page)).toContainText("Negroni");
   await expect(awayList(page)).toContainText("Boulevardier");
+  await expect(makeList(page)).toContainText("+ 2 more");
+  await expect(page.locator("#demo")).toContainText("Start my bar with these to see them all");
   await expect(awayList(page)).toContainText("+ Bourbon Whiskey");
 
   const scrollBefore = await page.evaluate(() => window.scrollY);

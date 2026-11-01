@@ -884,6 +884,198 @@
         }
       }
     },
+    "/bar/matches": {
+      "get": {
+        "operationId": "getBarMatches",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "buyNext": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "count": {
+                            "maximum": 9007199254740991,
+                            "minimum": -9007199254740991,
+                            "type": "integer"
+                          },
+                          "ingredient": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "recipes": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "name"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "ingredient",
+                          "count",
+                          "recipes"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "makeNow": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "abv": {
+                            "minimum": 0,
+                            "type": "number"
+                          },
+                          "glass": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "swaps": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "for": {
+                                  "type": "string"
+                                },
+                                "using": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "for",
+                                "using"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "abv",
+                          "swaps"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "oneAway": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "glass": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "missing": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "missing"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "makeNow",
+                    "oneAway",
+                    "buyNext"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
     "/demo": {
       "get": {
         "operationId": "getDemo",
@@ -2362,6 +2554,221 @@
             "description": "Default Response"
           },
           "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/shelf/matches": {
+      "get": {
+        "operationId": "getShelfMatches",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ingredient",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 120,
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "maxLength": 120,
+                    "type": "string"
+                  },
+                  "maxItems": 400,
+                  "type": "array"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "buyNext": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "count": {
+                            "maximum": 9007199254740991,
+                            "minimum": -9007199254740991,
+                            "type": "integer"
+                          },
+                          "ingredient": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "recipes": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "name"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "ingredient",
+                          "count",
+                          "recipes"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "makeNow": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "abv": {
+                            "minimum": 0,
+                            "type": "number"
+                          },
+                          "glass": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "swaps": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "for": {
+                                  "type": "string"
+                                },
+                                "using": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "for",
+                                "using"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "abv",
+                          "swaps"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "oneAway": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "glass": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "method": {
+                            "type": "string"
+                          },
+                          "missing": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "method",
+                          "missing"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "makeNow",
+                    "oneAway",
+                    "buyNext"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default Response"
+          },
+          "400": {
             "content": {
               "application/json": {
                 "schema": {

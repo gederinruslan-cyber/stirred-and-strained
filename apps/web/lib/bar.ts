@@ -1,7 +1,7 @@
 // My Bar (M2-03) for server code: a signed-in visitor's bar lives in the api; a signed-out
 // visitor's (or a session the api no longer knows) on the shelf cookie.
 import "server-only";
-import type { IngredientEntry } from "@stirred/schema";
+import type { BarMatches, IngredientEntry } from "@stirred/schema";
 import { api } from "./api.ts";
 import { apiHeaders } from "./session.ts";
 import { readShelf } from "./shelf.ts";
@@ -26,6 +26,16 @@ export async function currentBar(): Promise<Bar | "down"> {
     if (res.response.status !== 401) return "down";
   }
   return { signedIn: false, ids: await readShelf() };
+}
+
+/** What the bar makes (M2-04): the api runs the engine over the account's bar or these ids. */
+export async function barMatches(bar: Bar): Promise<BarMatches | "down"> {
+  const res = await ask(
+    bar.signedIn
+      ? api.GET("/bar/matches", { headers: await apiHeaders() })
+      : api.GET("/shelf/matches", { params: { query: { ingredient: bar.ids } } }),
+  );
+  return res === "down" || !res.data ? "down" : res.data;
 }
 
 export async function allIngredients(): Promise<IngredientEntry[]> {

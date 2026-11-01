@@ -130,14 +130,21 @@ export function Hero({
               ) : make.length === 0 ? (
                 <p className="muted">Nothing yet with just these, but check the right-hand list.</p>
               ) : (
-                <ul className="demo__list">
-                  {make.map((r) => (
-                    <li key={r.id}>
-                      <Link href={`/recipes/${r.id}`}>{r.name}</Link>{" "}
-                      <span className="muted">· {r.method}</span>
-                    </li>
-                  ))}
-                </ul>
+                <>
+                  <ul className="demo__list">
+                    {make.map((r) => (
+                      <li key={r.id}>
+                        <Link href={`/recipes/${r.id}`}>{r.name}</Link>{" "}
+                        <span className="muted">· {r.method}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {demo.makeNow.length > make.length && (
+                    <p className="small muted demo__more">
+                      + {demo.makeNow.length - make.length} more
+                    </p>
+                  )}
+                </>
               )}
             </div>
             <div>
@@ -167,8 +174,8 @@ export function Hero({
                   <input key={id} type="hidden" name="ingredients" value={id} />
                 ),
               )}
-              Nothing&apos;s saved yet. <button type="submit">Start my bar</button> with these to
-              keep them.
+              Nothing&apos;s saved yet. <button type="submit">Start my bar</button> with these to{" "}
+              {demo.makeNow.length > make.length ? "see them all and keep them." : "keep them."}
             </form>
           )}
         </div>

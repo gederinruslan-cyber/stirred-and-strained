@@ -87,3 +87,38 @@ describe("My Bar api (M2-03)", () => {
     expect(await barIds(ana)).toEqual([]);
   });
 });
+
+describe("what you can make from your bar (M2-04)", () => {
+  const BASICS = ["lemon-juice", "lime-juice", "sugar", "simple-syrup", "club-soda"];
+  const makes = async (session?: string) => {
+    const res = await call("GET", "/bar/matches", session);
+    return { status: res.statusCode, body: res.json() };
+  };
+
+  it("matches the caller's own bar, the same as the shelf would", async () => {
+    const ana = await account();
+    await call("POST", "/bar/items", ana, {
+      ingredients: ["gin", "sweet-vermouth", "campari", ...BASICS],
+    });
+    const mine = await makes(ana);
+    expect(mine.status).toBe(200);
+    const q = new URLSearchParams(
+      ["gin", "sweet-vermouth", "campari", ...BASICS].map((id): [string, string] => [
+        "ingredient",
+        id,
+      ]),
+    );
+    expect(mine.body).toEqual((await call("GET", `/shelf/matches?${q}`)).json());
+    expect(mine.body.makeNow.map((r: { id: string }) => r.id)).toContain("negroni");
+  });
+
+  it("never shows another user's bar, and never answers without a session", async () => {
+    const [ana, bob] = [await account(), await account()];
+    await call("POST", "/bar/items", ana, { ingredients: ["gin", "sweet-vermouth", "campari"] });
+    await call("POST", "/bar/items", bob, { ingredients: ["light-rum", ...BASICS] });
+    const ids = (await makes(bob)).body.makeNow.map((r: { id: string }) => r.id);
+    expect(ids).toContain("daiquiri");
+    expect(ids).not.toContain("negroni");
+    expect((await makes()).status).toBe(401);
+  });
+});
