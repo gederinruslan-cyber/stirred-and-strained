@@ -30,3 +30,18 @@
   count; a zero-proof recipe shows 0% and 0.
 - **Scenario: start-up.** The api refuses to start on a database without the house library and
   says to run the seed.
+
+## Requirement: House recipes can be searched and narrowed
+- **Scenario: name.** `q=negroni` finds Negroni, Coffee Negroni, Negroni Sbagliato and the rest,
+  case and accents ignored ("frappe" finds Absinthe Frappé), ordered by name then id.
+- **Scenario: ingredients through the hierarchy.** `include=whiskey` finds recipes made with
+  bourbon or rye; `include=bourbon-whiskey` does not find a rye-only Manhattan; `exclude=campari`
+  drops every recipe with Campari; an unknown ingredient answers 400.
+- **Scenario: facets.** Base spirit (the largest spirit line's type under spirits: bourbon →
+  Whiskey, light rum → Rum; none → No spirit), method, glass, family and flavour (from the
+  source's tags under our own labels). Values within a facet are OR, facets are AND, and each
+  facet counts its values over the current results.
+- **Scenario: strength range.** `abvMin`/`abvMax` keep recipes whose finished ABV is within the
+  range; zero-proof drinks sit at 0.
+- **Scenario: zero-proof.** In zero-proof mode only the 9 zero-proof house recipes are searched.
+- **Scenario: ingredient names.** `GET /ingredients` lists every ingredient by name for pickers.

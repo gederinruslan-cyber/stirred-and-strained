@@ -67,3 +67,21 @@
 - **Scenario: machine-readable.** The page carries schema.org/Recipe JSON-LD with the name,
   ingredients in ml ("30 ml Gin"), the steps and the source.
 - **Scenario: accessible.** The page passes WCAG 2.2 AA in light and dark at 1440 and 360 px.
+
+## Requirement: Find a recipe with filters beside the results
+- **Scenario: search.** Searching "negroni" from the header opens `/recipes?q=negroni` with
+  "14 recipes for “negroni”", each row linking to its page with method · glass · family and the
+  finished ABV (or the zero-proof tag); no glass shows the method alone.
+- **Scenario: filters.** Filters sit left of the results at 1440 px and fold into a "Filters"
+  disclosure at 360 px: With/Without ingredients (a typed name such as "whiskey" becomes a ticked
+  chip; an unknown name says "We don't have “…” in the bar yet."), base spirit, strength from/to,
+  method, glass, family and flavour chips with counts, top eight then "[n] more".
+- **Scenario: without and with JavaScript.** One GET form works without JavaScript (Apply,
+  paging "← Previous · Page p of P · Next →"); with it a ticked filter applies in place and keeps
+  the place.
+- **Scenario: shortcut.** "/" focuses the search unless typing in a field, and "Turn off" stops
+  it.
+- **Scenario: nothing found.** "Nothing matches all of that." offers one link per active filter
+  that drops just that filter ("Drop Bourbon Whiskey", "All names, not just “manhattan”") and
+  "Clear all filters".
+- **Scenario: accessible.** The page passes WCAG 2.2 AA in light and dark at 1440 and 360 px.
