@@ -122,6 +122,8 @@ position only; 0 ms under `prefers-reduced-motion`.
   text, 44 px tall, 16 px text, placeholder `--muted`; focus ring as everywhere. Optional
   `<datalist>` for suggestions. An error is `aria-invalid="true"` plus `p.field__error` (15/22,
   `--accent`, `aria-describedby`) whose words say what is wrong; never colour or border alone.
+  Optional help `p.field__help` (15/22, `--muted`) under the input, described before the error.
+  Lives in `@stirred/ui` styles since M2-02 (third caller).
 - **Filter column (M1-09):** filters beside results in one GET form that works without JS.
   ≥900 px: a 300 px column (`--paper`, no card) left of the results; below 900 px a native
   `<details>` whose `summary` is a secondary pill "Filters ([k] on)", open without JS. Groups are
@@ -139,6 +141,21 @@ position only; 0 ms under `prefers-reduced-motion`.
   [p] of [P] · Next →" links, absent (not disabled) at the ends. Empty state: a white sticky note
   "Nothing matches all of that." with one link per active filter that drops just that filter,
   then "Clear all filters".
+- **Form page (M2-02, accounts):** the single-card shape of the age gate for one short form.
+  Normal header and footer; one centred napkin card (max 560 px, tape, tilt -0.8° on desktop,
+  none below 900 px): Caveat aside (`aria-hidden`), `h1`, one lead line, a POST form (`noValidate`,
+  `required`, our words not the browser's) of full-width Text fields and one primary submit last,
+  then small secondary links. Results ("Check your email", "That link didn't work") replace the
+  form in the same card; their `h1` takes focus (`tabIndex=-1`, `autoFocus`). Works without JS.
+  Never says whether an email has an account; passwords come back empty after any error.
+- **Form-level error (M2-02):** for an error that belongs to no single field (credentials, rate
+  limit, our side down). `div.form-error[role=alert]` first in the form: 2 px `--accent` border,
+  10 px radius, 12 16 padding, `--ink` 16/24 text, one sentence that says what happened and what
+  to do. After a failed submit `autoFocus` goes to the field to fix (first invalid, else
+  password), whose `aria-describedby` includes the error, so a full page load still reads it.
+- **Header account control (M2-02):** theme button, "Sign in" link or "Sign out" (a POST
+  `button` styled as the header link, 44 px) and "Start my bar" share `.site-header__actions`, so
+  they wrap together; at 360 px that group is its own row. No email or name shown.
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.

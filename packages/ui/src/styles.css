@@ -578,6 +578,71 @@ img {
   display: inline;
   margin: 0;
 }
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+button.site-header__link {
+  min-height: 44px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+.site-header__link:hover {
+  text-decoration: underline;
+}
+
+/* Text field (M1-09; shared since M2-02) and the form-level error (M2-02) */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+}
+.field input {
+  height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  min-width: 0;
+}
+.field input::placeholder {
+  color: var(--muted);
+}
+.field input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.field__error {
+  margin: 6px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--accent);
+}
+.field__help {
+  margin: 6px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--muted);
+}
+.form-error {
+  padding: 12px 16px;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 24px;
+}
 
 .site-footer {
   background: var(--ft-bg);
@@ -670,6 +735,12 @@ img {
   }
   .hand-aside {
     display: none;
+  }
+}
+@media (max-width: 600px) {
+  .site-header__actions {
+    flex: 1 1 100%;
+    justify-content: space-between;
   }
 }
 @media (prefers-reduced-motion: reduce) {

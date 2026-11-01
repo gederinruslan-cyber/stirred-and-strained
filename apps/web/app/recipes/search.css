@@ -99,33 +99,6 @@
   font-weight: 400;
   color: currentColor;
 }
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 15px;
-  line-height: 22px;
-  font-weight: 500;
-}
-.field input {
-  height: 44px;
-  padding: 0 16px;
-  border: 1.5px solid var(--ink);
-  border-radius: 999px;
-  background: var(--card);
-  color: var(--ink);
-  font: inherit;
-  font-size: 16px;
-  font-weight: 400;
-  min-width: 0;
-}
-.field input::placeholder {
-  color: var(--muted);
-}
-.field input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
 .field--number input {
   width: 96px;
 }
@@ -133,12 +106,6 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-}
-.field__error {
-  margin: 6px 0 0;
-  font-size: 15px;
-  line-height: 22px;
-  color: var(--accent);
 }
 .filters__apply {
   width: 100%;

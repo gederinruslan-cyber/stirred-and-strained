@@ -17,6 +17,7 @@ stack_up() {
 
 e2e() {
   E2E_BASE_URL="http://127.0.0.1:${WEB_PORT}" E2E_API_URL="http://127.0.0.1:${API_PORT}" \
+    E2E_MAIL_URL="http://127.0.0.1:${MAILPIT_PORT}" \
     pnpm --filter @stirred/e2e test:e2e
 }
 

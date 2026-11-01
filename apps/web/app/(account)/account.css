@@ -1,0 +1,49 @@
+/* Form page (M2-02): the account forms. Tokens only. */
+.form-page {
+  max-width: 608px;
+  padding-top: 64px;
+  padding-bottom: 112px;
+}
+.form-page__aside {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+.form-page h1 {
+  margin-bottom: 12px;
+}
+.form-page__lead {
+  font-size: 18px;
+  line-height: 28px;
+  margin: 0 0 24px;
+}
+.form-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-page__form .btn {
+  align-self: flex-start;
+  min-height: 44px;
+}
+.form-page__links {
+  margin: 16px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+}
+.form-page__form .form-page__links {
+  margin-top: 6px;
+}
+.form-page__rules {
+  margin: 0 0 16px;
+  padding-left: 20px;
+  font-size: 18px;
+  line-height: 28px;
+}
+@media (max-width: 900px) {
+  .form-page .napkin {
+    transform: none;
+  }
+  .form-page__form .btn {
+    align-self: stretch;
+  }
+}

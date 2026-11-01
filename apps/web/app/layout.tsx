@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { countryFromAcceptLanguage } from "../lib/age.ts";
 import { api } from "../lib/api.ts";
 import { readPrefs, safeBack } from "../lib/prefs.ts";
+import { signedInEmail } from "../lib/session.ts";
 import { SiteFooter } from "./site-footer.tsx";
 import { SiteHeader } from "./site-header.tsx";
 
@@ -30,7 +31,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     (onGate ? new URLSearchParams(back.split("?")[1]).get("country") : null) ??
     age?.country ??
     countryFromAcceptLanguage(head.get("accept-language"));
-  const { data } = await api.GET("/age-rules", { params: { query: country ? { country } : {} } });
+  const [{ data }, email] = await Promise.all([
+    api.GET("/age-rules", { params: { query: country ? { country } : {} } }),
+    onGate ? null : signedInEmail(),
+  ]);
   return (
     <html
       lang="en"
@@ -41,7 +45,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <SiteHeader theme={theme} back={back} minimal={onGate} />
+        <SiteHeader theme={theme} back={back} minimal={onGate} signedIn={email !== null} />
         <main id="main">{children}</main>
         <SiteFooter theme={theme} back={back} help={data?.rule} />
       </body>

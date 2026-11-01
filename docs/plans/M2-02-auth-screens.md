@@ -35,14 +35,16 @@ call the generated client; the session token lives only in an http-only cookie.
 ## Design
 `ui-ux-designer` pass inside Bar Napkin: a single-form page (napkin card like the age gate),
 Text field pattern (moves from `search.css` to `@stirred/ui` styles: third caller), errors as
-`p.field__error` + `aria-invalid`, a status message for "check your email".
+`p.field__error` + `aria-invalid`; "check your email" moves focus to its `h1` (amended: focus,
+not a status region, so it is read once). Spec: `docs/design/auth-screens.md`.
 
 ## Build
 - `apps/web/lib/session.ts`: read the cookie, `authed()` headers (Bearer + the client's
   X-Forwarded-For entry), set/clear the cookie (`Secure` when PUBLIC_ORIGIN is https).
 - Pages `/sign-in`, `/sign-up`, `/confirm`, `/forgot`, `/reset`; actions in `app/(auth)/actions.ts`.
 - Header: `me` from the layout; "Sign out" form when signed in.
-- No api, schema or table change.
+- No api, schema or table change. Amendment: the api client omits credentials (Node's fetch
+  otherwise fails a 401 to a streamed body in the production build).
 
 ## End-to-end check
 e2e (`auth.spec.ts`): sign up → read the link from Mailpit's API → confirm → header shows
