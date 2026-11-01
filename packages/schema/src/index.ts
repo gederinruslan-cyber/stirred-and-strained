@@ -41,6 +41,8 @@ export const RecipeSummary = z.object({
   id: z.string(),
   name: z.string(),
   method: z.string(),
+  /** The glass as a phrase ("rocks glass", "coupe"); absent when the source names none. */
+  glass: z.string().optional(),
   zeroProof: z.boolean(),
   abv: z.number().nonnegative(),
 });
@@ -48,8 +50,6 @@ export const RecipeSummary = z.object({
 const RecipeRef = z.object({ id: z.string(), name: z.string() });
 
 export const RecipeDetail = RecipeSummary.omit({ abv: true }).extend({
-  /** The glass as a phrase ("rocks glass", "coupe"); "glass" when the source names none. */
-  glass: z.string(),
   /** How to make it, in our own words. */
   steps: z.array(z.string()).min(1),
   source: z.string(),
@@ -69,16 +69,41 @@ const Country = z
   .optional();
 export const RecipeQuery = z.object({ country: Country });
 export const RecipeParams = z.object({ id: z.string().max(120) });
+const Many = z.union([z.string().max(120), z.array(z.string().max(120)).max(20)]).optional();
+const Percent = z.coerce.number().min(0).max(100).optional();
 export const RecipeListQuery = z.object({
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(24),
+  /** Part of the name, case and accents ignored. */
+  q: z.string().max(100).optional(),
+  /** Ingredient ids; a recipe matches through the hierarchy (whiskey takes bourbon). */
+  include: Many,
+  exclude: Many,
+  base: Many,
+  method: Many,
+  glass: Many,
+  family: Many,
+  flavour: Many,
+  abvMin: Percent,
+  abvMax: Percent,
+  zero: z.enum(["true", "false"]).optional(),
 });
+const Facet = z.array(z.object({ value: z.string(), label: z.string(), count: z.number().int() }));
 export const RecipeList = z.object({
-  items: z.array(RecipeSummary),
+  items: z.array(RecipeSummary.extend({ family: z.string().optional() })),
   page: z.number().int(),
   pageSize: z.number().int(),
   total: z.number().int(),
+  facets: z.object({
+    base: Facet,
+    method: Facet,
+    glass: Facet,
+    family: Facet,
+    flavour: Facet,
+  }),
 });
+export type RecipeList = z.infer<typeof RecipeList>;
+export const IngredientList = z.object({ items: z.array(IngredientRef) });
 
 // Landing page and demo (M0-08), over the house library.
 export const DemoQuery = z.object({
@@ -86,7 +111,7 @@ export const DemoQuery = z.object({
   basics: z.enum(["true", "false"]).optional(),
   zero: z.enum(["true", "false"]).optional(),
 });
-const DemoRecipe = RecipeSummary.omit({ abv: true });
+const DemoRecipe = RecipeSummary.omit({ abv: true, glass: true });
 export const DemoResult = z.object({
   makeNow: z.array(
     DemoRecipe.extend({ swaps: z.array(z.object({ for: z.string(), using: z.string() })) }),

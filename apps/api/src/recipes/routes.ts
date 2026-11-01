@@ -1,6 +1,7 @@
 // House recipes: list and get, with provenance and derived strength. Read-only, no user data.
 import {
   ErrorBody,
+  IngredientList,
   RecipeDetail,
   RecipeList,
   RecipeListQuery,
@@ -10,6 +11,9 @@ import {
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { detail, summary, type Library } from "./library.ts";
+import { search } from "./search.ts";
+
+const many = (v: string | string[] | undefined) => [v ?? []].flat();
 
 export function recipeRoutes(app: FastifyInstance, lib: Library) {
   const r = app.withTypeProvider<ZodTypeProvider>();
@@ -23,16 +27,46 @@ export function recipeRoutes(app: FastifyInstance, lib: Library) {
         response: { 200: RecipeList, 400: ErrorBody },
       },
     },
-    async (req) => {
-      const { page, pageSize } = req.query;
+    async (req, reply) => {
+      const { page, pageSize, q, abvMin, abvMax } = req.query;
+      const include = many(req.query.include);
+      const exclude = many(req.query.exclude);
+      if ([...include, ...exclude].some((id) => !lib.tax.nodes.has(id)))
+        return reply.code(400).send({ error: "unknown_ingredient" });
+      const { rows, facets } = search(lib, {
+        ...(q ? { q } : {}),
+        include,
+        exclude,
+        base: many(req.query.base),
+        method: many(req.query.method),
+        glass: many(req.query.glass),
+        family: many(req.query.family),
+        flavour: many(req.query.flavour),
+        ...(abvMin === undefined ? {} : { abvMin }),
+        ...(abvMax === undefined ? {} : { abvMax }),
+        zero: req.query.zero === "true",
+      });
       const start = (page - 1) * pageSize;
       return {
-        items: lib.recipes.slice(start, start + pageSize).map((rc) => summary(lib, rc)),
+        items: rows.slice(start, start + pageSize).map((e) => ({
+          ...summary(lib, e.r),
+          ...(e.family[0] ? { family: e.family[0] } : {}),
+        })),
         page,
         pageSize,
-        total: lib.recipes.length,
+        total: rows.length,
+        facets,
       };
     },
+  );
+
+  const ingredients = [...lib.tax.nodes.values()]
+    .map((n) => ({ id: n.id, name: n.name }))
+    .sort((a, b) => a.name.localeCompare(b.name) || (a.id < b.id ? -1 : 1));
+  r.get(
+    "/ingredients",
+    { schema: { operationId: "listIngredients", response: { 200: IngredientList } } },
+    async () => ({ items: ingredients }),
   );
 
   r.get(

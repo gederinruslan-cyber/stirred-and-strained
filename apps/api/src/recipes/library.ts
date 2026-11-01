@@ -26,7 +26,7 @@ export type Library = {
   variationOf: Map<string, HouseRecipe>;
 };
 
-const words = (name: string) =>
+export const words = (name: string) =>
   ` ${name
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -96,6 +96,7 @@ export const summary = (lib: Library, r: HouseRecipe) => ({
   id: r.id,
   name: r.name,
   method: r.method,
+  ...(r.glass ? { glass: glassName(r.glass) } : {}),
   zeroProof: isZeroProof(lib, r),
   abv: finished(lib, r).abv,
 });
@@ -108,7 +109,7 @@ export function detail(lib: Library, r: HouseRecipe, country = "ZZ"): RecipeDeta
     name: r.name,
     method: r.method,
     zeroProof: isZeroProof(lib, r),
-    glass: glassName(r.glass),
+    ...(r.glass ? { glass: glassName(r.glass) } : {}),
     steps: r.steps
       ? r.steps.split("\n")
       : stepsFor(

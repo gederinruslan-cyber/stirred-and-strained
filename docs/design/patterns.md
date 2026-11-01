@@ -129,6 +129,28 @@ position only; 0 ms under `prefers-reduced-motion`.
   desktop, none below 900 px). `h1` says what is missing in plain words, one short body line,
   one primary `ButtonLink` to somewhere useful. Never shows any part of the thing refused, never
   blames the visitor; a zero-proof session's refusal points to "the zero-proof side of the bar".
+- **Text field (M1-09):** `label.field` with visible text (15/22, 500) above a text, search or
+  number input styled like the Select: 1.5 px `--ink` border, 999 radius, `--card` fill, `--ink`
+  text, 44 px tall, 16 px text, placeholder `--muted`; focus ring as everywhere. Optional
+  `<datalist>` for suggestions. An error is `aria-invalid="true"` plus `p.field__error` (15/22,
+  `--accent`, `aria-describedby`) whose words say what is wrong; never colour or border alone.
+- **Filter column (M1-09):** filters beside results in one GET form that works without JS.
+  ≥900 px: a 300 px column (`--paper`, no card) left of the results; below 900 px a native
+  `<details>` whose `summary` is a secondary pill "Filters ([k] on)", open without JS. Groups are
+  fieldsets (legend Fraunces 600 18/24) of wrapping filter Chips with a `tabular-nums` count
+  (`.chip__count`, `currentColor`, with a `.vh` " recipes"); top 8 by count, the rest under a
+  nested `details` "[n] more". One full-width primary "Apply" always shown; "Clear all" link only
+  when something is set. With JS a checkbox change swaps the results in place (no navigation,
+  focus kept, one `role="status"` summary); text fields apply on Enter or Apply only. A
+  single-key shortcut ("/") is JS-only, ignored inside text fields, and can be turned off.
+- **Result list (M1-09):** `ol` on a `--card` panel (6 px radius, card shadow, no tape or tilt),
+  rows 16 24 padding divided by `--dash` dashed lines, 64 px min height. Row: Fraunces 600 22/28
+  name link (the only link), a `--muted` 15/22 meta line "[method] · [glass] · [Family]", strength
+  right-aligned (DM Sans 700 `tabular-nums` "[x.x]% ABV", or the zero-proof tag); below 600 px the
+  strength wraps under the meta. Count heading "[n] recipes" above; paging is "← Previous · Page
+  [p] of [P] · Next →" links, absent (not disabled) at the ends. Empty state: a white sticky note
+  "Nothing matches all of that." with one link per active filter that drops just that filter,
+  then "Clear all filters".
 
 ## Responsive
 - Below 900 px: tilts and handwritten arrows switch off; rows stack in reading order.

@@ -296,7 +296,7 @@ export function JotItDown({ recipe, state }: { recipe: RecipeDetail; state: Land
               </h3>
               <p className="hand">
                 a sour · {recipe.method}
-                {` · ${recipe.glass}`}
+                {recipe.glass && ` · ${recipe.glass}`}
               </p>
             </div>
             <UnitControl state={state} legend="Units" />
@@ -392,7 +392,8 @@ export function ZeroBand({
                 {r.name}
               </h3>
               <p className="muted">
-                {[r.glass, r.method, strengthText(r)].join(" · ")} {r.zeroProof && <ZeroProofTag />}
+                {[r.glass, r.method, strengthText(r)].filter(Boolean).join(" · ")}{" "}
+                {r.zeroProof && <ZeroProofTag />}
               </p>
               <ul className="lines">
                 {r.lines.map((l) => (

@@ -22,7 +22,8 @@
     "hot-honey-clove-syrup": "syrups",
     "orgeat-syrup": "syrups",
     "spiced-brown-nectar": "syrups",
-    "vanilla-syrup": "syrups"
+    "vanilla-syrup": "syrups",
+    "rum": "spirits"
   },
   "_abvNote": "ABV where the source gives 0% for an alcoholic ingredient: the usual label strength, erring high (ADR 0004 errs toward the stronger drink).",
   "abv": {

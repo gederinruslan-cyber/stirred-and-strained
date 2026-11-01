@@ -48,6 +48,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ingredients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listIngredients"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/landing": {
         parameters: {
             query?: never;
@@ -251,6 +267,31 @@ export interface operations {
             };
         };
     };
+    listIngredients: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Default Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: {
+                            id: string;
+                            name: string;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
     getLanding: {
         parameters: {
             query?: {
@@ -291,7 +332,7 @@ export interface operations {
                         };
                         daiquiri: {
                             credit: string;
-                            glass: string;
+                            glass?: string;
                             id: string;
                             licence: string;
                             lines: {
@@ -333,7 +374,7 @@ export interface operations {
                         };
                         featured: {
                             credit: string;
-                            glass: string;
+                            glass?: string;
                             id: string;
                             licence: string;
                             lines: {
@@ -375,7 +416,7 @@ export interface operations {
                         }[];
                         zeroBand: {
                             credit: string;
-                            glass: string;
+                            glass?: string;
                             id: string;
                             licence: string;
                             lines: {
@@ -425,6 +466,17 @@ export interface operations {
             query?: {
                 page?: number;
                 pageSize?: number;
+                q?: string;
+                include?: string | string[];
+                exclude?: string | string[];
+                base?: string | string[];
+                method?: string | string[];
+                glass?: string | string[];
+                family?: string | string[];
+                flavour?: string | string[];
+                abvMin?: number;
+                abvMax?: number;
+                zero?: "true" | "false";
             };
             header?: never;
             path?: never;
@@ -439,8 +491,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
+                        facets: {
+                            base: {
+                                count: number;
+                                label: string;
+                                value: string;
+                            }[];
+                            family: {
+                                count: number;
+                                label: string;
+                                value: string;
+                            }[];
+                            flavour: {
+                                count: number;
+                                label: string;
+                                value: string;
+                            }[];
+                            glass: {
+                                count: number;
+                                label: string;
+                                value: string;
+                            }[];
+                            method: {
+                                count: number;
+                                label: string;
+                                value: string;
+                            }[];
+                        };
                         items: {
                             abv: number;
+                            family?: string;
+                            glass?: string;
                             id: string;
                             method: string;
                             name: string;
@@ -486,7 +567,7 @@ export interface operations {
                 content: {
                     "application/json": {
                         credit: string;
-                        glass: string;
+                        glass?: string;
                         id: string;
                         licence: string;
                         lines: {

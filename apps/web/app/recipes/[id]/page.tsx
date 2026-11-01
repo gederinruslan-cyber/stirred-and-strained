@@ -68,7 +68,7 @@ export default async function RecipePage({ params }: Params) {
           {r.name}
         </h1>
         <p className="recipe__meta">
-          {r.method} · {r.glass} {r.zeroProof && <ZeroProofTag />}
+          {[r.method, r.glass].filter(Boolean).join(" · ")} {r.zeroProof && <ZeroProofTag />}
         </p>
         {twist && (
           <p className="recipe__twist">
